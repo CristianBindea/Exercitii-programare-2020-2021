@@ -1,0 +1,26 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 6 - Program care calculeaza produsul scalar a doi vectori de lungime egala
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int produs(int v[], int u[], int i, int n);
+
+int main()
+{
+	int v[] = { 4,6,2,6,1 };
+	int u[] = { 12,9,1,4,6 };
+	printf("%d\n", produs(v, u, 0, 5));
+   
+	return 0;
+}
+int produs(int v[],int u[], int i, int n)
+{
+	if (i == n-1)
+	{
+		return v[i]*u[i];
+	}
+	return v[i]*u[i] + produs(v, u, i + 1, n);
+}

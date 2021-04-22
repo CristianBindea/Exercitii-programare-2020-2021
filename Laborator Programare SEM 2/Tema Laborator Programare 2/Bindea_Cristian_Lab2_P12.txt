@@ -1,0 +1,38 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 12 - Program care calculeaza S[n] = x1 ^ n + x2 ^ n, unde x1 si x2 sunt solutiile ecuatiei x*x - Sx + P = 0 si apoi verifica rezultatul
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+double sum(int n, int s, int p);
+
+int main()
+{
+	int n, s, p;
+	printf("\nIntroduceti S si P pentru x*x - Sx + P = 0 si n pentru S[n] = x1 ^ n + x2 ^ n, unde x1 si x2 sunt solutiile ecuatiei\n");
+	printf("S = "); scanf("%d", &s);
+	printf("P = "); scanf("%d", &p);
+	printf("n = "); scanf("%d", &n);
+	printf("S[%d] = x1 ^ %d + x2 ^ %d = %lf\n", n, n, n, sum(n, s, p));
+
+	double delta = s * s - 4 * p;
+	if (delta < 0)
+		printf("Rezultatul nu e posibil pentru ca delta = %lf este negativ\n", delta);
+	else
+		printf("Rezultatul este posibil\n");
+	return 0;
+}
+
+double sum(int n, int s, int p)
+{
+	if (n == 0)
+		return 2;
+	if (n == 1)
+	{
+		return s;
+	}
+	return s * sum(n - 1, s, p) - p * sum(n - 2, s, p);
+}

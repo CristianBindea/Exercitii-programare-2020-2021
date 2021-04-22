@@ -1,0 +1,32 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 2 - Functii inline care determina minimul dintre doua si trei variabile
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int min_2(int, int);
+int min_3(int, int, int);
+int main()
+{
+	int x, y, z;
+	puts("Introduceti 3 numere intregi diferite");
+	printf("x = "); scanf("%d", &x);
+	printf("y = "); scanf("%d", &y);
+	printf("z = "); scanf("%d", &z);
+	printf("Minimul dintre numerele introduse este : %d",min_3(x, y, z));
+
+
+	return 0;
+}
+
+inline int min_2(int a, int b)
+{
+	if (a < b)
+		return a;
+	return b;
+}
+inline int min_3(int a, int b, int c)
+{
+	return min_2(min_2(a, b), min_2(b, c));
+}

@@ -1,0 +1,33 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 9 - Program care calculeaza suma si media numerelor introduse pana la apasarea tastei ESC
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <conio.h>
+
+int suma(int numar, int i);
+int main()
+{
+	std::cout << "Introduceti numere pana la apasarea tastei ESC\n";
+	suma(0, 0);
+	return 0;
+}
+
+int suma(int numar, int i)
+{
+	puts("Apasati tasta ESC pentru a opri programul sau tasta ENTER pentru a continua");
+	char c = _getch();
+	if (c == 27 && i == 0)
+		std::cout << "\nNu a fost introdus nici un numar" << "\n";
+	if (c == 27)
+	{
+		std::cout << "\nSuma numerelor introduse este: " << numar << "\n";
+		std::cout << "\nMedia numerelor introduse este: " << numar / i << "\n";
+		return 0;
+	}
+	int n;
+	printf("Introduceti un numar: "); std::cin >> n;
+	return suma(numar + n, i + 1);
+}

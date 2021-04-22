@@ -1,0 +1,107 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 11 - Program care citeste numere ordonate dintr-un fisier apoi cauta un element printre numerele citite folosind diferiti algoritmi
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int cautareBinaraNerecursiv(int arr[], int dim, int val);
+int cautareBinaraRecursiv(int arr[], int st, int dr, int val);
+int comparare(const void* a, const void* b);
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+
+	int v[100], k = 0;
+	while (!feof(f))
+	{
+		fscanf(f, "%d", &v[k++]);
+	}
+	k--;
+	fclose(f);
+	puts("Sirul este:");
+	for (int i = 0; i < k; i++)
+	{
+		printf("v[%d] = %d ", i, v[i]);
+		printf("\n");
+	}
+	printf("\n");
+
+	int poz1, poz2, num;
+	int* poz3;
+
+	puts("Introduceti numarul cautat ");
+	scanf("%d", &num);
+
+	puts("Folosind de cautare binara recursiv"); 
+	poz1 = cautareBinaraRecursiv(v, 0, k - 1, num);
+	if (poz1 != -1)
+		printf("Numarul a fost gasit la pozitia: %d\n", poz1);
+	else
+		printf("Numarul %d nu a fost gasit\n", num);
+	
+	printf("\n");
+	puts("Folosind de cautare binara nerecursiv");
+	poz2 = cautareBinaraNerecursiv(v, k, num);
+	if (poz1 != -1)
+		printf("Numarul a fost gasit la pozitia: %d\n", poz2);
+	else
+		printf("Numarul %d nu a fost gasit\n", num);
+	
+	printf("\n");
+	puts("Folosind functia bsearch");
+	poz3 = (int*)bsearch(&num, v, k, sizeof(int), comparare);
+	if (poz3 != NULL)
+		printf("Numarul a fost gasit la pozitia: %d\n", (int)(poz3 - v));
+	else
+		printf("Numarul %d nu a fost gasit\n", num);
+	printf("\n");
+	return 0;
+}
+
+int cautareBinaraNerecursiv(int arr[], int dim, int val)
+{
+	int mijloc, valMijloc;
+	int st = 0, dr = dim - 1;
+	while (st <= dr)
+	{
+		mijloc = (st + dr) / 2;
+		valMijloc = arr[mijloc];
+		if (val == valMijloc)
+			return mijloc;
+		else if (val < valMijloc)
+			dr = mijloc - 1;
+		else
+			st = mijloc + 1;
+	}
+	return -1;
+}
+int cautareBinaraRecursiv(int arr[], int st, int dr, int val)
+{
+	if (dr >= st)
+	{
+		int mid = st + (dr - st) / 2;
+		if (arr[mid] == val)
+			return mid;
+
+		if (arr[mid] > val)
+			return cautareBinaraRecursiv(arr, st, mid - 1, val);
+
+		return cautareBinaraRecursiv(arr, mid + 1, dr, val);
+	}
+	return -1;
+}
+int comparare(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}

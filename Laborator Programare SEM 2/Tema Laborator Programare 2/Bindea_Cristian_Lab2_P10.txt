@@ -1,0 +1,69 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 10 - Program care afiseaza numarul de aparitii ale unui numar intr-un tablou de intregi folosind functii recursive si nerecursive
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int nrAparitiiRecursiv(int v[], int n, int i, int x);
+int nrAparitiiNerecursiv(int v[], int n, int x);
+using namespace std;
+
+int main()
+{
+	int n,v[100],x;
+	puts("Introduceti dimensiunea sirului (<=30)");
+	scanf("%d", &n);
+	while (n < 0 || n>30)
+	{
+		puts("Dimensiune invalida, reincercati");
+		printf("n = "); scanf("%d", &n);
+	}
+	puts("Introduceti elementele sirului");
+	for (int i = 0; i < n; i++)
+	{
+		printf("v[%d]= ", i); scanf("%d", &v[i]);
+	}
+	puts("Introduceti valoarea cautata");
+	scanf("%d", &x);
+
+
+	int nrAparitiiRe = nrAparitiiRecursiv(v, n, 0, x);
+	int nrAparitiiNe = nrAparitiiNerecursiv(v, n, x);
+
+	if (nrAparitiiRe == 0)
+		printf("Numarul %d nu a fost gasit in sir (Metoda recursiva)\n", x);
+	else if (nrAparitiiRe == 1)
+		printf("Numarul %d a aparut odata in sir (Metoda recursiva)\n", x);
+	else
+		printf("Numarul %d a aparut in sir de %d ori (Metoda nerecursiva)\n", x, nrAparitiiNe);
+
+	if (nrAparitiiNe == 0)
+		printf("Numarul %d nu a fost gasit in sir (Metoda nerecursiva)\n", x);
+	else if (nrAparitiiNe == 1)
+		printf("Numarul %d a aparut odata in sir (Metoda nerecursiva)\n", x);
+	else
+		printf("Numarul %d a aparut in sir de %d ori (Metoda nerecursiva)\n", x, nrAparitiiNe);
+
+	return 0;
+}
+int nrAparitiiRecursiv(int v[], int n, int i,int x)
+{
+	if (i == n - 1 && v[i] == x)
+		return 1;
+	else if (i == n - 1)
+		return 0;
+	else if (v[i] == x)
+		return 1 + nrAparitiiRecursiv(v, n, i + 1, x);
+	return nrAparitiiRecursiv(v, n, i + 1, x);
+}
+int nrAparitiiNerecursiv(int v[], int n, int x)
+{
+	int cnt = 0;
+	for (int i = 0; i < n; i++)
+		if (v[i] == x)
+			cnt++;
+	return cnt;
+}

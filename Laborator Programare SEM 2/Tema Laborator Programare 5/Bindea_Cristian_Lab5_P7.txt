@@ -1,0 +1,36 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 7 - Program care foloseste o clasa pentru a afisa suma si diferenta dintre doua numere
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Aritmetica {
+	double a;
+	double b;
+public:
+	void setA(double x) { a = x; };
+	void setB(double x) { b = x; };
+	double getA() { return a; };
+	double getB() { return b; };
+	double suma() { return a + b; }
+	double diferenta();
+};
+double Aritmetica::diferenta() { return a - b; }
+
+int main() {
+	
+	Aritmetica a[3];
+	for (int i = 0; i < 3; i++)
+	{
+		int num;
+		cout << "\nIntroduceti numere pentru obiectul " << i + 1 << endl;
+		cout << "A = "; cin >> num; a[i].setA(num);
+		cout << "B = "; cin >> num; a[i].setB(num);
+		cout << "Suma : " << a[i].getA() << " + " << a[i].getB() << " = " << a[i].suma() << endl;
+		cout << "Diferenta : " << a[i].getA() << " - " << a[i].getB() << " = " << a[i].diferenta() << endl;
+	}
+	return 0;
+}

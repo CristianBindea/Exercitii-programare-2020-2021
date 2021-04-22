@@ -1,0 +1,78 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 3 - Program care defineste o clasa cu mai multe operatii pe siruri de caractere si le aplica pentru un exemplu citit de la tastatura 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class myString {
+	char* sirCh;
+	size_t len;
+public:
+	myString(const char* s);
+	~myString() { free(sirCh); }
+	char* getSir(void) { return sirCh; }
+	size_t getLungime() { return len; }
+	int getPozCh(char c);
+	char* majuscule();
+	char* minuscule();
+	int nrAparitii(char c);
+};
+
+myString::myString(const char* s){
+	len = strlen(s) + 1;
+	sirCh = new char[len];
+	if (sirCh == NULL)
+	{
+		printf("Eroare la alocarea sirului\n");
+		exit(1);
+	}
+	strcpy(sirCh, s);
+}
+char* myString::majuscule(){
+	char* s = new char[len];
+	strcpy(s, sirCh);
+	for (int i = 0; i < len; i++)
+		s[i] = toupper(s[i]);
+	return s;
+}
+char* myString::minuscule() {
+	char* s = new char[len];
+	strcpy(s, sirCh);
+	for (int i = 0; i < len; i++)
+		s[i] = tolower(s[i]);
+	return s;
+}
+int myString::nrAparitii(char c){
+		int cnt = 0;
+		for (int i = 0; i < (int)len; i++)
+			if (sirCh[i] == c)
+				cnt++;
+		return cnt;
+}
+int myString::getPozCh(char c) {
+	for (int i = (int)len - 2; i >= 0; i--)
+		if (sirCh[i] == c)
+			return i;
+	return -1;
+}
+
+int main() {
+
+	char s[10];
+	puts("Introduceti un sir de maxim 10 caractere");
+	scanf("%s", &s);
+	myString sir(s);
+	printf("Sirul: %s\nLungimea sirului: %zd\nSirul cu majuscule: %s\nSirul cu minuscule: %s\n", sir.getSir(), sir.getLungime(), sir.majuscule(), sir.minuscule());
+	
+	char c;
+	puts("Introduceti un caracter pentru a fi cautat in sir");
+	scanf(" %c", &c);
+	printf("Pozitia caracterului '%c': %d\n",c, sir.getPozCh(c));
+	puts("Introduceti un caracter pentru a-i afla numarul de aparitii in sir");
+	scanf(" %c", &c);
+	printf("Numarul de aparitii a caracterului '%c': %d\n",c,sir.nrAparitii(c));
+	return 0;
+}

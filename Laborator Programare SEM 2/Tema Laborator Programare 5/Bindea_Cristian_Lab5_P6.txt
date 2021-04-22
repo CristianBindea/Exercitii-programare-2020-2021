@@ -1,0 +1,116 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 8 - Program care defineste in clasa Complex de la problema 6 operatii pentru suma, diferenta, produs si impartire
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+const double PI = 3.14159265359;
+
+class Complex {
+	double Re;
+	double Im;
+public:
+	Complex(double real = 0.0, double imaginar = 0.0) {
+		Re = real;
+		Im = imaginar;
+	}
+	void setReal(double a) { Re = a; }
+	void setImaginar(double a) { Im = a; }
+	double getReal(void) { return Re; }
+	double getImaginar(void) { return Im; }
+	double modul() {
+		return sqrt(Re * Re + Im * Im);
+	}
+	double faza() {
+		return atan2(Im, Re);
+	}
+	double fazaGrade() {
+		return atan2(Im, Re) * 180 / PI;
+	}
+	Complex sum(Complex a);
+	Complex dif(Complex a);
+	Complex multi(Complex a);
+	Complex div(Complex a);
+
+};
+Complex Complex::sum(Complex a)
+{
+	Complex b;
+	b.Re = this->Re + a.Re;
+	b.Im = this->Im + a.Im;
+	return b;
+}
+Complex Complex::dif(Complex a)
+{
+	Complex b;
+	b.Re = this->Re - a.Re;
+	b.Im = this->Im - a.Im;
+	return b;
+}
+Complex Complex::multi(Complex a)
+{
+	Complex b;
+	b.Re = this->Re * a.Re - this->Im * a.Im;
+	b.Im = this->Re * a.Im + this->Im * a.Re;
+	return b;
+}
+Complex Complex::div(Complex a)
+{
+	Complex b;
+	if (a.Re != 0)
+		b.Re = this->Re / a.Re;
+	else
+	{
+		cout << "!Eroare! partea reala = 0\n";
+		b.Re = 0;
+	}
+	if (a.Im != 0)
+		b.Im = this->Im / a.Im;
+	else
+	{
+		cout << "!Eroare! partea imaginara = 0\n";
+		b.Im = 0;
+	}
+	return b;
+}
+
+void afisareComplex(Complex a);
+void citireComplex(Complex& a);
+
+int main() {
+
+	Complex c1(4,5);
+	cout << "Primul numar complex: "; afisareComplex(c1);
+	Complex c2(-4, 0);
+	cout << "Al doilea numar complex: "; afisareComplex(c2);
+	cout << endl;
+	Complex c3;
+	c3 = c1.sum(c2);
+	cout << "Suma dintre cele doua numere: "; afisareComplex(c3);
+	c3 = c1.dif(c2);
+	cout << "Diferenta dintre cele doua numere: "; afisareComplex(c3);
+	c3 = c1.multi(c2);
+	cout << "Produsul dintre cele doua numere: "; afisareComplex(c3);
+	c3 = c1.div(c2);
+	cout << "Catul dintre cele doua numere: "; afisareComplex(c3);
+
+	return 0;
+}
+
+void afisareComplex(Complex a) {
+	//cout << "Partea reala: " << a.getReal() << endl;
+	//cout << "Partea Imaginara: " << a.getImaginar() << endl;
+	if (a.getImaginar() >= 0)
+		cout << a.getReal() << " + " << a.getImaginar() << "i\n";
+	else 
+		cout << a.getReal() << " - " << -a.getImaginar() << "i\n";
+}
+void citireComplex(Complex& a) {
+	int real, imaginar;
+	cout << "Partea reala = "; cin >> real; a.setReal(real);
+	cout << "Partea imaginara = "; cin >> imaginar; a.setImaginar(imaginar);
+}

@@ -1,0 +1,23 @@
+/*
+		Bindea Gheorghe Cristian   Grupa 2115
+		Problema  9 - program care face o codare a fiecarui caracter dintr-un sir de caractere folosind SAU EXCLUSIV logic pe biti
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define MASCA 11001010
+#define CODARE(x) x^MASCA
+int main()
+{
+	char s[] = "Mesaj codat";
+	for (int i = 0; i < strlen(s); i++)
+		s[i] = CODARE(s[i]);
+	printf("%s\n", s);
+
+	for (int i = 0; i < strlen(s); i++)
+		s[i] = CODARE(s[i]);
+	printf("%s\n", s);
+	
+	return 0;
+}

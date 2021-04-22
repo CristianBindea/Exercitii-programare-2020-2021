@@ -1,0 +1,37 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care calculeaza integrala unei functii date folosind metoda trapezului
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+double f(double x)
+{
+   return 1 / (1 + x * x);
+}
+double Integrala(double a, double b, double eps, double(*fct)(double x));
+int main()
+{
+   double a, b, eps = 0.0001;
+   puts("Introduceti capetele de integrare");
+   printf("a = "); scanf("%lf", &a);
+   printf("b = "); scanf("%lf", &b);
+   printf("\nIntegrala functiei 1 / (1 + x * x) de la %lf la %lf este %lf\n", a, b, Integrala(a, b, eps, f));
+   return 0;
+}
+double Integrala(double a, double b, double eps, double(*fct)(double x))
+{
+   double m;
+   double s1, s2;
+   if (b - a < eps)
+      return (fct(a) + fct(b)) * (b - a) / 2.0;
+   else
+   {
+      m = (a + b) / 2.0;
+      s1 = Integrala(a, m, eps, fct);
+      s2 = Integrala(m, b, eps, fct);
+      return s1 + s2;
+   }
+}

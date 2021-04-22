@@ -1,0 +1,108 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema  10 - Program care cauta o valoare intr-un tablou citit de la tastatura, iar daca o gaseste afiseaza factorii primi din aceasta valoare
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int CautareBinara(int v[], int n, int x);
+void factoriPrimi(int n);
+void sortare(int* p, int n);
+int main()
+{
+	int n, v[100], nc, num;
+	puts("Introduceti dimensiunea sirului");
+	nc = scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tpoz[%d] = ", i);
+		nc = scanf("%d", &v[i]);
+	}
+
+	sortare(v, n);
+	printf("Sirul ordonat este\n");
+	for (int i = 0; i < n; i++)
+		printf("poz[%d] = %d\n", i, v[i]);
+
+	printf("Introduceti numarul cautat: "); scanf("%d", &num);
+
+	int poz = CautareBinara(v, n, num);
+	if (poz == -1)
+		printf("Numarul nu a fost gasit\n");
+	else
+	{
+		printf("Numarul cautat este la gasit la pozitia: %d\n", poz);
+		printf("Factorii primi ai numarului cautat sunt: "); factoriPrimi(num);
+		printf("\n");
+	}
+
+
+	return 0;
+}
+
+int CautareBinara(int v[], int n, int x)
+{
+	int Sol = -1, Left = 0, Right = n - 1;
+	while (Left <= Right)
+	{
+		int Mid = (Left + Right) / 2;
+		if (v[Mid] == x)
+		{
+			Sol = Mid;
+			break;
+		}
+		if (v[Mid] > x)
+			Right = Mid - 1;
+		if (v[Mid] < x)
+			Left = Mid + 1;
+	}
+	return Sol;
+}
+
+void sortare(int* p, int n)
+{
+	int i, j, aux, ok;
+	for (i = 0; i < n; i++)
+	{
+		ok = 0;
+		for (j = 1; j < n - i; j++)
+		{
+			if (p[j - 1] > p[j])
+			{
+				aux = p[j];
+				p[j] = p[j - 1];
+				p[j - 1] = aux;
+				ok = 1;
+			}
+		}
+		if (ok == 0)
+			break;
+	}
+}
+
+void factoriPrimi(int n)
+{
+	if (n % 2 == 0)
+	{
+		printf("2 ");
+		while (n % 2 == 0)
+			n = n / 2;
+	}
+
+	int d = 3;
+	while (n > 1)
+	{
+		if (n % d == 0)
+		{
+			printf("%d ", d);
+			while (n % d == 0)
+
+				n = n / d;
+		}
+		d = d + 2;
+	}
+
+}

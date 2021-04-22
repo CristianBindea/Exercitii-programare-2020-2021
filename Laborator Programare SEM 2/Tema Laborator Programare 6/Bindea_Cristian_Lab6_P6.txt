@@ -1,0 +1,65 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 6 - Program care implementeaza o clasa Triunghi cu metode pentru verificarea existentei triunghiului, verificare daca e dreptunghic, perimetru si arie
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Triunghi {
+	int a = 0, b = 0, c = 0;
+	bool verificare() {
+		if (a + b <= c || a + c <= b || b + c <= a)
+			return false;
+		return true;
+	}
+public:
+	Triunghi(int x = 0, int y = 0, int z = 0) { a = x; b = y; c = z; }
+	bool setA(int x) { a = x; return verificare(); };
+	bool setB(int x) { b = x; return verificare(); };
+	bool setC(int x) { c = x;  return verificare(); };
+	bool triunghi(void) { return verificare(); };
+	int getA(void) { return a; }
+	int getB(void) { return b; }
+	int getC(void) { return c; }
+	int perimetru(void) {
+		return a + b + c;
+	}
+	double arie(void) {
+		int p = perimetru() / 2;
+		double arie = sqrt(p * (p - a) * (p - b) * (p - c));
+		return arie;
+	}
+	bool dreptunghic(void) {
+		if ((a * a + b * b) == c * c || (a * a + c * c) == b * b || (c * c + b * b) == a * a)
+			return true;
+		else return false;
+	}
+};
+
+int main() {
+	int x, y, z;
+	cout << "Introduceti lungimile laturilor unui triunghi\n";
+	cout << "a = "; cin >> x;
+	cout << "b = "; cin >> y;
+	cout << "c = "; cin >> z;
+	Triunghi t(x,y,z);
+	while (t.triunghi() == false)
+	{
+		cout << "Datele introduse nu formeaza un triunghi. Reincercati.\n";
+		cout << "a = "; cin >> x;
+		cout << "b = "; cin >> y;
+		cout << "c = "; cin >> z;
+		t.setA(x);
+		t.setB(y);
+		t.setC(z);
+	}
+	if (t.dreptunghic())
+		cout << "Triunghiul este dreptunghic\n";
+	else cout << "Triunghiul nu este dreptunghic\n";
+	cout << "Aria triunghiului este: " << t.arie() << "\nPerimetrul triunghiului este: " << t.perimetru() << "\n";
+
+	return 0;
+}

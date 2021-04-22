@@ -1,0 +1,63 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 8 - Program care defineste o clasa Complex cu diferite operatii specifice numerelor complexe
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+const double PI = 3.14159265359;
+
+class Complex {
+	double Re;
+	double Im;
+public:
+	Complex(double real = 0.0, double imaginar = 0.0) {
+		Re = real;
+		Im = imaginar;
+	}
+	void setReal(double a) { Re = a; }
+	void setImaginar(double a) { Im = a; }
+	double getReal(void) { return Re; }
+	double getImaginar(void) { return Im; }
+	double modul() {
+		return sqrt(Re * Re + Im * Im);
+	}
+	double faza() {
+		return atan2(Im, Re);
+	}
+	double fazaGrade() {
+		return atan2(Im, Re) * 180 / PI;
+	}
+};
+
+void afisareComplex(Complex a);
+void citireComplex(Complex& a);
+
+int main() {
+
+	Complex c(4,5);
+	cout << "Numarul complex initial: "; afisareComplex(c);
+	c.setReal(3); c.setImaginar(2);
+	cout << "Numarul complex dupa modificari: "; afisareComplex(c);
+	cout << "Modulul numarului complex: " << c.modul()<<endl;
+	cout << "Faza numarului complex: " << c.faza()<<endl;
+	
+	return 0;
+}
+
+void afisareComplex(Complex a) {
+	//cout << "Partea reala: " << a.getReal() << endl;
+	//cout << "Partea Imaginara: " << a.getImaginar() << endl;
+	if (a.getImaginar() >= 0)
+		cout << a.getReal() << " + " << a.getImaginar() << "i\n";
+	else 
+		cout << a.getReal() << " - " << -a.getImaginar() << "i\n";
+}
+void citireComplex(Complex& a) {
+	int real, imaginar;
+	cout << "Partea reala = "; cin >> real; a.setReal(real);
+	cout << "Partea imaginara = "; cin >> imaginar; a.setImaginar(imaginar);
+}

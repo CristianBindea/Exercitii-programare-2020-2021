@@ -1,0 +1,19 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 8 - Program care afiseaza numele fisierului, numarul de linii ale programului si data si ora compilarii
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+#include <string.h>
+
+int main()
+{
+	printf("\n");
+	printf("Numele programului este: %s\n", strrchr(__FILE__, '\\') + 1);
+	printf("Numarul de linii ale programului sunt: %d\n", __LINE__);
+	printf("Data si ora compilarii sunt: %s %s\n", __DATE__, __TIME__);
+
+	return 0;
+}

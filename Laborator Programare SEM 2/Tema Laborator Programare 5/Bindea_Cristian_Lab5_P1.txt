@@ -1,0 +1,61 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 1 - Program care defineste o structura Scerc care contine raza cercului si functii pentru calculul ariei si permetrului, iar apoi defineste o clasa Cerc cu metode asemanatoare
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+const double PI = 3.14159;
+
+struct Scerc {
+	int raza;
+};
+
+class Cerc {
+	int raza = 0;
+public:
+	Cerc(int r = 0) { raza = r; }
+	~Cerc(void) { cout << "Destructor\n"; }
+	void setRaza(int r) { raza = r; }
+	int getRaza() { return raza; }
+	double circumferita() { return 2 * PI * raza; }
+	double arie() { return PI * raza * raza; }
+	void afisareRaza(void) { cout << "Raza = " << raza << "\n"; }
+};
+
+double circumferita(int x);
+double aria(int x);
+
+int main() {
+	Scerc sc1, sc2;
+	puts("\nOperatii folosind structura Scerc");
+	puts("Introduceti raza primului cerc");
+	scanf("%d", &sc1.raza);
+	puts("Introduceti raza celui de-al doilea cerc");
+	scanf("%d", &sc2.raza);
+	printf("Perimetrul primului cerc: %g aria lui: %g\n", circumferita(sc1.raza), aria(sc1.raza));
+	printf("Perimetrul celui de-al doilea cerc: %g aria lui: %g\n", circumferita(sc2.raza), aria(sc2.raza));
+
+	puts("\n\nOperatii folosind clasa Cerc");
+	Cerc c1,c2; 
+	int num;
+	puts("Introduceti raza primului cerc");
+	scanf("%d", &num);
+	c1.setRaza(num);
+	puts("Introduceti raza celui de-al doilea cerc");
+	scanf("%d", &num);
+	c2.setRaza(num);
+	printf("Perimetrul primului cerc: %g aria lui: %g\n", c1.circumferita(), c1.arie());
+	printf("Perimetrul celui de-al doilea cerc: %g aria lui: %g\n", c2.circumferita(), c2.arie());
+
+	return 0;
+}
+
+double circumferita(int x) {
+	return 2 * PI * x;
+}
+double aria(int x) {
+	return PI * x * x;
+}

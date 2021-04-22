@@ -1,0 +1,31 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 2 - Exemplul 2 modificat astfel incat programul sa fie lansat in executie considerand atributul din clasa private
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+#include "Header.h"
+
+class Test2 {
+	int x = 0;
+
+public:
+	Test2() {
+		cout << "\nApel constructor explicit vid.\n";
+	}
+	void setX(int a) { this->x = a; }
+	int getX(void) { return x; }
+};
+
+int main() 
+{
+	Test2 ob1;
+	int a;
+	cin >> a;
+	ob1.setX(a);
+	cout << ob1.getX()<<"\n";
+}
+
+

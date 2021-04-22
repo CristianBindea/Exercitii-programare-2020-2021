@@ -1,0 +1,68 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 9 - Program care creeaza o clasa Fractie, cu metode pentru modificarea, afisarea si simplificarea numitorului si numaratorului 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Fractie {
+	int a = 0;//numarator
+	int b = 1;//numitor
+public:
+	void setNumitor(int num) { b = num; }
+	void setNumarator(int num) { a = num; }
+	int getNumitor(void) { return b; }
+	int getNumarator(void) { return a; }
+	void simplifica(void);
+};
+void Fractie::simplifica()
+{
+	int a2 = a, b2 = b;
+	while (a2 != b2)
+		a2 > b2 ? a2 -= b2 : b2 -= a2;
+	a = a / a2;
+	b = b / a2;
+}
+
+void afisare(Fractie f);
+void modificare(Fractie &f);
+
+int main() {
+
+	Fractie f1, f2;
+	cout << "\nValori initiale pentru fractia 1:  ";
+	afisare(f1);
+	cout << "Valori initiale pentru fractia 2:  ";
+	afisare(f2);
+	
+	cout << "\nIntroduceti date pentru fractia 1\n";
+	modificare(f1);
+	cout << "Noua fractie 1 este:  ";
+	afisare(f1);
+	cout << "\nIntroduceti date pentru fractia 2\n";
+	modificare(f2);
+	cout << "Noua fractie 2 este:  ";
+	afisare(f2);
+	cout << endl;
+	cout << "Fractia 1 simplificata este:  ";
+	f1.simplifica();
+	afisare(f1);
+	cout << "Fractia 2 simplificata este:  ";
+	f2.simplifica();
+	afisare(f2);
+	return 0;
+}
+
+void afisare(Fractie f)
+{
+	cout <<f.getNumitor() <<"/" << f.getNumarator()<< endl;
+}
+void modificare(Fractie &f)
+{
+	int num;
+	cout << "Numitor = "; cin >> num; f.setNumitor(num);
+	cout << "Numarator = "; cin >> num; f.setNumarator(num);
+
+}

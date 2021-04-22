@@ -1,0 +1,62 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Program care primeste informatii despre piloti in clasa PilotF1 si apoi afiseaza pilotul cel mai bun
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class PilotF1 {
+   char* nume = new char[30];
+   char* echipa = new char[30];
+   int varsta;
+   int record;
+   int nr_pole_position;
+public:
+   char* getNume(void) { return nume; }
+   char* getEchipa(void) { return echipa; }
+   int getVarsta(void) { return varsta; }
+   int getRecord(void) { return record; }
+   int getPolePosition(void) { return nr_pole_position; }
+
+   void setNume(char* s) { strcpy(nume, s); }
+   void setEchipa(char* s) { strcpy(echipa, s); }
+   void setVarsta(int v) { varsta = v; }
+   void setRecord(int r) { record = r; }
+   void setPolePosition(int nr) { nr_pole_position = nr; }
+   ~PilotF1() { delete[]nume; delete[]echipa; }
+};
+
+int main()
+{
+   PilotF1 p[3];
+   for (int i = 0; i < 3; i++)
+   {
+      char* s = new char[30];
+      cout << "Introduceti date despre pilotul " << i + 1 << endl;
+
+      cout << "Introduceti numele: ";  cin >> s; p[i].setNume(s);
+      cout << "Introduceti echipa: "; cin >> s; p[i].setEchipa(s);
+      int num;
+      cout << "Introduceti varsta pilotului: ";  cin >> num; p[i].setVarsta(num);
+      cout << "Introduceti recordul pilotului (secunde): ";  cin >> num; p[i].setRecord(num);
+      cout << "Introduceti Pole Position: ";  cin >> num; p[i].setPolePosition(num);
+      cout << endl;
+   }
+
+   int record = p[0].getRecord(), index = 0;
+   for (int i = 0; i < 3; i++)
+   {
+      cout << "Numele pilotului " << i + 1 << " este " << p[i].getNume() << " din echipa " << p[i].getEchipa() << ". Varsta lui este de " << p[i].getVarsta()
+         << " recordul personal este de " << p[i].getRecord() << " secunde si Pole Position " << p[i].getPolePosition() << endl;
+      if (record > p[i].getRecord())
+      {
+         record = p[i].getRecord();
+         index = i;
+      }
+   }
+
+   cout << endl << "Pilotul cu recordul cel mai bun este " << p[index].getNume() << " cu recordul de " << record<<" secunde\n";
+   return 0;
+}

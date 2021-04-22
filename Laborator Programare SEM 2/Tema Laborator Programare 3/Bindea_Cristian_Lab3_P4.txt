@@ -1,0 +1,53 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 4 - Program care calculeaza capitalul maxim pentru un numar de n oferte introduse
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Oferta {
+   int fonduri;
+   int beneficii;
+};
+int main()
+{
+   int n, capital;
+   puts("Introduceti capitalul");
+   printf("C = "); scanf("%d", &capital);
+
+   puts("Introduceti numarul de oferte");
+   scanf("%d", &n);
+   Oferta* oferte = new Oferta[n];
+   int* matriceCapital = new int[n];
+   int k = 0;
+   for (int i = 0; i < n; i++)
+   {
+      printf("Introduceti date pentru oferta %d\n", i);
+      printf("Fonduri: "); scanf("%d", &oferte[i].fonduri);
+      printf("Beneficii: "); scanf("%d", &oferte[i].beneficii);
+      if (oferte[i].fonduri <= capital)
+         matriceCapital[k++] = capital - oferte[i].fonduri + oferte[i].beneficii;
+   }
+   int index = 0, capitalMaxim = matriceCapital[0];
+   if (k != 0)
+   {
+      for (int i = 1; i < k; i++)
+         if (matriceCapital)
+            if (capitalMaxim < matriceCapital[i])
+            {
+               capitalMaxim = matriceCapital[i];
+               index = i;
+            }
+
+      printf("Capitalul maxim posibil este: %d posibil la oferta %d cu investitia de %d fonduri de unde beneficiile sunt de %d",
+         capitalMaxim, index + 1, oferte[index].fonduri, oferte[index].beneficii);
+   }
+   else
+      puts("Capital insuficient pentru ofertele introduse");
+
+   delete []oferte;
+   delete []matriceCapital;
+   return 0;
+}

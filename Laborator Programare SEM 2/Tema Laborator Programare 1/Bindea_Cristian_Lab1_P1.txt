@@ -1,0 +1,19 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 1 - Functii macro care determina maximul dintre doua si trei variabile
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define MAX2(a,b) ( (a) > (b) ? (a) : (b) )
+#define MAX3(a,b,c) ( MAX2(a,b) > MAX2(b,c) ? MAX2(a,b) : MAX2(b,c) ) 
+int main()
+{
+	int a, b,c ;
+	puts("Introduceti 3 numere");
+	scanf("%d %d %d", &a, &b,&c);
+	printf("Maximul dintre %d si %d este: %d\n", a,b,MAX2(a, b));
+	printf("Maximul dintre %d %d si %d este: %d", a,b,c,MAX3(a, b, c));
+	return 0;
+}

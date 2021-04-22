@@ -1,0 +1,44 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 8 - Program care genereaza un sir de 10 valori intregi aleatorii apoi folosind functia _lsearch verifica daca un numar exista in sir
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_ALEATORIU 20
+#define MIN_ALEATORIU 0
+int nrAletoriu();
+int comparare(const void* a, const void* b);
+
+int main() {
+	unsigned int dim = 10;
+	int v[11];
+
+	srand((unsigned)time(NULL));
+	for (unsigned int i = 0; i < dim; i++)
+	{
+		v[i] = nrAletoriu();
+		printf("[%d]= %d\n", i, v[i]);
+	}
+
+	int num = nrAletoriu();
+	printf("\nNumarul cautat este : %d\n", num);
+
+	int* rezultat = (int*)_lsearch(&num, v, &dim, sizeof(int), comparare);
+	if(rezultat-v!=10)
+		printf("Numarul a fost gasit la pozitia %d\n",(int)(rezultat-v));
+	else printf("Numarul nu a fost gasit\n");
+	return 0;
+}
+int nrAletoriu()
+{
+	return (MIN_ALEATORIU + (rand() % (int)(MAX_ALEATORIU - MIN_ALEATORIU + 1)));
+}
+
+int comparare(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}

@@ -1,0 +1,44 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 1 - Program care calculeaza aranjamente de n luate cate k folosind o functie recursiva
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int aranjamente(int n, int k); int factorial(int n);
+int main()
+{
+	int n, k;
+	printf("Aranjamente de: "); scanf("%d", &n);
+	printf("Luate cate: "); scanf("%d", &k);
+	while (k > n)
+	{
+		printf("Introduceti un numar mai mic sau egal cu %d  :", n);
+		scanf("%d", &k);
+	}
+	printf("Aranjamente de %d luate cate %d = %d (folosind functia recursiva)\n", n,k,aranjamente(n, k));
+	printf("Aranjamente de %d luate cate %d = %d (folosind formula cu factorial)\n", n,k, factorial(n)/factorial(n-k));
+
+	return 0;
+}
+
+int aranjamente(int n,int k)
+{
+	if (k == 1)
+		return n;
+	return n * aranjamente(n - 1, k - 1);
+}
+
+int factorial(int n)
+{
+	if (n == 0 || n==1)
+		return 1;
+	if (n == 2)
+		return 2;
+	int num = 2;
+	for (int i = 3; i <= n; i++)
+		num *= i;
+
+	return num;
+}

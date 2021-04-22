@@ -1,0 +1,41 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 5 - Program int care se foloseste supraincarcarea fuctiei "radical", folosind parametrii diferiti
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <math.h>
+
+double radical(int a);
+double radical(int* a);
+double radical(int& a);
+
+int main()
+{
+	int x = 4;
+	int* y = &x;
+	int& z = x;
+
+	printf("%lf\n", radical(x));
+	printf("%lf\n", radical(y));
+	printf("%lf\n", radical(&z));
+
+	return 0;
+}
+
+double radical(int a)
+{
+	printf("Prima functie\n");
+	return sqrt(a);
+}
+double radical(int* a)
+{
+	printf("A doua functie\n");
+	return sqrt(*a);
+}
+double radical(int& a)
+{
+	printf("A treia functie\n");
+	return sqrt(a);
+}

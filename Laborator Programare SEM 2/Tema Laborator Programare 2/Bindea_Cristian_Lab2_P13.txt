@@ -1,0 +1,32 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 13 - Program care calculeaza seria armonica prin doua metode, recursiva si nerecursiva
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+double armonic(int n, int i);
+double armonic2(int n);
+
+int main()
+{
+	const int n1 = 10;
+	const int n2 = 20;
+
+	printf("Pentru n = %d Seria armonica recursiva = %lf\nPentru n = %d Seria armonica nerecursiva = %lf\n", n1, armonic(n1, 1), n2, armonic2(n2));
+	return 0;
+}
+
+double armonic(int n,int i)
+{
+	if (i == n)
+		return 1 / (double)n;
+	return 1 / (double)i + armonic(n, i + 1);
+}
+double armonic2(int n)
+{
+	double sum = 0.0;
+	for (int i = 1; i <= n; i++)
+		sum += 1 / (double)i;
+	return sum;
+}

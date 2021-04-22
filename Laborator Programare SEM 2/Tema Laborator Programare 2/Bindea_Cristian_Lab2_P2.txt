@@ -1,0 +1,58 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 2 - Program care calculeaza combinari de n luate cate k folosind o functie recursiva
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+double combinari(double n, double k);
+double factorial(double n);
+int main()
+{
+	double n, k;
+	printf("Combinari de: "); scanf("%lf", &n);
+	while (n!=(int)n) {
+		printf("Introduceti un numar natural:");
+		scanf("%lf", &n);
+	}
+	printf("Luate cate: "); scanf("%lf", &k);
+	while (k > n||k!=(int)k)
+	{
+		if (k > n)
+		{
+			printf("Introduceti un numar mai mic sau egal cu %lf  :", n);
+			scanf("%lf", &k);
+		}
+		if (k != (int)k)
+		{
+			printf("Introduceti un numar natural:");
+			scanf("%lf", &k);
+		}
+	}
+	printf("Combinari de %g luate cate %g = %g (folosind functia recursiva)\n", n,k,combinari(n, k));
+	printf("Combinari de %g luate cate %g = %g (folosind formula cu factorial)\n", n, k, factorial(n) / (factorial(k) * factorial(n - k)) );
+
+
+	return 0;
+}
+
+double combinari(double n,double k)
+{
+	if (k == 0 || n==0 || n==k)
+		return 1;
+	return n/(n-k) * combinari(n - 1, k);
+}
+
+double factorial(double n)
+{
+	if (n == 0 || n==1)
+		return 1;
+	if (n == 2)
+		return 2;
+	double num = 2;
+	for (double i = 3; i <= n; i++)
+		num *= i;
+
+	return num;
+}

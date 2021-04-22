@@ -1,0 +1,82 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 5 - Program care genereaza un sir de numere aletorii apoi determina minimul si maximul din sir folosind technica divide et impera
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_ALEATORIU 50
+#define MIN_ALEATORIU 1
+int nrAletoriu();
+int maxim(int v[], int st, int dr);
+int minim(int v[], int st, int dr);
+
+int main() {
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "w");
+	if (err != NULL)
+	{
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+
+	int* v;
+	srand((unsigned)time(NULL));
+	int n = nrAletoriu(), num;
+	v = new int[n];
+	puts("Sirul generat aleatoriu este:");
+	for (int i = 0; i < n; i++)
+	{
+		num = nrAletoriu();
+		fprintf(f, "%d ", num);
+		v[i] = num;
+		printf("v[%d] = %d\n", i, v[i]);
+	}
+	fclose(f);
+
+	printf("Minimul din sir este: %d\nMaximul din sir este: %d\n",minim(v,0,n-1), maxim(v, 0, n - 1));
+	delete []v;
+	return 0;
+}
+int nrAletoriu()
+{
+	return (MIN_ALEATORIU + (rand() % (int)(MAX_ALEATORIU - MIN_ALEATORIU + 1)));
+}
+
+int maxim(int v[], int st, int dr)
+{
+	int mij, max1, max2;
+	if (st == dr)
+		return v[st];
+	else
+	{
+		mij = (st+dr)/2;
+		max1 = maxim(v, st, mij);
+		max2 = maxim(v, mij + 1, dr);
+		if (max1 > max2)
+			return max1;
+		else
+			return max2;
+	}
+}
+int minim(int v[], int st, int dr)
+{
+	int mij, min1, min2;
+	if (st == dr)
+		return v[st];
+	else
+	{
+		mij = (st + dr) / 2;
+		min1 = minim(v, st, mij);
+		min2 = minim(v, mij + 1, dr);
+		if (min1 < min2)
+			return min1;
+		else
+			return min2;
+	}
+}

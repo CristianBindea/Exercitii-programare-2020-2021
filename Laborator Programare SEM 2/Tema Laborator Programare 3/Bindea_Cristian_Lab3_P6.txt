@@ -1,0 +1,52 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 6 - Program care determina cel mai mic divizor comun dintr-un tablou introdus de la tastatura
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+int CMMDC(int v[], int st, int dr);
+int cmmdc(int a, int b);
+
+int main()
+{
+	int v[100];
+	std::cout << "Introduceti dimensiunea sirului";
+	int n;
+	std::cin >> n;
+	std::cout << "Introduceti elementele sirului";
+	for (int i = 0; i < n; i++)
+	{
+		printf("[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+
+	std::cout <<"Cel mai mic divizor comun a sirului introdus este:  "<<CMMDC(v, 0, n-1)<<"\n";
+	
+	return 0;
+}
+int CMMDC(int v[], int st, int dr)
+{
+	if (st == dr)
+		return v[st];
+	else
+	{
+		int m = (st + dr) / 2;
+		int a = CMMDC(v, st, m);
+		int b = CMMDC(v, m + 1, dr);
+		return cmmdc(a, b);
+	}
+}
+
+int cmmdc(int a, int b)
+{
+	while (a != 0)
+	{
+		int r = b % a;
+		b = a;
+		a = r;
+	}
+	return b;
+}

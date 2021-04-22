@@ -1,0 +1,21 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 4 - Program care considera o functie 3 cu parametrii impliciti apoi o apeleaza cu numere diferite de parametrii
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+double produs(int a=9, float b=4.5, double c=8.3);
+int main()
+{
+	printf("Apelare fara parametrii : %g\n", produs());
+	printf("Apelare cu un parametru : %g\n", produs(1));
+	printf("Apelare cu 2 parametrii : %g\n", produs(1,5));
+	printf("Apelare cu 3 parametrii : %g\n", produs(1,2,3));
+	return 0;
+}
+double produs(int a, float b, double c)
+{
+	return (double)a * (double)b * c;
+}

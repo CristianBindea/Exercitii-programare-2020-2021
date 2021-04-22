@@ -1,0 +1,37 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 4 - Program care implementeaza o clasa Numar si apoi afiseaza suma a doua obiecte de clasa Numar folosind o functie definita in program si o metoda definita in clasa Numar
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Numar {
+	int val;
+public:
+	void setVal(int a) { val = a; }
+	int getVal(void) { return val; }
+	int suma_nr(Numar *a) { return this->val + a->val; }
+};
+
+int suma_nr(Numar* a, Numar* b);
+
+int main() {
+	Numar n1;
+	Numar* n2 = new Numar;
+	int num;
+	cout << "Introduceti doua numere\n";
+	cout << "Primul numar: "; cin >> num; n1.setVal(num);
+	cout << "Al doilea numar: "; cin >> num; n2->setVal(num);
+
+	cout << "Suma numerelor calculata cu functia suma: " << suma_nr(&n1,n2) << endl;
+	cout << "Suma numerelor calculata cu metoda din clasa: " << n1.suma_nr(n2) << endl;
+	delete n2;
+	return 0;
+
+}
+int suma_nr(Numar* a, Numar* b)
+{
+	return a->getVal() + b->getVal();
+}

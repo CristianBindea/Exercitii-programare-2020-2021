@@ -1,0 +1,27 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 3 - Program care calculeaza cel mai mare divizor comun folosind o functie recursiva
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+int cmmdc(int a, int b);
+int main()
+{
+    int a, b;
+    puts("Introduceti doua numere");
+    printf("a = "); scanf("%d", &a);
+    printf("b = "); scanf("%d", &b);
+    printf("Cel mai mare divizor a numerelor %d si %d este %d\n", a, b, cmmdc(a, b));
+	return 0;
+}
+
+int cmmdc(int a, int b)
+{
+    int num;
+    num = a % b;
+    if (num)
+        return cmmdc(b, num);
+    else
+        return b;
+}

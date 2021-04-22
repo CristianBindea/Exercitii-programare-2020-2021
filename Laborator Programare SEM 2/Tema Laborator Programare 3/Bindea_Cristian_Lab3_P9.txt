@@ -1,0 +1,109 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 9 - Problema care cauta imaginile cele mai apropiate de cheia de cautare introdusa
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Antet {
+   char nume[30];
+   char cale[50];
+   int rezolutie;
+   int dimensiune;
+};
+int main()
+{
+   int n;
+   puts("Introduceti numarul de imagini");
+   scanf("%d", &n);
+   Antet* imagini = new Antet[n];
+
+   puts("Introduceti date despre imagini");
+   for (int i = 0; i < n; i++)
+   {
+      printf("Nume: "); scanf("%s", imagini[i].nume);
+      printf("Cale: "); scanf("%s", imagini[i].cale);
+      printf("Rezolutie: "); scanf("%d", &imagini[i].rezolutie);
+      printf("Dimensiune: "); scanf("%d", &imagini[i].dimensiune);
+   }
+   puts("Introduceti numele cautat");
+   char numeCautat[30];
+   scanf("%s", numeCautat);
+   int index3 = -1;
+   for (int i = 0; i < n; i++)
+   {
+      if (strcmp(numeCautat, imagini[i].nume) == 0)
+         index3 = i;
+   }
+   if (index3 == -1)
+      puts("Imaginea cautata dupa nume nu a fost gasita\n");
+   else
+      printf("Imaginea cautata este gasita la pozitia %d\n",index3);
+
+   puts("Introduceti calea cautata");
+
+   char caleCautata[50];
+   scanf("%s", caleCautata);
+   int index4 = -1;
+   for (int i = 0; i < n; i++)
+   {
+      if (strcmp(caleCautata, imagini[i].cale) == 0)
+         index4 = i;
+   }
+   if (index4 == -1)
+      puts("Imaginea cautata dupa cale nu a fost gasita\n");
+   else
+      printf("Imaginea cautata este gasita la pozitia %d\n",index4);
+
+
+   puts("Introduceti rezolutia cautata");
+   int minim = imagini[0].rezolutie, maxim = imagini[0].rezolutie, rezolutieCautata, index1 = 0, index2 = 0;
+   scanf("%d", &rezolutieCautata);
+   for (int i = 1; i < n; i++)
+   {
+      if (minim > imagini[i].rezolutie && imagini[i].rezolutie > rezolutieCautata)
+      {
+         minim = imagini[i].rezolutie;
+         index1 = i;
+      }
+      if (maxim < imagini[i].rezolutie && imagini[i].rezolutie <= rezolutieCautata)
+      {
+         maxim = imagini[i].rezolutie;
+         index2 = i;
+      }
+   }
+   if ((rezolutieCautata - maxim) < (minim - rezolutieCautata))
+      printf("Cea mai apropiata imagine de rezolutia cautata este cea gasita la pozitia %d,cu numele %s si rezolutia %d\n", index2, imagini[index2].nume, imagini[index2].rezolutie);
+   else
+      printf("Cea mai apropiata imagine de rezolutia cautata este cea gasita la pozitia %d, cu numele %s si rezolutia %d\n", index1, imagini[index1].nume, imagini[index1].rezolutie);
+
+   puts("Introduceti dimensiunea cautata");
+   minim = imagini[0].dimensiune;
+   maxim = imagini[0].dimensiune;
+   int dimensiuneCautata, index5 = 0, index6 = 0;
+   scanf("%d", &dimensiuneCautata);
+   for (int i = 1; i < n; i++)
+   {
+      if (minim > imagini[i].dimensiune && imagini[i].dimensiune > dimensiuneCautata)
+      {
+         minim = imagini[i].dimensiune;
+         index5 = i;
+      }
+      if (maxim < imagini[i].dimensiune && imagini[i].dimensiune <= dimensiuneCautata)
+      {
+         maxim = imagini[i].dimensiune;
+         index6 = i;
+      }
+   }
+   if ((dimensiuneCautata - maxim) < (minim - dimensiuneCautata))
+      printf("Cea mai apropiata imagine de dimensiunea cautata este cea gasita la pozitia %d,cu numele %s si dimensiunea %d\n", index6, imagini[index6].nume, imagini[index6].dimensiune);
+   else
+      printf("Cea mai apropiata imagine de dimensiunea cautata este cea gasita la pozitia %d,cu numele %s si dimensiunea %d\n", index5, imagini[index5].nume, imagini[index5].dimensiune);
+  
+   printf("\n");
+   
+   return 0;
+}

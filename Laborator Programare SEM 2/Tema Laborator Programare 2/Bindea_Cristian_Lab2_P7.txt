@@ -1,0 +1,41 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 7 - Program care calculeaza suma elementelor dintr-un tablou folosind o functie recursiva
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+
+int suma(int v[], int i);
+int main()
+{
+	int v[100];
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "test.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+
+	fscanf(f, "%d ", &v[0]);
+	for (int i = 1; i < v[0]; i++)
+	{
+		fscanf(f,"%d ", &v[i]);
+	}
+
+	fclose(f);
+	printf("Suma numerelor din tablou este %d\n", suma(v, 1));
+	return 0;
+}
+
+int suma(int v[],int i)
+{
+	if (i == v[0] - 1)
+		return v[i];
+	return suma(v, i + 1) + v[i];
+}

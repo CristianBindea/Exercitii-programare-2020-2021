@@ -1,0 +1,94 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Cerinta de la exemplul 3 din laboratorul 6
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+const int Max1 = 10;
+const int Max2 = 10;
+
+class Matrix {
+	int **matrix, dim1, dim2;
+	int returnElement(int row, int column);
+public:
+	Matrix(int dim1, int dim2);
+	void displayMatrix();
+	void displayColumn(int col);
+	void readMatrix();
+};
+Matrix::Matrix(int dim1 = 0, int dim2 = 0) {
+	matrix = new int* [dim1];
+	if (matrix == NULL)
+	{
+		puts("(1) Eroare la alocarea matricei");
+		exit(1);
+	}
+	for (int i = 0; i < dim1; i++)
+	{
+		matrix[i] = new int[dim2];
+		if (matrix == NULL)
+		{
+			puts("(1) Eroare la alocarea matricei");
+			exit(1);
+		}
+	}
+	this->dim1 = dim1;
+	this->dim2 = dim2;
+}
+void Matrix::displayColumn(int col) {
+	if (col < 0 || col >= dim2) {
+		cout << "\nColoana cu numarul " << col << " nu exista in matricea din clasa!\n";
+	}
+	else {
+		cout << "\nElementele coloanei " << col << ": ";
+		for (int i = 0; i < dim1; i++) {
+			cout << returnElement(i, col) << " ";
+		}
+	}
+}
+int Matrix::returnElement(int row, int column) {
+	return matrix[row][column];
+}
+void Matrix::readMatrix() {
+	cout << "Introduceti elementele matricii:\n";
+	for (int i = 0; i < dim1; i++) {
+		for (int j = 0; j < dim2; j++) {
+			cout << "matrix[" << i << "][" << j << "] = ";
+			cin >> matrix[i][j];
+		}
+	}
+}
+void Matrix::displayMatrix() {
+	cout << "\nElementele matricii: ";
+	for (int i = 0; i < dim1; i++) {
+		cout << "\n";
+		for (int j = 0; j < dim2; j++) {
+			cout << returnElement(i, j) << " ";
+		}
+	}
+	cout << endl;
+}
+
+int main() {
+	int dim1, dim2;
+	cout << "\nIntroduceti dimensiunile 1 si 2 ale matricii: (<=10):\n";
+	cin >> dim1;
+	cin >> dim2;
+	Matrix m1(dim1, dim2);
+	m1.readMatrix();
+	m1.displayMatrix();
+	int c;
+	cout << "\nIntroduceti un numar de coloana ale carei elemente vor fi afisate: (<"<<dim2<<") ";
+	cin >> c;
+	m1.displayColumn(c);
+
+}
+/*
+Cerinta:
+- introduceti o metoda publica readMatrix( ) pentru a citi elementele matricii,
+astfel incat constructorul sa aloce spatiul folosind dimensiunile reale ale matricii iar valoriile matricii sa fie citite cu aceasta metoda in main( ) folosind obiectul Matrix instantiat.
+E recomandat ca matricea sa fie declarata ca atribut printr-un pointer si constructorul sa aloce spatiu pentru ea folosind parametrii preluati in main( ) pentru dimensiunile reale ale matricii
+*/

@@ -1,0 +1,41 @@
+/*
+		Bindea Gheorghe Cristian   Grupa 2115
+		Problema  6 - Program care foloseste o functie cu numar variabil de parametrii pentru a determina minimul dintr-un sir de 10 numere
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdarg.h>
+
+double min(int nr_argumente, ...);
+int main()
+{	
+	float sir[10] = { -21.5, -20.10, 2.7, 3.1, 4.9, 5.2, 6.0, -24.3, 8.5, 9.6 };
+	double minim1, minim2;
+
+	int Numar_argumente=7;
+	minim1 = min(Numar_argumente, sir[0], sir[1], sir[2], sir[3], sir[4], sir[5], sir[6]);
+	printf("Minimul dintre primele 7 numere este:  %lf\n",minim1 );
+
+	Numar_argumente = 3;
+	minim2 = min(Numar_argumente, sir[7], sir[8], sir[9]);
+	Numar_argumente = 2;
+	printf("Minimul dintre ultimele 3 numere este:  %lf\n", minim2);
+
+	printf("Minimul dintre cele 10 numere este: %lf\n", min(Numar_argumente, minim1, minim2));
+	return 0;
+}
+
+double min(int nr_argumente, ...) {
+	va_list lista_argumente;
+	va_start(lista_argumente, nr_argumente);
+
+	double a = va_arg(lista_argumente, double);
+	double nrMinim=a;
+	for (int i = 0; i < nr_argumente-1; i++) {
+		a = va_arg(lista_argumente, double);
+		if (a < nrMinim)
+			nrMinim = a;
+	}
+	va_end(lista_argumente);
+	return nrMinim;
+}

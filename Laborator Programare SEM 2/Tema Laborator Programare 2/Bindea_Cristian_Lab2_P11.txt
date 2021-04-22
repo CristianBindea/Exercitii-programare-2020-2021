@@ -1,0 +1,30 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 11 - Program care converteste printr-o functie recursiva un numar din baza 10 in o baza n citita de la tastatura
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+void baza(unsigned int a, unsigned int n);
+int main()
+{
+	int num, b;
+	puts("Introduceti un numar pozitiv din baza 10 si o baza (intre 1 si 10) in care sa fie convertit");
+	printf("Numarul = "); scanf("%d", &num);
+	printf("Baza = "); scanf("%d", &b);
+	if (b < 1 || b>10 || num < 0)
+	{
+		puts("Datele introduse sunt gresite");
+		return 1;
+	}
+
+	printf("Numarul %d in baza %d este: ", num, b); baza(num, b); printf("\n");
+
+	return 0;
+}
+
+void baza(unsigned int a, unsigned int n) {
+	if (a)
+		baza(a/n,n);
+	printf("%d ", a % n);
+}

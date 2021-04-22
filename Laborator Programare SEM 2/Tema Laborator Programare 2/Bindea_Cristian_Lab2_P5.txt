@@ -1,0 +1,27 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 5 - Program care foloseste o functie recursiva pentru a inversa un sir de caractere
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int rev(char s[]);
+int main()
+{
+	char s[100];
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &s);
+	printf("Inversul sirului introdus este: "); rev(s); printf("\n");
+	return 0;
+}
+
+int rev(char s[])
+{
+	if (strlen(s) == 0)
+		return 0;
+	rev(s + 1);
+	printf("%c", s[0]);
+}

@@ -1,0 +1,33 @@
+/*
+		Bindea Gheorghe Cristian   Grupa 2115
+		Problema  3 - Program care citeste date despre un student apoi le valideaza
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+struct Student{
+	char nume_prenume[30];
+	int nota;
+};
+int main()
+{
+	Student student;
+	printf("Introduceti numele si prenumele studentului : "); scanf("%[^\n]s", student.nume_prenume);
+	while (strlen(student.nume_prenume) < 5)
+	{
+		puts("Numele si prenumele studentului trebuie sa aiba minim 5 caractere");
+		printf("Corectati numele si prenumele studentului : "); scanf(" %[^\n]s", student.nume_prenume);
+
+	}
+	printf("Introduceti nota studentului : "); scanf("%d", &student.nota);
+	while (student.nota < 1 || student.nota>10)
+	{
+		puts("Nota studentului trebuie sa fie cuprinsa intre 1 si 10");
+		printf("Corectati nota studentului : "); scanf("%d", &student.nota);
+
+	}
+
+	printf("Studentul %s are nota %d\n", student.nume_prenume, student.nota);
+	return 0;
+}

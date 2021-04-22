@@ -1,0 +1,126 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 4 - Program care citeste o data de la tastatura, o verifica si scrie intr-un fisier toate datele precedente celei introduse
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+struct Data {
+	int an;
+	int luna;
+	int zi;
+};
+
+class Calendar {
+	Data d;
+public:
+	Calendar(int zz = 1, int ll = 1, int aa = 0) { d.zi = zz; d.luna = ll; d.an = aa; }
+	void setAn(int n) { this->d.an = n; }
+	void setLuna(int n) { this->d.luna = n; }
+	void setZi(int n) { this->d.zi = n; }
+	Data getData(void) { return this->d; }
+	bool testare();
+	void datePrecedente();
+	void datePrecedente2();
+};
+
+bool Calendar::testare() {
+	if (d.an < 0 || d.luna <= 0 || d.luna>12 || d.zi <= 0 || d.zi > 31)
+		return false;
+	if (d.luna == 2)
+	{
+		if (d.an % 4 == 0)
+		{
+			if (d.zi > 29)
+				return false;
+		}
+		else if (d.zi > 28)
+			return false;
+	}
+	else if (d.luna == 1 || d.luna == 3 || d.luna == 5 || d.luna == 7 || d.luna == 8 || d.luna == 10 || d.luna == 12)
+	{
+		if (d.zi > 31)
+			return false;
+	}
+	else if (d.zi > 30)
+		return false;
+
+	return true;
+}
+void Calendar::datePrecedente() {
+	ofstream fout("fisier.txt");
+	Calendar dataTemp;
+	dataTemp.d = d;
+	while (dataTemp.d.luna >= 1)
+	{
+		while (dataTemp.d.zi >= 1)
+		{
+			if (dataTemp.testare())
+			{
+				fout << dataTemp.d.zi << "/" << dataTemp.d.luna << "/" << dataTemp.d.an << endl;
+			}
+			dataTemp.d.zi--;
+		}
+		dataTemp.d.luna--;
+		dataTemp.d.zi = 31;
+	}
+	fout.close();
+}
+void Calendar::datePrecedente2() {
+	ofstream fout("fisier.txt");
+
+	Calendar dataTemp;
+	dataTemp.d.an = this->d.an;
+	while (dataTemp.d.luna < this->d.luna)
+	{
+		while (dataTemp.d.zi <= 40)
+		{
+			if (dataTemp.testare())
+			{
+				fout << dataTemp.d.zi << "/" << dataTemp.d.luna << "/" << dataTemp.d.an << endl;
+				dataTemp.d.zi++;
+			}
+			else break;
+		}
+
+		dataTemp.d.luna++;
+		dataTemp.d.zi = 1;
+	}
+	while (dataTemp.d.zi <= this->d.zi)
+	{
+		if (dataTemp.testare())
+		{
+			fout << dataTemp.d.zi << "/" << dataTemp.d.luna << "/" << dataTemp.d.an << endl;
+			dataTemp.d.zi++;
+		}
+		else break;
+	}
+	fout.close();
+
+}
+
+int main() {
+
+	int z, l, a;
+	cout << "Introduceti o data:\n";
+	cout << "zi = "; cin >> z;
+	cout << "luna = "; cin >> l;
+	cout << "an = "; cin >> a;
+	Calendar c(z, l, a);
+	while (c.testare()==false)
+	{
+		cout << "Data invalida. Reincercati.\n";
+		cout << "zi = "; cin >> z;
+		cout << "luna = "; cin >> l;
+		cout << "an = "; cin >> a;
+		c.setAn(a);
+		c.setLuna(l);
+		c.setZi(z);
+	}
+	c.datePrecedente();
+	cout << "Datele precedente celei introduse au fost scrise in fisier \n";
+	return 0;
+}

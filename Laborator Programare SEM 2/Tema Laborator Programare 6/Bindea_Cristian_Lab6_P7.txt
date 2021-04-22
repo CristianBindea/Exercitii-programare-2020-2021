@@ -1,0 +1,97 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 7 - Program care implementeaza o clasa Seif cu medote pentru extragere si depunere de bani
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Seif {
+	int suma;
+	char cifru[32];
+	int getSuma() { return suma; }
+	void setSuma(int s) { suma = s;}
+public:
+	Seif() {
+		suma = 0;
+		strcpy(cifru, "\n");
+	}
+	Seif(int s, char c[]) {
+		suma = s;
+		strcpy(cifru, c);
+	}
+	int scoateDinSeif(char c[], int s) {
+		if (strcmp(cifru, c))
+		{
+			cout << "Cifru incorect!";
+			return -1;
+		}
+		cout << "Suma din seif: " << getSuma()<<"\n";
+		if (s > getSuma())
+		{
+			cout << "Tranzactie imposibila\n";
+			return -1;
+		}
+		cout << "Suma extrasa: " << s<<"\n";
+		setSuma(getSuma() - s);
+		cout << "Suma din seif dupa extragere: " << getSuma() << "\n";
+		return 0;
+	}
+	int puneInSeif(char c[], int s) {
+		if (strcmp(cifru, c))
+		{
+			cout << "Cifru incorect!";
+			return -1;
+		}
+		cout << "Suma din seif: " << getSuma() << "\n";
+		cout << "Suma depusa: " << s << "\n";
+		setSuma(getSuma() + s);
+		cout << "Suma din seif dupa depunere: " << getSuma() << "\n";
+		return 0;
+	}
+};
+int main() {
+	char cifru[32];
+	int suma;
+	cout << "Introduceti date despre un seif\n";
+	cout << "Cifru = "; cin >> cifru;
+	cout << "Suma = "; cin >> suma;
+	Seif seif1(suma,cifru);
+
+	char ok = 'D';
+	int num, sum;
+	char cif[32];
+	while (ok == 'd' || ok == 'D')
+	{
+		cout << "Introduceti o tranzactie\n\tcifra 1 pentru a depune o suma\n\tcifra 2 pentru a extrage o suma\n";
+		cin >> num;
+		while (num != 1 && num != 2)
+		{
+			cout << "Numar invalid. Reincercati\n"; cin >> num;
+		}
+		if (num == 1)
+		{
+			cout << "Introduceti suma care urmeaza sa fie depusa\n";
+			cin >> sum;
+			cout << "Introduceti cifrul seifului\n";
+			cin >> cif;
+			int rez=seif1.puneInSeif(cif, sum);
+			if (rez == -1)
+				cout << "Reincercati\n";
+		}
+		else
+		{
+			cout << "Introduceti suma care urmeaza sa fie extrasa\n";
+			cin >> sum;
+			cout << "Introduceti cifrul seifului\n";
+			cin >> cif;
+			int rez = seif1.scoateDinSeif(cif, sum);
+			if (rez == -1)
+				cout << "Reincercati\n";
+		}
+		cout << "\nIntroduceti N pentru a inchide programul si D pentru a continua tranzactiile\n";
+		cin >> ok;
+	}
+	return 0;
+}
