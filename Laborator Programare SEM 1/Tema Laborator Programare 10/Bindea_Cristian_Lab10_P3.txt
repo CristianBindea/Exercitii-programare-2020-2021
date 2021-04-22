@@ -1,0 +1,31 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Se citeste un sir de caractere de lungime mai mare decat 7 
+		si se afiseaza prin intermediul unui pointer caracterele de pe pozitiile 1,3,5,7
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char s[DIM], * p;
+	int poz;
+	puts("Introduceti un sir de caractere fara spatii cu lungimea mai mare decat 7");
+	scanf("%s", s);
+	while (strlen(s) < 7)
+	{
+		puts("Sirul introdus este prea scurt");
+		scanf("%s", s);
+	}
+	p = s;
+	puts("Caracterele de pe pozitiile date sunt:");
+	for (int i = 1; i <= 7; i += 2)
+	{
+		poz = i;
+		printf("Pe pozitia %d e caracterul \"%c\"\n", poz, *(p + poz));
+	}
+
+	return 0;
+}

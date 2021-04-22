@@ -1,0 +1,40 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care aloca dinamic memorie pentru n structuri de tip produs, apoi afiseaza produsul cu cantitatea cea mai mare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 50
+struct Produs {
+	char denumire[DIM];
+	double pret;
+	double cantitate;
+};
+int main()
+{
+	int n, pozitieMaxim = 0;
+	double cantitateMaxima = 0;
+	puts("Introduceti numarul de produse");
+	scanf("%d", &n);
+	Produs* produse = new Produs[n];
+	for (int i = 0; i < n; i++)
+	{
+		printf("Introduceti denumirea produsului %d\n", i + 1);
+		scanf("%s", &(produse + i)->denumire);
+		puts("Introduceti pretul produsului");
+		scanf("%lf", &(produse + i)->pret);
+		puts("Introduceti cantitatea produsului");
+		scanf("%lf", &(produse + i)->cantitate);
+		if (cantitateMaxima < (produse + i)->cantitate)
+		{
+			cantitateMaxima = (produse + i)->cantitate;
+			pozitieMaxim = i;
+		}
+	}
+	printf("Produsul cu cantitatea cea mai mare este %s la pretul de %g lei\n", (produse + pozitieMaxim)->denumire, (produse + pozitieMaxim)->pret);
+
+	delete[n]produse;
+	return  0;
+}

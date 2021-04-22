@@ -1,0 +1,35 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Program in care se declara o structura apoi se afiseaza date din ea prin valoare si respectiv prin adresa
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct avion {
+	char culoare[20];
+};
+void afisare(struct avion p);
+void afisarePrinPointer(struct avion* p);
+int main()
+{
+
+	avion A;
+	strcpy(A.culoare, "alb");
+	afisare(A);
+	printf("\n");
+	afisarePrinPointer(&A);
+	return  0;
+}
+void afisare(struct avion p)
+{
+	puts("Afisare prin valoare:");
+	printf("Am vazut un avion %s\n", p.culoare);
+}
+void afisarePrinPointer(struct avion* p)
+{
+	puts("Afisare prin adresa:");
+	printf("Am vazut un avion %s\n", p->culoare);
+
+}

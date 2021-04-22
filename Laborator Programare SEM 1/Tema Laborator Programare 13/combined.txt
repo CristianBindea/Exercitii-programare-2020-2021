@@ -1,0 +1,1064 @@
+/*Tema Laborator 13 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care scrie intr-un fisier numere citite de la tastatura apoi citeste fisierul si afiseaza numerele
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char numeFisier[20]="", numere[DIM] = "";
+	puts("Introduceti numele fisierului:");
+	scanf("%s", numeFisier);
+	char numar[DIM]="", c;
+	errno_t err;
+	FILE* f;
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+
+	printf("Introduceti numere intregi separate de un singur spatiu care vor fi puse in fisierul %s\nPentru a finaliza citirea numerelor apasati ENTER\n", numeFisier);
+	scanf(" %[^\n]", numere);
+	fputs(numere, f);
+	fclose(f);
+
+
+	err = fopen_s(&f, numeFisier, "r");
+	if (err != 0) {
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+	printf("Numerele din fisierul %s sunt:\n", numeFisier);
+	int k = 0;
+	int nr;
+	while ((fscanf(f, "%c", &c)) != EOF)
+	{
+		if (c != ' ')
+			numar[k++] = c;
+		else if (c == ' ')
+		{
+			nr = atoi(numar);
+			printf("%d ", nr);
+			strcpy_s(numar, "");
+			k = 0;
+		}
+
+	}
+	nr = atoi(numar);
+	printf("%d\n", nr);
+	fclose(f);
+
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Program care citeste date despre n studenti si le scrie intr-un fisier, 
+		apoi din fisier afiseaza studentii care au media peste un numar introdus de la tastatura
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 30
+#define DIM_SIR 100
+void citire(int n, struct Student* p);
+struct Student {
+	char nume[DIM];
+	char prenume[DIM];
+	char grupa[DIM];
+	double media;
+};
+int main()
+{
+	int n;
+	FILE* f;
+	errno_t err;
+	double medieTrecere;
+	char numeFisier[30];
+
+	puts("Introduceti numarul studentilor");
+	scanf("%d", &n);
+
+	puts("Introduceti numele fisierului unde vor fi salvate datele despre studenti");
+	scanf("%s", &numeFisier);
+
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	Student* stud;
+	stud = new Student[n];
+	if (stud == NULL)
+	{
+		puts("Alocarea structurii nu a reusit");
+		exit(1);
+	}
+
+	citire(n, stud);
+	for (int i = 0; i < n; i++)
+	{
+		fprintf(f, "Studentul %d\n", i + 1);
+		fprintf(f, "%s\n", stud->nume);
+		fprintf(f, "%s\n", stud->prenume);
+		fprintf(f, "%s\n", stud->grupa);
+		fprintf(f, "%g\n", stud->media);
+	}
+
+	delete[]stud;
+	fclose(f);
+	puts("Copiere reusita\n");
+	puts("Introduceti o medie de trecere");
+	scanf("%lf", &medieTrecere);
+
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM_SIR];
+	Student a;
+	while (1)
+	{
+		fgets(line, DIM_SIR, f);
+		strcpy(a.nume,line);
+		fgets(line, DIM_SIR, f);
+		strcpy(a.prenume, line);
+		fgets(line, DIM_SIR, f);
+		strcpy(a.grupa, line);
+		fgets(line, DIM_SIR, f);
+		a.media = atof(line);
+		if (a.media > medieTrecere)
+		{
+			printf("Studentul %s %s din grupa %s are media %g, mai mare decat %g", a.nume, a.prenume, a.grupa, a.media, medieTrecere);
+
+		}
+		if (feof(f))
+			break;
+	}
+	fclose(f);
+	return 0;
+}
+void citire(int n, struct Student* p)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("Studentul %d\n", i + 1);
+		printf("Numele:"); scanf(" %s", p->nume);
+		printf("Prenumele:"); scanf(" %s", p->prenume);
+		printf("Grupa:"); scanf(" %s", p->grupa);
+		printf("Media:"); scanf(" %lf", &p->media);
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care citeste n numere intregi, le scrie intr-un fisier binar, 
+		apoi din fisierul binar le afiseaza, si pe urmatorul rand afiseaza offsetul numerelor pare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+void citire(int* v, int n);
+int main()
+{
+	int n;
+	puts("Introduceti un numar intreg");
+	scanf("%d", &n);
+	int* v = new int[n];
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		exit(1);
+	}
+
+	char numeFisier[30];
+	puts("Introduceti numele fisierului");
+	scanf("%s", &numeFisier);
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+	citire(v, n);
+	for (int i = 0; i < n; i++)
+	{
+		fprintf(f, "%d ", v[i]);
+	}
+	delete[]v;
+	fclose(f);
+
+	int* p = new int[n];
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	puts("Numerele din fisier sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		fscanf(f, "%d ", &p[i]);
+		printf("%d ", p[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < n; i++)
+	{
+		if (p[i] % 2 == 0)
+			printf("Numarul par, %d, are offsetul %d\n", p[i], i);
+	}
+
+	delete[]p;
+	fclose(f);
+	return 0;
+}
+
+void citire(int* v, int n)
+{
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Program care citeste 8 numere intregi intr-un fisier binar, 
+		apoi face media valorilor mai mari decat 4 si scrie media in alt fisier
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+int main(int argc, char* argv[])
+{
+	if (argc <= 2) {
+		printf("\nNu au fost introdus numele pentru fisiere\n");
+		exit(1);
+	}
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, argv[1], "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+	puts("Introduceti 8 numere intregi");
+	int nr;
+	for (int i = 1; i <= 8; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar : ");
+			scanf("%d", &nr);
+			fprintf(f, "%d ", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar : ", i);
+			scanf("%d", &nr);
+			fprintf(f, "%d ", nr);
+		}
+	}
+	fclose(f);
+
+	err = fopen_s(&f, argv[1], "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	double medie = 0;
+	int cnt = 0;
+	int v[8],k=0;
+	for (int i = 1; i <= 8; i++)
+	{
+		fscanf(f, "%d ", &nr);
+		if (nr > 4)
+		{
+			v[k++] = nr;
+			medie += nr;
+			cnt++;
+		}
+	}
+	fclose(f);
+
+	err = fopen_s(&f, argv[2], "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea celui de-al doilea fisier");
+		exit(1);
+	}
+	if (cnt)
+	{
+		medie = medie / cnt;
+		fprintf(f, "Media numerelor ");
+		for (int i = 0; i < k; i++)
+			fprintf(f, "%d ",v[i]);
+		fprintf(f, "este %.2lf\n",medie);
+	}
+	else {
+		fprintf(f, "Fisierul nu contine elemente mai mari decat 4\n");
+	}
+	fclose(f);
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 13 - Program care citeste date despre n prajituri si le scrie intr-un fisier binar, 
+		apoi din fisier afiseaza prajitura cu pretul cel mai mic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+struct prajitura
+{
+	char nume[DIM];
+	int nr_bucati;
+	double pret;
+};
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[] = "fis.bin";
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+	prajitura *s=new prajitura;
+	
+	puts("Introduceti numarul de prajituri");
+	scanf("%d", &n);
+	puts("Introduceti date despre prajituri");
+
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Prajitura %d\n", i + 1);
+		printf("Nume:"); scanf("%s", &s->nume); 
+		printf("Numar bucati:"); scanf("%d", &s->nr_bucati); 
+		printf("Pret:"); scanf("%lf", &s->pret); 
+		fwrite((s + i), sizeof(prajitura), 1, f);
+	}
+
+	fclose(f);
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	prajitura* ieftin = new prajitura;
+	fread(&ieftin, sizeof(prajitura), 1, f);
+	for (int i = 1; i < n; i++)
+	{
+		fread(s, sizeof(prajitura), 1, f);
+		if (s->pret < ieftin->pret)
+		{
+			ieftin->pret = s->pret;
+			ieftin->nr_bucati = s->nr_bucati;
+			strcpy(ieftin->nume, s->nume);
+		}
+	}
+	printf("Cea mai ieftina prajitura este %s, la pretul de %g, nr. de bucati %d", ieftin->nume, ieftin->pret, ieftin->nr_bucati);
+	fclose(f);
+	delete s;
+	delete ieftin;
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 14 - Program care citeste un numar n de numere, le scrie intr-un fisier binar,
+		apoi afiseaza daca numerele de pe pozitiile impare sunt pare sau impare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void citire(int* v, int n);
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[]="fis.bin";
+
+	puts("Introduceti un numar intreg n");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Valoare invalida");
+		exit(1);
+	}
+	int* v = new int[n];
+	if (v == NULL)
+	{
+		puts("Alocarea nu a reusit");
+		exit(1);
+	}
+	citire(v, n);
+
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	fwrite(v, sizeof(int), n, f);
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	int* ptr = new int[n];
+
+	fseek(f, 0L, SEEK_SET);
+	int nr;
+	int a=1;
+	printf("Numerele de pe pozitii impare sunt:\n");
+	while (fread(&nr, sizeof(int), 1, f))
+	{
+		if (a % 2 != 0)
+		{
+			if (nr % 2 == 0)
+				printf("Numarul: %d de pe pozitia: %d este par\n",nr,a);
+			else
+				printf("Numarul: %d de pe pozitia: %d este impar\n",nr,a);
+		}
+		a++;
+	}
+	delete[]ptr;
+	fclose(f);
+	return 0;
+}
+void citire(int* v, int n)
+{
+	printf("Introduceti %d valori\n", n);
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Program care citeste dint-un fisier 10 numere intregi apoi le ordoneaza crescator si descrescator, si numarul de numere pare, toate folosindu-se de functii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+
+#define DIM 100
+
+int crescator(const void* a, const void* b);
+int descrescator(const void* a, const void* b);
+void afisare(int v[], FILE* f);
+void nrPare(int v[], FILE* f);
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "w");
+	if (err != 0) {
+		puts("(1) Eroare la creare fisierului");
+		exit(1);
+	}
+	int nr;
+	puts("Introduceti 10 numere");
+	for (int i = 1; i <= 10; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar: "); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar: ", i); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+	}
+	puts("Citire terminata\n");
+	fclose(f);
+
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != 0) {
+		puts("(2) Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM];
+	int* v = new int[DIM];
+	for (int i = 0; i < 10; i++)
+	{
+		fgets(line, DIM, f);
+		v[i] = atoi(line);
+	}
+	fclose(f);
+
+	qsort(v, 10, sizeof(int), crescator);
+	puts("Numerele ordonate crescator sunt:");
+	afisare(v, f);
+
+	qsort(v, 10, sizeof(int), descrescator);
+	puts("Numerele ordonate descrescator sunt:");
+	afisare(v, f);
+	nrPare(v, f);
+	delete[]line;
+	delete[]v;
+	return  0;
+}
+
+void afisare(int v[], FILE* f)
+{
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "a");
+	if (err != 0) {
+		puts("(3)Eroare la creare fisierului");
+		exit(1);
+	}
+	for (int i = 0; i < 10; i++)
+	{
+		fprintf(f, "%d ", v[i]);
+		printf("%d ", v[i]);
+	}
+	fprintf(f, "\n"); printf("\n");
+	fclose(f);
+}
+void nrPare(int v[], FILE* f)
+{
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "a");
+	if (err != 0) {
+		puts("(4)Eroare la creare fisierului");
+		exit(1);
+	}
+
+	printf("Numarul de numere pare este: "); fprintf(f, "Numarul de numere pare este: ");
+	int cnt = 0;
+	for (int i = 0; i < 10; i++)
+		if (v[i] % 2 == 0)
+			cnt++;
+	printf("%d ", cnt); fprintf(f, "%d ", cnt);
+	printf("\n"); fprintf(f, "\n");
+	fclose(f);
+}
+int crescator(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}
+int descrescator(const void* a, const void* b)
+{
+	return (*(int*)b - *(int*)a);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care citeste n numere de la tastatura, 
+		le pune intr-un fisier cu nume introdus de utilizator, apoi face media numerelor si o adauga la fisier
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char numeFisier[20]="";
+	puts("Introduceti numele fisierului:");
+	scanf("%s", numeFisier);
+	errno_t err;
+	FILE* f;
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+
+	unsigned int n;
+	int nr;
+	puts("Introduceti numarul de numere care vor fi citite");
+	scanf("%u", &n);
+	while (n <= 0)
+	{
+		printf("Numar invalid, mai incercati");
+		scanf("%u", &n);
+	}
+	printf("Introduceti %u numere\n",n);
+	for (unsigned int i = 1; i <= n; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar: "); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar: ", i); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+	}
+	puts("Citire terminata\n");
+	fclose(f);
+
+
+	err = fopen_s(&f, numeFisier, "r");
+	if (err != 0) {
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM];
+	int* v = new int[n];
+	double media=0;
+	for (unsigned int i = 0; i < n; i++)
+	{
+		fgets(line, DIM, f);
+		v[i] = atoi(line);
+		media += v[i];
+	}
+	media /= n;
+	printf("Media numerelor citite este %g", media);
+	delete[]line;
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "a");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+	fprintf(f, "%lf\n", media);
+	fclose(f);
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care citeste un numar n si un caracter c, apoi scrie intr-un fisier caracterul c pe n linii si n coloane
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "fis.txt", "w");
+	if (err != 0)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	char c;
+	int n;
+	puts("Introduceti caracterul c");
+	scanf("%c", &c);
+	puts("Introduceti numarul n");
+	scanf("%d", &n);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			fprintf(f,"%c ", c);
+		}
+		fprintf(f,"\n");
+	}
+	fclose(f);
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care scrie 3 siruri de caractere pe linii diferite intr-un fisier,
+		apoi le citeste linie cu linie si le afiseaza in consola
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+
+#define DIM 100
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f,"fisier.txt", "w");
+	if (err != 0) {
+		puts("(1) Eroare la creare fisierului");
+		exit(1);
+	}
+	char text[DIM];
+	puts("Introduceti 3 siruri de caractere, acestea vor fi scrise in fisier pe linii diferite");
+	for (int i = 1; i <= 3; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul sir: "); scanf("%[^\n]s", text); fprintf(f, "%s\n", text);
+		}
+		else
+		{
+			printf("Al %d-lea sir: ",i); scanf(" %[^\n]s", text); fprintf(f, "%s\n", text);
+		}
+	}
+	puts("Citire terminata");
+	fclose(f);
+	
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != 0) {
+		puts("(2) Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM];
+	for(int i=0;i<3; i++)
+	{
+		fgets(line, DIM, f);
+		printf("%s", line);
+	}
+	delete[]line;
+	fclose(f);
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Program care scrie n numere intr-un fisier cu nume introdus din linia de comanda 
+		apoi afiseaza numerele mai mari decat un numar introdus 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+	if (argc == 1) {
+		printf("\nNu a fost introdus numele fisierului\n");
+		exit(1);
+	}
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, argv[1], "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	int n;
+	float nr;
+	puts("Introduceti numarul de numere");
+	scanf("%d", &n);
+	printf("Introduceti %d numere\n", n);
+	for (int i = 1; i <= n; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar : ");
+			scanf("%f", &nr);
+			fprintf(f, "%f\n", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar : ", i);
+			scanf("%f", &nr);
+			fprintf(f, "%f\n", nr);
+		}
+	}
+	fclose(f);
+	
+
+	err = fopen_s(&f, argv[1], "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	float numar;
+	bool ok = true;
+	puts("Introduceti un numar");
+	scanf("%f", &numar);
+	printf("Numerele din fisier mai mari decat numarul introdus sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		fscanf(f, "%f ", &nr);
+		if (nr > numar)
+		{
+			ok = false;
+			printf("%g ", nr);
+		}
+	}
+	if (ok)
+	{
+		printf("\33[2K\rFisierul nu contine numere mai mari decat cel introdus\n");
+	}
+	else {
+		printf("\n");
+	}
+
+	fclose(f);
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care citeste un fisier text caracter cu caracter si converteste in majuscula primul caracter al fiecarui cuvant 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define DIM 200
+int main()
+{
+	FILE* f;
+	errno_t err;
+	
+	err = fopen_s(&f,"fisier.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	char c;
+
+	char s[DIM]="";
+	int k = 0;
+	c = fgetc(f);
+	if (c >= 'a' && c <= 'z')
+	{
+		c=toupper(c);
+		s[k++] = c;
+	}
+
+	while (1)
+	{
+		c = fgetc(f);
+		if (c == ' ')
+		{
+			while (c == ' ')
+			{
+				s[k++] = c;
+				c = fgetc(f);
+			}
+			c = toupper(c);
+			s[k++] = c;
+		}
+		else
+		{
+			s[k++] = c;
+		}
+		if (feof(f))
+			break;
+	}
+
+	fclose(f);
+
+	err = fopen_s(&f, "fisier.txt", "w");
+	if (err != NULL)
+	{
+		puts("Eroare la modificarea fisierului");
+		exit(1);
+	}
+	fprintf(f, "%s",s);
+	fclose(f);
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care citeste valori reale dintr-un fisier si scrie in alt fisier partea intreaga
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 100
+int main()
+{
+	FILE* f;
+	FILE* f2;
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	err = fopen_s(&f2, "fisier2.txt", "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	double nr;
+	int k = 0;
+	while (1)
+	{
+		fscanf(f, "%lf ", &nr);
+		fprintf(f2, "%d ", (int)nr);
+		if (feof(f))
+			break;
+	}
+	fclose(f);
+	fclose(f2);
+	printf("Copiere reusita\n");
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care citeste intr-un vector alocat dinamic, n numere reale si le pune intr-un fisier binar,
+		apoi din fisier, afiseaza numerele din 3 in 3
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void citire(double* v, int n);
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[30];
+
+	puts("Introduceti un numar intreg n");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Valoare invalida");
+		exit(1);
+	}
+	double* v = new double[n];
+	if (v == NULL)
+	{
+		puts("Alocarea nu a reusit");
+		exit(1);
+	}
+	citire(v, n);
+	puts("Introduceti numele fisierului");
+	scanf("%s", &numeFisier);
+
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	fwrite(v, sizeof(double), n, f);
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	double* ptr = new double[n];
+
+	fseek(f, 0L, SEEK_SET);
+	double nr;
+	int a=0;
+	
+	printf("Numerele din fisier din 3 in 3 sunt: ");
+	while (fread(&nr, sizeof(double), 1, f))
+	{
+		if(a%3==0)
+			printf("%g ", nr);
+		a++;
+	}
+	printf("\n");
+
+	delete[]ptr;
+	fclose(f);
+	return 0;
+}
+void citire(double* v, int n)
+{
+	printf("Introduceti %d valori\n", n);
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &v[i]);
+	}
+}
+

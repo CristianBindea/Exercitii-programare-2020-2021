@@ -1,0 +1,28 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care genereaza un tablou de pointeri spre siruri de caractere folosind functia _strdup() si apoi afiseaza valorile pare din tablou
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+
+	const char s0[] = "Sir0",s1[] = "Sir1",s2[] = "Sir2",s3[] = "Sir3",s4[] = "Sir4",s5[] = "Sir5",s6[] = "Sir6",s7[] = "Sir7",s8[] = "Sir8";
+	char** p;
+	p = (char**)malloc(9* sizeof(char));
+	p[0] = _strdup(s0);
+	p[1] = _strdup(s1);
+	p[2] = _strdup(s2);
+	p[3] = _strdup(s3);
+	p[4] = _strdup(s4);
+	p[5] = _strdup(s5);
+	p[6] = _strdup(s6);
+	p[7] = _strdup(s7);
+	p[8] = _strdup(s8);
+	for (int i = 0; i < 9; i += 2)
+		printf("%s\n", p[i]);
+
+	return 0;
+}

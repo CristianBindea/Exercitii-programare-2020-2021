@@ -1,0 +1,22 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Adunarea, scaderea, inmultirea si impartirea, apoi afisarea maximului dintre doua numere reale
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	double a, b;
+	printf("Introduceti doua reale\n");
+	scanf("%lf %lf", &a, &b);
+
+	printf("%g + %g = %g rotunjit la numere intregi: %d\n", a, b, (a + b), (int)(a + b));
+	printf("%g - %g = %g rotunjit la numere intregi: %d\n", a, b, (a - b), (int)(a - b));
+	printf("%g * %g = %g rotunjit la numere intregi: %d\n", a, b, (a * b), (int)(a * b));
+	printf("%g / %g = %g rotunjit la numere intregi: %d\n", a, b, (a / b), (int)(a / b));
+
+	printf("Maximul dintre %g si %g este %g\n", a, b, (a > b ? a : b));
+	
+	return 0;
+}

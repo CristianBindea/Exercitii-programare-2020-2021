@@ -1,0 +1,43 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care aloca dinamic memorie pentru n siruri de caractere citite de la tastatura
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char *s,**p;
+	int n;
+	puts("Introduceti numarul de siruri de caractere");
+	scanf("%d", &n);
+	s = (char*)calloc(DIM, sizeof(char));
+	if (s == NULL)
+	{
+		printf("Alocare nereusita\n");
+		return 1;
+	}
+	p = (char**)calloc(n, sizeof(char));
+	if (s == NULL)
+	{
+		printf("Alocare nereusita\n");
+		return 2;
+	}
+	puts("Introduceti siriruile de caractere");
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%s", s);
+		p[i] = (char*)calloc(strlen(s), sizeof(char));
+		strcpy(p[i], s);
+	}
+	free(s);
+	puts("Sirurile introduse sunt:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%s\n", p[i]);
+	}
+	return  0;
+}

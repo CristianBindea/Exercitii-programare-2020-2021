@@ -1,0 +1,942 @@
+/*Tema Laborator 10 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 din laboratorul 10, prima problema:
+		Problema 1 Laborator 8 - media elementelor pozitive/negative dintr-un sir
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+double mediaNegativa(double *p, int n);
+double mediaPozitiva(double *p, int n);
+int  main()
+{
+	int n;
+	double v[DIM];
+	puts("Introduceti un numar natural pentru lungimea sirului");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", v+i);
+	}
+
+	if (mediaPozitiva(v, n))
+		printf("Media elementelor pozitive din sir este %g\n", mediaPozitiva(v, n));
+	else puts("Sirul nu contine elemente pozitive");
+
+	if (mediaNegativa(v, n))
+		printf("Media elementelor negative din sir este %g\n", mediaNegativa(v, n));
+	else puts("Sirul nu contine elemente negative");
+	return 0;
+}
+
+double mediaNegativa(double *p, int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (*(p+i) < 0)
+		{
+			suma += *(p+i);
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}
+double mediaPozitiva(double *p, int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (*(p + i) > 0)
+		{
+			suma += *(p + i);
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+	Problema 1 din laboratorul 10, a doua problema:
+        Problema 2 Laborator 8 - cel mai mic element pozitiv dintr-un tablou unidimensional
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+int  main()
+{
+    double v[DIM], d, minim = -1.;
+    puts("Introduceti dimensiunea tabloului");
+    scanf("%lf", &d);
+    puts("Introduceti elementele tabloului");
+    for (int i = 0; i < d; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%lf", v+i);
+
+        if (minim == -1 && *(v+i) > 0)
+            minim = *(v + i);
+        else if (minim > * (v + i) && *(v + i) > 0)
+            minim = *(v + i);
+    }
+
+    if (minim < 0)
+        puts("Tabloul nu contine numere pozitive");
+    else printf("Cel mai mic element pozitiv al tabloului este %g\n", minim);
+
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+	Problema 1 din laboratorul 10, a treia problema:
+        Problema 3 Laborator 8 - Ordonarea unui sir de 10 elemente
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void ordonare(int* p, int x);
+void schimbare(int &a, int &b);
+int  main()
+{
+    int v[10];
+    const int dim = 10;
+    puts("Introduceti 10 elemente pentru tablou");
+    for (int i = 0; i < dim; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%d", v+i);
+    }
+    ordonare(v, dim);
+    return 0;
+}
+void ordonare(int *p, int x)
+{
+    for (int i = 0; i < x - 1; i++)
+        for (int j = 0; j < x - i - 1; j++)
+            if (*(p+j) > *(p+j+1))
+            {
+                schimbare(p[j], p[j + 1]);
+            }
+    puts("Sirul ordonat crescator este:");
+    for (int i = 0; i < x; i++)
+        printf("v[%d] = %d\n", i, *(p+i));
+}
+void schimbare(int &a, int &b)
+{
+    int aux;
+    aux = a;
+    a = b;
+    b = aux;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Se citeste un tablou unidimensional, A, si se afiseaza tabloul obtinut prin scaderea mediei aritmetice a elementelor din A din elementul corespunzÄ?tor din A
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 100
+int* citire(int n);
+int* completare(int* p, int n);
+int main()
+{
+	int* a, *b;
+	int n;
+	puts("Introduceti dimensiunea tabloului, un numar intreg si pozitiv mai mic decat 100");
+		scanf("%d", &n);
+
+	a = citire(n);
+	b = completare(a, n);
+	puts("Tabloul introdus este:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", a[i]);
+	}
+	printf("\n");
+	puts("Tabloul generat este:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", b[i]);
+	}
+	printf("\n");
+
+	return  0;
+}
+int* citire(int n)
+{
+	static int v[DIM];
+	for (int i = 0; i < n; i++)
+	{
+		printf("\ta[%d] = ", i);
+		scanf("%d", v+i);
+	}
+
+	return v;
+}
+int* completare(int* p, int n)
+{
+	int media = 0;
+	static int v2[DIM];
+	for (int i = 0; i < n; i++)
+		media += p[i];
+	media /= n;
+	for (int i = 0; i < n; i++)
+		v2[i] = p[i] - media;
+	
+	return v2;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Se citeste o matrice si se afiseaza numarul de elemente negative de deasupra diagonalei secundare, toate acestea folosind functii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+
+int nrElem(int** array, int n);
+int** alocare(int n);
+int** citire(int n);
+void eliberare(int** a, int m);
+int main()
+{
+	int** arr;
+    int n;
+    puts("Introduceti dimensiunea matricii patratice:");
+    scanf("%d", &n);
+    
+    arr = citire(n);
+    if (arr == NULL)
+    {
+        puts("Alocare nereusita");
+        return 1;
+    }
+    int nrElemente = nrElem(arr, n);
+    if (nrElemente > 0)
+        printf("Numarul de elemente negative de deasupra diagonalei secundare este: %d\n", nrElemente);
+    else
+        puts("Nici un element negativ nu se afla deasupra diagonalei secundare");
+    eliberare(arr, n);
+	return  0;
+
+}
+int nrElem(int** array, int n)
+{
+    int cnt = 0;
+    for (int i = 1; i < n; i++)
+        for (int j = i; j < n; j++)
+        {
+            if (array[i][j] < 0)
+                cnt++;
+        }
+    return cnt;
+}
+
+int** alocare(int n) {
+    int** array;
+    array = (int**)calloc(n, sizeof(int*));
+    if (array == NULL)
+        return NULL;
+    for (int i = 0; i < n; i++) {
+        array[i] = (int*)malloc(sizeof(int) * n);
+        if (array[i] == NULL) {
+            return NULL;
+        }
+    }
+    return array;
+}
+
+int** citire(int n)
+{
+    int** array = alocare(n);
+    if (array == NULL)
+        return NULL;
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+        {
+            printf("\tm[%d][%d] = ", i, j);
+            scanf("%d", &array[i][j]);
+        }
+    return array;
+}
+
+void eliberare(int** a, int m) {
+    int i;
+    for (i = 0; i < m; i++)
+        free(a[i]);
+    free(a);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Se citeste o matrice si se interschimba doua linii ale matricii, toate acestea folosind functii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void interschimbare(int** array, int n, int l1, int l2);
+int** alocare(int n);
+int** citire(int n);
+void afisare(int** array, int n);
+void eliberare(int** a, int m);
+void schimb(int& a, int& b);
+int main()
+{
+	int** arr;
+	int n, l1, l2;
+	puts("Introduceti dimensiunea matricii patratice:");
+	scanf("%d", &n);
+
+	printf("Introduceti numerele a doua linii care vor fi interschimbate (strict mai mici decat %d)\nTinand cont ca numerotarea liniilor incepe de la 0\n", n);
+	printf("Prima linie: "); scanf("%d", &l1);
+	if (l1 >= n || l1 < 0) { puts("Numarul liniei introduse este invalid"); return 1; }
+	printf("A doua linie: "); scanf("%d", &l2);
+	if (l2 >= n || l2 < 0) { puts("Numarul liniei introduse este invalid"); return 1; }
+
+	arr = citire(n);
+	if (arr == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+
+	puts("Matricea introdusa este:");
+	afisare(arr, n);
+	interschimbare(arr, n, l1, l2);
+	printf("\n");
+	puts("Matricea modificata este:");
+	afisare(arr, n);
+
+	return  0;
+
+}
+void interschimbare(int** array, int n, int l1, int l2)
+{
+	for (int i = 0; i < n; i++)
+	{
+		schimb(array[l1][i], array[l2][i]);
+	}
+}
+
+int** alocare(int n) {
+	int** array;
+	array = (int**)calloc(n, sizeof(int*));
+	if (array == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++) {
+		array[i] = (int*)malloc(sizeof(int) * n);
+		if (array[i] == NULL) {
+			return NULL;
+		}
+	}
+	return array;
+}
+
+int** citire(int n)
+{
+	int** array = alocare(n);
+	if (array == NULL)
+		return NULL;
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tm[%d][%d] = ", i, j);
+			scanf("%d", &array[i][j]);
+		}
+	return array;
+}
+
+void afisare(int** array, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%d  ", array[i][j]);
+
+		printf("\n");
+	}
+}
+
+void eliberare(int** a, int m) {
+	int i;
+	for (i = 0; i < m; i++)
+		free(a[i]);
+	free(a);
+}
+void schimb(int& a, int& b)
+{
+	int aux;
+	aux = a;
+	a = b;
+	b = aux;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 13 - Program care ordoneaza valorile la citire, intr-un vector
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 100
+
+int* citireOrdonata(int n);
+void schimb(int& a, int& b);
+
+int main()
+{
+	int n;
+	int* a;
+	puts("Introduceti dimensiunea tabloului:");
+	scanf("%d", &n);
+	a = citireOrdonata(n);
+	if (a == NULL)
+	{
+		puts("Alocarea a esuat");
+		return 1;
+	}
+	puts("Elementele introduse sunt: ");
+	for (int i = 0; i < n; i++)
+		printf("%d ", a[i]);
+	return 0;
+}
+int* citireOrdonata(int n)
+{
+	int poz;
+	bool ok = true;
+	int* v = (int*)malloc(sizeof(int) * n);
+	if (v == NULL)
+		return NULL;
+	puts("Introduceti elementele tabloului");
+	printf("\tv[%d] = ", 0);
+	scanf("%d", &v[0]);
+	for (int i = 1; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+
+		int j = i;
+		while (v[j] < v[j - 1] && j>0)
+		{
+			schimb(v[j], v[j - 1]);
+			j--;
+		}
+	}
+	return v;
+}
+void schimb(int& a, int& b)
+{
+	int aux;
+	aux = a;
+	a = b;
+	b = aux;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 14 - Algoritm de interclasare a doi vectori
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+
+struct vec {
+	int* valori;
+	int dimensiune;
+};
+
+struct vec interclasare(vec vector1, vec vector2);
+int main()
+{
+	vec vector1;
+	vec vector2;
+	int v1[DIM], v2[DIM];
+	puts("Introduceti o dimensiune, din intervalul [0,99], pentru primul tablou");
+	scanf("%d", &vector1.dimensiune);
+	puts("Introduceti elementele ordonate crescator pentru primul tablou:");
+	for (int i = 0; i < vector1.dimensiune; i++)
+	{
+		printf("\tv1[%d] = ", i);
+		scanf("%d", &v1[i]);
+	}
+	puts("Introduceti o dimensiune, din intervalul [0,99], pentru al doilea tablou ");
+	scanf("%d", &vector2.dimensiune);
+	puts("Introduceti elementele ordonate crescator pentru doilea tablou:");
+	for (int i = 0; i < vector2.dimensiune; i++)
+	{
+		printf("\tv2[%d] = ", i);
+		scanf("%d", &v2[i]);
+	}
+	vector1.valori = v1;
+	vector2.valori = v2;
+	vec vector3;
+	vector3 = interclasare(vector1, vector2);
+
+	puts("Valorile vectorului interclasat sunt: ");
+	for (int i = 0; i < vector3.dimensiune; i++)
+		printf("%d ", vector3.valori[i]);
+	printf("\n");
+	return  0;
+}
+struct vec interclasare(vec vector1, vec vector2)
+{
+	vec vector3;
+	vector3.valori = (int*)malloc(sizeof(int) * (vector1.dimensiune + vector2.dimensiune));
+	vector3.dimensiune = 0;
+
+	//i - pozitia curenta vector1
+	//j - pozitia curenta vector2
+	int i = 0, j = 0;
+	while (i < vector1.dimensiune && j < vector2.dimensiune)
+		if (vector1.valori[i] < vector2.valori[j])
+			vector3.valori[vector3.dimensiune++] = vector1.valori[i++];
+		else
+			vector3.valori[vector3.dimensiune++] = vector2.valori[j++];
+	while (i < vector1.dimensiune)
+		vector3.valori[vector3.dimensiune++] = vector1.valori[i++];
+	while (j < vector2.dimensiune)
+		vector3.valori[vector3.dimensiune++] = vector2.valori[j++];
+
+	return vector3;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 15 - Ordonarea crescatoare a unui vector folosind functia qsort
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+int compareINT(const void* a, const void* b);
+int compareFLOAT(const void* a, const void* b);
+
+int main()
+{
+	int n,v[DIM];
+	puts("Introduceti dimensiunea unui tablu de numere intregi");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+	qsort(v, n, sizeof(int), compareINT);
+	puts("Sirul de numere intregi ordonat este:");
+	for (int i = 0; i < n; i++)
+		printf("%d ", v[i]);
+	printf("\n\n");
+
+
+	int n2;
+	float v2[DIM];
+	puts("Introduceti dimensiunea unui tablu de numere reale");
+	scanf("%d", &n2);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%f", &v2[i]);
+	}
+	qsort(v2, n2, sizeof(float), compareFLOAT);
+	puts("Sirul de numere reale ordonat este:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", v2[i]);
+	printf("\n\n");
+
+	return  0;
+}
+
+int compareINT(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}
+int compareFLOAT(const void* a, const void* b)
+{
+	return (*(float*)a - *(float*)b);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Suma si produsul a doi parametrii intregi si doi flotanti introdusi de la linia de comanda
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+	double suma = 0, produs=1, nr;
+	if (argc == 1) {
+		printf("Nu au fost introduse numere de la linia de comanda");
+		return 1;
+	}
+	for (int i = 1; i < argc; i++)
+	{
+		if (i <= 2)
+			nr = (double)atoi(argv[i]);
+		else 
+			nr = atof(argv[i]);
+		
+		suma += nr;
+		produs *= nr;
+	}
+	printf("Suma numerelelor introdus din linia de comanda este : %g\nSi produsul lor este: %g\n", suma,produs);
+
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Se citeste un sir de caractere de lungime mai mare decat 7 
+		si se afiseaza prin intermediul unui pointer caracterele de pe pozitiile 1,3,5,7
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char s[DIM], * p;
+	int poz;
+	puts("Introduceti un sir de caractere fara spatii cu lungimea mai mare decat 7");
+	scanf("%s", s);
+	while (strlen(s) < 7)
+	{
+		puts("Sirul introdus este prea scurt");
+		scanf("%s", s);
+	}
+	p = s;
+	puts("Caracterele de pe pozitiile date sunt:");
+	for (int i = 1; i <= 7; i += 2)
+	{
+		poz = i;
+		printf("Pe pozitia %d e caracterul \"%c\"\n", poz, *(p + poz));
+	}
+
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care citeste doua matrici cu valori intregi si calculeaza intr-o functie suma lor, apoi o afiseaza in main
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int** alocareMatrice(int m, int n);
+int** adunare(int m, int n, int** a, int** b);
+void afisare(int m, int n, int** c);
+void eliberare(int** a, int m);
+int main() {
+	int** a, ** b, ** c;
+	int n, m;
+
+	puts("Introduceti dimensiunile matricilor");
+	printf("Nr. coloane: "); scanf("%d", &n);
+	printf("Nr. liniilor: "); scanf("%d", &m);
+
+	a = alocareMatrice(m, n);
+	if (a == NULL)
+	{
+		puts("Alocarea lui a nu a reusit");
+		return 1;
+	}
+	b = alocareMatrice(m, n);
+		if (n == NULL)
+		{
+			puts("Alocarea lui b nu a reusit");
+			return 1;
+		}
+
+	puts("Introduceti elementele a");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\ta[%d][%d] = ", i, j);
+			scanf("%d", &a[i][j]);
+		}
+	puts("Introduceti elementele b");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tb[%d][%d] = ", i, j);
+			scanf("%d", &b[i][j]);
+		}
+
+	c = adunare(m, n, a, b);
+	if (c == NULL)
+	{
+		puts("Alocarea sumei nu a reusit");
+		return 1;
+	}
+	printf("Suma matricilor este:\n");
+	afisare(n, m, c);
+	eliberare(a, m);
+	eliberare(b, m);
+	eliberare(c, m);
+	return 0;
+}
+
+
+int** alocareMatrice(int m, int n) 
+{
+	int i, j;
+	int** a;
+	a = (int**)calloc(m, sizeof(int*));
+	if (a == NULL)
+		return NULL;
+	for (i = 0; i < m; i++) {
+		a[i] = (int*)malloc(sizeof(int) * n);
+		if (a[i] == NULL) {
+			return NULL;
+		}
+	}
+	return a;
+}
+
+int** adunare(int m, int n, int** a, int** b) 
+{
+	int i, j;
+	int** c;
+	c = alocareMatrice(m, n);
+	if (c == NULL)
+		return NULL;
+	for (i = 0; i < m; i++)
+		for (j = 0; j < n; j++)
+			c[i][j] = a[i][j] + b[i][j];
+	return c;
+}
+
+void afisare(int m, int n, int** c)
+{
+	int i, j;
+	for (i = 0; i < m; i++) {
+		for (j = 0; j < n; j++)
+			printf("%d ", c[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+void eliberare(int** a, int m) {
+	int i;
+	for (i = 0; i < m; i++)
+		free(a[i]);
+	free(a);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Se introduc valori cu ajutorul indicatiilor primite pana la introducerea numarului generat aleatoriu
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int nrAleator();
+int main()
+{
+	const char* p[] = { "Valoare prea mica", "Valoare prea mare", "Valoare corecta" };
+	int nr = nrAleator();
+	int nrIntrodus;
+	puts("Introduceti numere intregi pozitive pana la introducerea numarului corect");
+	puts("Primul numar introdus:");
+		scanf("%d", &nrIntrodus);
+	while (nrIntrodus != nr)
+	{
+		if (nrIntrodus > nr)
+			printf("%s", p[1]);
+		else if(nrIntrodus<nr)
+			printf("%s", p[0]);
+
+		printf(". Mai incercati:\n");
+		scanf("%d", &nrIntrodus);
+	}
+	printf("Felicitari, %s\n", p[2]);
+	return  0;
+}
+
+int nrAleator() {
+	int a;
+	srand((unsigned)time(NULL));
+	a = rand()%100;
+	return a;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Se initializeaza un tablou de pointeri cu diferite siruri de caractere apoi se afiseaza
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	const char* p[] = { "Primul element din tabloul de caractere", "Al doilea element din tablou", "Al treilea","Si al patrulea" };
+	
+	puts("Sirurile de caractere sunt: \n");
+	for (const char* x : p)
+	{
+		printf("%s\n", x);
+	}
+
+	return  0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care concateneaza mai multe siruri de caractere introduse in linia de comanda
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main(int argc, char* argv[])
+{
+	
+	if (argc == 1) {
+		printf("Nu au fost introduse siruri de caractere de la linia de comanda");
+		return 1;
+	}
+	char s[DIM];
+	strcpy(s, argv[1]);
+	for (int i = 2; i < argc; i++)
+	{
+		strcat(s, argv[i]);
+	}
+	printf("%s", s);
+		
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care inverseaza un sir de caractere introdus de la linia de comanda
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main(int argc, char* argv[])
+{
+
+	if (argc == 1) {
+		printf("Nu au fost introduse siruri de caractere de la linia de comanda");
+		return 1;
+	}
+
+	char s[DIM];
+	strcpy(s, argv[1]);
+	printf("%s\n", s);
+	
+	strcpy(s,_strrev(s));
+	printf("%s\n", s);
+
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Se citesc mai multe medii. Sa se afiseze numarul studentiilor cu media mai mare sau egala cu 8
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 100
+int nrMedii(float* p, int lungime);
+int main()
+{
+	int nrStud;
+	float medii[DIM];
+	puts("Introduceti numarul studentilor:");
+	scanf("%d", &nrStud);
+	puts("Introduceti mediile:");
+	for (int i = 0; i < nrStud; i++)
+	{
+		printf("\tmedie %d = ", i + 1);
+		scanf("%f", &medii[i]);
+	}
+	printf("\n");
+	int nrMed = nrMedii(medii, nrStud);
+	if (nrMed > 0)
+		printf("Numarul studentilor cu media mai mare sau egala cu 8 este: %d\n", nrMed);
+	else
+		puts("Nu sunt studenti cu media mai mare sau egala cu 8");
+
+	return  0;
+}
+int nrMedii(float* p, int lungime)
+{
+	int cnt = 0;
+	for (int i = 0; i < lungime; i++)
+	{
+		if (p[i] >= 8)
+			cnt++;
+	}
+	return cnt;
+}
+

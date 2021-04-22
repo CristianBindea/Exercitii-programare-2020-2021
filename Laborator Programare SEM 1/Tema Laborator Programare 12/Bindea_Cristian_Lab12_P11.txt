@@ -1,0 +1,55 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care face diferenta dintre union si struct 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+union grup {
+	int nrNatural;
+	double nrReal;
+	char sir[20];
+};
+struct grup2 {
+	int nrNatural;
+	double nrReal;
+	char sir[20];
+};
+int main()
+{
+	grup elem1;
+	grup2 elem2;
+
+	puts("UNION");
+	puts("Introduceti un numar natural");
+	scanf("%d", &elem1.nrNatural);
+	puts("Introduceti un numar real");
+	scanf("%lf", &elem1.nrReal);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &elem1.sir);
+
+	printf("%d\n", elem1.nrNatural);
+	printf("%lf\n", elem1.nrReal);
+	printf("%s\n", elem1.sir);
+	printf("\n");
+
+	puts("Nu este posibil sa afisam in acelasi timp toate campurile, doar ultimul initializat");
+	puts("Dar folosind o structura struct se pot afisa toate campurile in acelasi timp");
+
+	printf("\n");
+	puts("STRUCT");
+	puts("Introduceti un numar natural");
+	scanf("%d", &elem2.nrNatural);
+	puts("Introduceti un numar real");
+	scanf("%lf", &elem2.nrReal);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &elem2.sir);
+	
+	printf("%d\n", elem2.nrNatural);
+	printf("%lf\n", elem2.nrReal);
+	printf("%s\n", elem2.sir);
+	
+	printf("Dar dimensiunea elementului union ( %u ) este semnificativ mai mica decat cea a elementului struct ( %u )\n", sizeof(elem1), sizeof(elem2));
+	return  0;
+}

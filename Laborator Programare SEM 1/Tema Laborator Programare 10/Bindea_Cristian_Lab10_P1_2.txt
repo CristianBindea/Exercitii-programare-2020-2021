@@ -1,0 +1,31 @@
+/*
+        Bindea Gheorghe Cristian
+	Problema 1 din laboratorul 10, a doua problema:
+        Problema 2 Laborator 8 - cel mai mic element pozitiv dintr-un tablou unidimensional
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+int  main()
+{
+    double v[DIM], d, minim = -1.;
+    puts("Introduceti dimensiunea tabloului");
+    scanf("%lf", &d);
+    puts("Introduceti elementele tabloului");
+    for (int i = 0; i < d; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%lf", v+i);
+
+        if (minim == -1 && *(v+i) > 0)
+            minim = *(v + i);
+        else if (minim > * (v + i) && *(v + i) > 0)
+            minim = *(v + i);
+    }
+
+    if (minim < 0)
+        puts("Tabloul nu contine numere pozitive");
+    else printf("Cel mai mic element pozitiv al tabloului este %g\n", minim);
+
+    return 0;
+}

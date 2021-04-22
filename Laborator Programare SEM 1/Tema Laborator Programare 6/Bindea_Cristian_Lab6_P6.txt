@@ -1,0 +1,21 @@
+/*
+        Bindea  Gheorghe Cristian
+        Problema 6 - octetii unui numar în format zecimal
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int  main()
+{
+    int a, masca = 0xFF, w;
+    puts("Introduceti un numar intreg");
+    scanf("%d", &a);
+    printf("Octetii numarului transformati în format zecimal sunt: ");
+    for(int i=1;i<=sizeof(a);i++)
+    {
+        w = a & masca;
+        printf("%d ", w);
+        a = a >> 8;
+    }
+    printf("\n");
+    return 0;
+}

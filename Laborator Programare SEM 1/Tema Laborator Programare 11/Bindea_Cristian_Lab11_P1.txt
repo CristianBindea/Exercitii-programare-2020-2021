@@ -1,0 +1,47 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care afiseaza suma elementelor negative citite intr-un tablou alocat dinamic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+void citire(int n, int* c);
+
+int main() {
+	int* a, n,sum=0;
+
+	puts("Introduceti dimensiunea tabloului");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Dimensiune incorecta");
+		return 1;
+	}
+	a = (int*)calloc(n, sizeof(int));
+	if (a == NULL)
+	{
+		puts("Alocare nereusita");
+		return 2;
+	}
+	citire(n, a);
+
+	for (int i = 0; i < n; i++)
+		if (*(a+i) < 0)
+			sum += a[i];
+	if (sum)
+		printf("Suma elementelor negative citite este: %d", sum);
+	else printf("Tabloul nu contine elemente negative\n");
+	free(a);
+
+	return 0;
+
+}
+void citire(int n, int* c)
+{
+	puts("Introduceti elementele tabloului");
+	for (int i = 0; i < n; i++)
+	{
+		printf("v[%d] = ",i);
+			scanf("%d", c+i);
+	}
+}

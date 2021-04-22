@@ -1,0 +1,38 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care foloseste structura O_struct, o initializeaza de doua ori, odata folosind pointeri si odata fara pointeri, apoi afiseaza toate datele introduse
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+struct O_struct {
+	int numar;
+	char ch;
+	char sirCh[256];
+};
+int main()
+{
+	static O_struct a;
+	puts("Introduceti un numar");
+	scanf("%d", &a.numar);
+	puts("Introduceti un caracter");
+	scanf(" %c", &a.ch);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &a.sirCh);
+	O_struct* po_struct;
+	po_struct = new O_struct;
+	puts("Introduceti un numar");
+	scanf("%d", &po_struct->numar);
+	puts("Introduceti un caracter");
+	scanf(" %c", &po_struct->ch);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &po_struct->sirCh);
+
+	printf("Primul numar intodus este: %d\nPrimul caracter introdus este: %c\nPrimul sir introdus este: %s\n", a.numar, a.ch, a.sirCh);
+	printf("Al doilea numar intodus este: %d\nAl doilea caracter introdus este: %c\nAl doilea sir introdus este: %s\n", po_struct->numar, po_struct->ch, po_struct->sirCh);
+	delete po_struct;
+	return  0;
+}

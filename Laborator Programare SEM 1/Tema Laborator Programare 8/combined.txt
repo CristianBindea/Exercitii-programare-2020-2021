@@ -1,0 +1,567 @@
+/*Tema Laborator 8 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - media elementelor pozitive/negative dintr-un sir
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+double mediaNegativa(double v[], int n);
+double mediaPozitiva(double v[], int n);
+int  main()
+{
+	int n;
+	double v[DIM];
+	puts("Introduceti un numar natural pentru lungimea sirului");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &v[i]);
+	}
+
+	if (mediaPozitiva(v, n))
+		printf("Media elementelor pozitive din sir este %g\n", mediaPozitiva(v, n));
+	else puts("Sirul nu contine elemente pozitive");
+
+	if (mediaNegativa(v, n))
+		printf("Media elementelor negative din sir este %g\n", mediaNegativa(v, n));
+	else puts("Sirul nu contine elemente negative");
+	return 0;
+}
+
+double mediaNegativa(double v[], int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (v[i] < 0)
+		{
+			suma += v[i];
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}
+double mediaPozitiva(double v[], int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (v[i] > 0)
+		{
+			suma += v[i];
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Afisarea resturilor A®mpÄ?rLLirii elementelor primului tablou la numÄ?rul elementelor pozitive din acesta
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+int nrPozitive(int v[], int n);
+int* resturi(int v[], int n);
+int  main()
+{
+	int n, v[DIM];
+	int* p;
+
+	puts("Introduceti un numar natural pentru lungimea sirului");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+
+	if (nrPozitive(v,n)==0)
+	{
+		puts("Sirul nu contine numere pozitive");
+		return 1;
+	}
+
+	p = resturi(v, n);
+	printf("\nResturilor tmpartirii elementelor primului tablou la numÄ?rul elementelor pozitive din acesta sunt:");
+	for (int i = 0; i < n; i++)
+		printf("\nrest[%d] : %d", i, p[i]);
+
+	printf("\n");
+	return 0;
+}
+int nrPozitive(int v[], int n)
+{
+	int cnt = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] > 0)
+			cnt++;
+	}
+	return cnt;
+}
+int* resturi(int v[], int n)
+{
+	static int rest[DIM];
+	int nr = nrPozitive(v, n);
+
+	for (int i = 0; i < n; i++)
+		rest[i] = v[i] % nr;
+
+	return rest;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Functie care inverseaza un sir de caractere si formeaza un alt sir doar caracterele de pe pozitiile pare ale sirului inversat
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define DIM 100
+char* inversare(char s[]);
+int  main()
+{
+	char s[DIM], s2[DIM];
+	puts("Introduceti un sir de caractere:");
+	scanf("%s", s);
+
+	strcpy(s2,inversare(s));
+	printf("Sirul de caractere inversat este: %s\nElementele de pe pozitiile pare ale sirului inversat sunt: %s\n", s, s2);
+	return  0;
+}
+char* inversare(char s[])
+{
+	int L = strlen(s) - 1;
+	char aux;
+	for (int i = 0; i < L / 2; i++)
+	{
+		aux = s[i];
+		s[i] = s[L - i];
+		s[L - i] = aux;
+	}
+
+	static char s2[DIM];
+	int k = 0;
+	for (int i = 0; i < L; i += 2)
+		s2[k++] = s[i];
+
+	return s2;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 2 - cel mai mic element pozitiv dintr-un tablou unidimensional
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+int  main()
+{
+    double v[DIM], d, minim = -1.;
+    puts("Introduceti dimensiunea tabloului");
+    scanf("%lf", &d);
+    puts("Introduceti elementele tabloului");
+    for (int i = 0; i < d; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%lf", &v[i]);
+
+        if (minim == -1 && v[i] > 0)
+            minim = v[i];
+        else if (minim > v[i] && v[i] > 0)
+            minim = v[i];
+    }
+
+    if (minim < 0)
+        puts("Tabloul nu contine numere pozitive");
+    else printf("Cel mai mic element pozitiv al tabloului este %g\n", minim);
+
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 3 - ordonarea unui sir de 10 elemente
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void ordonare(int v[], int x);
+int  main()
+{
+    int v[10];
+    const int dim = 10;
+    puts("Introduceti 10 elemente pentru tablou");
+    for (int i = 0; i < dim; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%d", &v[i]);
+    }
+    ordonare(v, dim);
+    return 0;
+}
+void ordonare(int v[], int x) 
+{
+    int aux;
+        for (int i = 0; i < x - 1; i++)
+        for (int j = 0; j < x - i - 1; j++)
+            if (v[j] > v[j + 1])
+            {
+                aux = v[j];
+                v[j] = v[j + 1];
+                v[j + 1] = aux;
+            }
+        puts("Sirul ordonat crescator este:");
+    for (int i = 0; i < x; i++)
+        printf("v[%d] = %d\n", i, v[i]);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 4 - citirea unor siruri de caractere pana la introducerea parolei
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+bool verificare(char s[], char parola[]);
+int  main()
+{
+    char parola[]="parola", s[DIM];
+    int cnt = 1;
+    puts("Introduceti parola");
+    scanf("%[^\n]s", s);
+    while (!(verificare(s, parola)))
+    {
+        puts("Parola gresita. Introduceti iarasi parola");
+        scanf(" %[^\n]s", s);
+        cnt++;
+    }
+    printf("Parola corecta. Numar incercari: %d", cnt);
+    return 0;
+}
+bool verificare(char s[], char parola[])
+{
+    int i = 0;
+    do
+    {
+        if (parola[i] != s[i])
+            return false;
+        i++;
+    } while ((int)s[i] != 0);
+    return true;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 5 - citirea si afisarea cu majuscula a numelui unei persoane
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+int  main()
+{
+    char nume[DIM], prenume[DIM];
+    puts("Introduceti numele si prenumele"); scanf("%s %s", nume, prenume);
+    printf("\n");
+
+    if ('a' < nume[0] && 'z' > nume[0])
+        nume[0] = nume[0] - 'a' + 'A';
+    if ('a' < prenume[0] && 'z' > prenume[0])
+        prenume[0] = prenume[0] - 'a' + 'A';
+
+    printf("%s\t\t%s\n", nume, prenume);
+    return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 6 - functii care - afiseaza pozitiile elementelor pare din fiecare matrice
+                                  - afiseaza suma elementelor impare din ambele matrice
+                                  - afiseaza suma matricelor
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+void pozElemPare(int a[][DIM], int n, int m);
+void sumaElemImpare(int a[][DIM], int b[][DIM], int n, int m);
+void sumaMatrici(int a[][DIM], int b[][DIM], int n, int m);
+int  main()
+{
+    int a[DIM][DIM], n, m;
+    int b[DIM][DIM];
+    puts("Introduceti marimile matricei, nr. de coloane si nr. de randuri");
+    printf("Nr. coloane: "); scanf("%d", &m);
+    printf("Nr. randuri: "); scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            printf("\ta[%d][%d] = ", i, j);
+            scanf("%d", &a[i][j]);
+        }
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            printf("\tb[%d][%d] = ", i, j);
+            scanf("%d", &b[i][j]);
+        }
+
+    pozElemPare(a, n, m);
+    pozElemPare(b, n, m);
+
+    sumaElemImpare(a, b,n, m);
+
+    sumaMatrici(a, b, n, m);
+    return 0;
+}
+
+void pozElemPare(int a[][DIM], int n, int m)
+{
+    bool ok = true;
+    printf("Pozitiile elementelor pare sunt : ");
+    for (int i = 0; i < n  ; i++)
+        for (int j = 0; j < m; j++)
+        {
+            if (!(a[i][j] % 2))
+            {
+                printf("%d ", i);
+                ok = false;
+            }
+        }
+    if(ok)
+        printf("\33[2K\rMatricea nu are elemente pare");
+    printf("\n");
+}
+void sumaElemImpare(int a[][DIM], int b[][DIM], int n, int m)
+{
+    int suma = 0;
+    bool ok = false;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            if (a[i][j] % 2)
+            {
+                suma += a[i][j];
+                ok = true;
+            }
+            if (b[i][j] % 2)
+            {
+                suma += b[i][j];
+                ok = true;
+            }
+        }
+    if (ok)
+        printf("Suma elementelor impare din abele matrici este : %d\n", suma);
+    else
+        puts("Matricea nu are elemente impare");
+}
+void sumaMatrici(int a[][DIM], int b[][DIM], int n, int m)
+{
+    int suma[DIM][DIM];
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            suma[i][j] = a[i][j] + b[i][j];
+        }
+
+    puts("Suma matricilor este:");
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+            printf("%d ", suma[i][j]);
+
+     printf("\n");
+    }
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 7 - Rearanjarea numerelor intr-o matrice astfel incat suma elementelor fiecarei coloane sa fie crescatoare
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 3
+void ordonare(float v[], int x);
+void schimbare(float& a, float& b);
+
+int  main()
+{
+    float m[DIM][DIM];
+    puts("Introduceti elementele matricei:");
+    for (int i = 0; i < DIM; i++)
+        for (int j = 0; j < DIM; j++)
+        {
+            printf("m[%d][%d] = ", i, j);
+            scanf("%f", &m[i][j]);
+        }
+    for (int i = 0; i < DIM; i++)
+        ordonare(m[i], DIM);
+
+    puts("\nMatricea rearanjata este:");
+
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+            printf("%g ", m[i][j]);
+
+        printf("\n");
+    }
+    
+    int suma = 0;
+    printf("Pentru ca suma de pe ");
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+            suma += m[j][i];
+        printf("coloana %d este %d, ", (i+1), suma);
+    }
+    printf("\b\b  \n");
+    
+    
+    return 0;
+}
+void ordonare(float v[], int x)
+{
+    for (int i = 0; i < x - 1; i++)
+        for (int j = 0; j < x - i - 1; j++)
+            if (v[j] > v[j + 1])
+                schimbare(v[j], v[j + 1]);
+}
+void schimbare(float& a, float& b)
+{
+    float aux;
+    aux = a;
+    a = b;
+    b = aux;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 8 - Media valorilor dintr-un tablou si elementele mai mare decat medie
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+double medie(double v[], int n);
+void afisareNumere(double v[], int n , double media);
+int  main()
+{
+    double v[DIM], media;
+    int n;
+    puts("Introduceti un numar intreg, numarul de elemente a sirului");
+    scanf("%d", &n);
+
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%lf", &v[i]);
+    }
+
+    media = medie(v,n);
+    printf("Media elementelor din tabel este %g\n", media);
+
+    afisareNumere(v, n, media);
+    printf("\n");
+        
+    return 0;
+}
+
+double medie(double v[], int n) 
+{
+    double medie = 0.;
+    for (int i = 0; i < n; i++)
+    {
+        medie += v[i];
+    }
+    medie /= (double)n;
+    return medie;
+}
+
+void afisareNumere(double v[], int n, double media)
+{
+    bool ok = true;
+    printf("Elementele mai mari decat media sirului sunt: ");
+    for (int i = 0; i < n; i++)
+        if (v[i] > media)
+        {
+            printf("%g ", v[i]);
+            ok = false;
+        }
+    if (ok)
+        printf("\33[2K\rSirul nu contine elemente strict mai mari decat media lor, toate elementele sunt egale");
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 9 - Nr. de elemente negative dintr-un sir si afisarea lor
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+int main()
+{
+    int  v[DIM], n, nr=0;
+    puts("Introduceti un numar intreg, numarul de elemente a sirului");
+    scanf("%d", &n);
+
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%d", &v[i]);
+
+        if (v[i] < 0)
+            nr++;
+    }
+    printf("Numarul de elemente negative ale sirului este %d\nAcestea sunt : ", nr);
+    for (int i = 0; i < n; i++)
+    {
+        if (v[i] < 0)
+            printf("%d ", v[i]);
+    }
+    return 0;
+}
+

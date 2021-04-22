@@ -1,0 +1,48 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care extrage radicalul din elementele unui sir de numere citit de la tastatura si le stocheaza il alt sir de numere
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+double radical(double nr, double medie);
+int main()
+{
+
+	double* a,* b;
+	int n;
+	puts("Introduceti dimensiunea sirului");
+	scanf("%d", &n);
+	a = (double*)calloc(n, sizeof(double));
+	b = (double*)calloc(n, sizeof(double));
+	if (a == NULL || b == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &a[i]);
+		b[i] = radical(a[i],a[i]/2);
+	}
+	puts("Numerele initiale sunt:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", a[i]);
+	printf("\n");
+	puts("Tabloul format din radicalele numerelelor initiale este:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", b[i]);
+	printf("\n\n");
+	free(a); free(b);
+	return  0;
+}
+
+double radical(double nr, double medie)
+{
+	if ((medie - ((nr / medie) + medie) / 2) < 0.000001)
+		return medie;
+	else
+		return radical(nr, ((nr / medie) + medie) / 2);
+}

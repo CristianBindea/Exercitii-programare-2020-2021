@@ -1,0 +1,57 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Se citeste un tablou unidimensional, A, si se afiseaza tabloul obtinut prin scaderea mediei aritmetice a elementelor din A din elementul corespunzător din A
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 100
+int* citire(int n);
+int* completare(int* p, int n);
+int main()
+{
+	int* a, *b;
+	int n;
+	puts("Introduceti dimensiunea tabloului, un numar intreg si pozitiv mai mic decat 100");
+		scanf("%d", &n);
+
+	a = citire(n);
+	b = completare(a, n);
+	puts("Tabloul introdus este:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", a[i]);
+	}
+	printf("\n");
+	puts("Tabloul generat este:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d ", b[i]);
+	}
+	printf("\n");
+
+	return  0;
+}
+int* citire(int n)
+{
+	static int v[DIM];
+	for (int i = 0; i < n; i++)
+	{
+		printf("\ta[%d] = ", i);
+		scanf("%d", v+i);
+	}
+
+	return v;
+}
+int* completare(int* p, int n)
+{
+	int media = 0;
+	static int v2[DIM];
+	for (int i = 0; i < n; i++)
+		media += p[i];
+	media /= n;
+	for (int i = 0; i < n; i++)
+		v2[i] = p[i] - media;
+	
+	return v2;
+}

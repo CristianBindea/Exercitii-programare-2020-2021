@@ -1,0 +1,41 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care citeste doua siruri de numere si apoi afiseaza produsul lor scalar
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 50
+void citire(int v[], int n);
+int produsScalar(int* p1, int n1, int* p2, int n2);
+int main()
+{
+	int n, m;
+	int a[DIM], b[DIM];
+	puts("Introduceti numarul elementelor primului tablou:");
+	scanf("%d", &n);
+	citire(a,n);
+	puts("Introduceti numarul elementelor celui de-al doilea tablou:");
+	scanf("%d", &m);
+	citire(b,m);
+	printf("Produsul scalar a vectorilor introdusi este: %d", produsScalar(a, n, b, m));
+	return  0;
+}
+void citire(int *p, int n) {
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", p+i);
+	}
+}
+int produsScalar(int* p1, int n1, int* p2, int n2)
+{
+	int produs = 0;
+	for (int i = 0; i < (n1 < n2 ? n1 : n2); i++)
+	{
+		produs += (*(p1 + i)) * (*(p2 + i));
+	}
+
+	return produs;
+}

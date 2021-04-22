@@ -1,0 +1,58 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Afisarea resturilor împărţirii elementelor primului tablou la numărul elementelor pozitive din acesta
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+int nrPozitive(int v[], int n);
+int* resturi(int v[], int n);
+int  main()
+{
+	int n, v[DIM];
+	int* p;
+
+	puts("Introduceti un numar natural pentru lungimea sirului");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+
+	if (nrPozitive(v,n)==0)
+	{
+		puts("Sirul nu contine numere pozitive");
+		return 1;
+	}
+
+	p = resturi(v, n);
+	printf("\nResturilor tmpartirii elementelor primului tablou la numărul elementelor pozitive din acesta sunt:");
+	for (int i = 0; i < n; i++)
+		printf("\nrest[%d] : %d", i, p[i]);
+
+	printf("\n");
+	return 0;
+}
+int nrPozitive(int v[], int n)
+{
+	int cnt = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] > 0)
+			cnt++;
+	}
+	return cnt;
+}
+int* resturi(int v[], int n)
+{
+	static int rest[DIM];
+	int nr = nrPozitive(v, n);
+
+	for (int i = 0; i < n; i++)
+		rest[i] = v[i] % nr;
+
+	return rest;
+}

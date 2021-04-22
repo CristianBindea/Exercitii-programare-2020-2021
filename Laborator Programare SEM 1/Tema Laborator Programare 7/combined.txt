@@ -1,0 +1,596 @@
+/*Tema Laborator 7 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 1 - aria unui dreptunghi si diagonala
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+    double a, b, c;
+    puts("Introduceti 3 numere reale pozitive:");
+    scanf("%lf %lf %lf", &a, &b, &c);
+    printf("Aria dreptunghiului cu laturile %g si %g este %g\n", a, b, (a * b));
+    (a * a + b * b == c * c) ? printf("%g Este", c) : printf("%g Nu este", c);
+    printf(" diagonala");
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Numarul de cifre a unui intreg citit
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int nrCif(int a);
+int  main()
+{
+	int a;
+	puts("Intorduceti un numar intreg");
+	scanf("%d", &a);
+
+	printf("Numarul %d este format din %d cifre\n", a, nrCif(a));
+	return 0;
+}
+int nrCif(int a)
+{
+	int cnt = 0;
+	do
+	{
+		a /= 10;
+		cnt++;
+	} while (a);
+
+	return cnt;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Afisare numere impare dintr-un sir
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+
+int main()
+{
+	int n, v[DIM];
+	bool ok = true;
+	puts("Introduceti un numar natural, lungimea sirului de numere ");
+	scanf("%d", &n);
+	puts("Introduceti elementele sirului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+
+	printf("Numerele impare din sir sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] % 2)
+		{
+			printf("%d ", v[i]);
+			ok = false;
+		}
+	}
+	if (ok)
+	{
+		printf("\33[2K\rSirul nu contine numere impare");
+	}
+	printf("\n");
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 12 - Se citeste un N apoi se introduc numere pana cand suma numerelelor e mai mare decat N
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n,contor=0;
+	double x, s=0;
+	printf("Introduceti un numar intreg pozitiv\n");
+	scanf("%d", &n);
+
+
+	while (s < n)
+	{
+		printf("Introduceti un numar real\n");
+		scanf("%lf", &x);
+		s = s + x;
+		contor++;
+	}
+
+	printf("Suma este egala cu %.2lf si au fost introduse %d numere\n", s, contor);
+   
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 13 - Cel mai mic multiplu comun a doi intregi
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int cmmdc(int a, int b);
+int  main()
+{
+    int a, b;
+    puts("Introduceti doua numere intregi pozitive");
+    scanf("%d %d", &a, &b);
+
+    printf("Cel mai mic multiplu comun a numerelelor %d si %d este: %d\n", a, b, (a*b)/cmmdc(a, b));
+    return 0;
+}
+
+int cmmdc(int a, int b) {
+    while (a != b)
+        a > b ? a -= b : b -= a;
+    return a;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 14 - Afisare numere divizibile cu 3 dintr-un sir
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+
+int main()
+{
+	int n, v[DIM];
+	bool ok = true;
+	puts("Introduceti un numar natural, lungimea sirului de numere ");
+	scanf("%d", &n);
+	puts("Introduceti elementele sirului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+
+	printf("Numerele divizibile cu 3 din sir sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] % 3==0)
+		{
+			printf("%d ", v[i]);
+			ok = false;
+		}
+	}
+	if (ok)
+	{
+		printf("\33[2K\rSirul nu contine numere divizibile cu 3");
+	}
+	printf("\n");
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema  15 - Afiseaza un caracter pe n randuri si n coloane
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+	char c;
+	int n;
+	puts("Introduceti un caracter si apoi un numar natural n, numarul de randuri si coloane pe care sa fie afisat caracterul");
+	scanf("%c %d", &c, &n);
+	
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%c ", c);
+
+		printf("\n");
+	}
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 16 - Program care citeste numere pana la apasarea tastei ESC apoi afiseaza media numerelor impare pozitive
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include <conio.h>
+
+int main()
+{
+	int cnt = 0, suma = 0;
+	char ch;
+	printf("Introduceti numere intregi si apasati ESC pentru a afisa media numerelor impare pozitive :\n");
+	do
+	{
+		int numar = 0;
+		bool ok_esc = false;
+
+		ch = _getch();
+		if ((ch >= '0' && ch <= '9') || ch == 27 || ch == 13 || ch == 45 || ch == 32)
+		{
+			if (ch == 27)
+				break;
+			else if (ch == 13)
+				printf("\n");
+			else if (ch == 45)
+			{
+				while (ch != 13 && ch != 32)
+				{
+					printf("%c", ch);
+					ch = _getch();
+
+					if (ch == 27) {
+						ok_esc = true;
+						break;
+					}
+
+				}
+				if (ok_esc)
+					break;
+				if (ch == 13)
+					printf("\n");
+				else
+					printf(" ");
+			}
+			else
+			{
+				while (ch != 13 && ch != 32)
+				{
+					printf("%c", ch);
+					if (ch >= '0' && ch <= '9')
+						numar = numar * 10 + (ch - '0');
+					ch = _getch();
+
+					if (ch == 27) {
+						ok_esc = true;
+						break;
+					}
+				}
+				if (ok_esc)
+					break;
+				if (ch == 13)
+					printf("\n");
+				else
+					printf(" ");
+			}
+
+			if (numar % 2 == 1)
+			{
+				suma += numar;
+				cnt++;
+			}
+		}
+		else
+			printf("Caracterul introdus nu este o cifra\n");
+	} while (1);
+		if (cnt > 0)
+		{
+			puts("\n Media numerelor impare pozitive este: ");
+			printf("%g ", ((double)suma / (double)cnt));
+		}
+		else
+			puts("\n Nu au fost introduse numere impare pozitive");
+		return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 2 - verifica daca numarul este patrat perfect 
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#include <cmath>
+int  main()
+{
+    double a;
+    puts("Introduceti un numar real pozitiv:");
+    scanf("%lf", &a);
+
+    if (sqrt(a) == (int)sqrt(a))
+        puts("Este patrat perfect");
+    else puts("Nu este patrat perfect");
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 3 - Ridicarea la puterea n a unui numar intreg a
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int putere(int a, int b);
+int  main()
+{
+    int a=2, n, rez;
+    printf("Introduceti un numar intreg (n), puterea la care sa fie ridicat numarul a = %d\n", a);
+    scanf("%d", &n);
+
+    rez = putere(a, n);
+    printf("%d la puterea %d este : %d\n", a, n, rez);
+
+    return 0;
+}
+
+int putere(int a, int p) {
+    int r = 1;
+    while (p)
+    {
+        if (p % 2 == 1)
+            r = r * a;
+        a = a * a;
+        p = p / 2;
+    }
+    return r;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe  Cristian
+        Problema 4 -  factorialul unui numar
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int factorial(int a);
+int  main()
+{
+    int n;
+    puts("Introduceti un numar intreg pozitiv");
+    scanf("%d", &n);
+    printf("%d! = %d", n, factorial(n));
+    return 0;
+}
+
+int factorial(int a) {
+    
+    if (a <= 1)
+        return 1;
+    return (a*factorial(a-1));
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 5 - program care determina:
+                                 - cel mai mare numar prim mai mic decat numarul dat
+                                 - toate numerele prime mai mici decat numarul dat
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include <cmath>
+bool eprim(int n);
+int cmmnpmdnd(int n);//cel mai mare numar prim mai mic decat numarul dat
+void numerePrime(int n);//toate numerele prime pana la numarul dat
+
+int main()
+{
+    double a;
+    int b, c;
+    puts("Introduceti un numar real pozitiv");
+    scanf("%lf", &a);
+
+    b = (int)a;
+    c = cmmnpmdnd(b);
+    if (c > 0)
+    {
+        printf("Cel mai mare numar prim mai mic decat cel introdus este : %d\n", c);
+        numerePrime(b);
+    }
+    else
+        printf("Nu exista numere prime mai mici decat cel dat\n");
+
+    return 0;
+}
+bool eprim(int n)
+{
+    if (n < 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+
+    for (int i = 3; i <= sqrt(n); i += 2)
+        if (n % i == 0)
+            return false;
+
+    return true;
+}
+int cmmnpmdnd(int n)//cel mai mare numar prim mai mic decat numarul dat
+{
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (eprim(i))
+            return i;
+    }
+    return -1;
+}
+void numerePrime(int n)//toate numerele prime pana la numarul dat
+{
+    printf("Toate numerele prime pana la numarul introdus sunt : ");
+    bool ok = true;
+    for (int i = 2; i < n; i++)
+        if (eprim(i))
+        {
+            printf("%d ", i);
+            ok = false;
+        }
+    printf("\n");
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 6 - Cel mai mare divizor a doi intregi
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int cmmdc(int a, int b);
+int  main()
+{
+    int a, b;
+    puts("Introduceti doua numere intregi pozitive");
+    scanf("%d %d", &a, &b);
+
+    printf("Cel mai mare divizor a numerelelor %d si %d este: %d\n", a, b, cmmdc(a, b));
+    return 0;
+}
+
+int cmmdc(int a, int b) {
+    while (a!=b)
+        a > b ? a -= b : b -= a;
+    return a;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea Gheorghe Cristian
+        Problema 7 - Determina toti divizorii unui numar
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+    unsigned int a;
+    puts("Introduceti un numar intreg pozitiv");
+    scanf("%u", &a);
+
+    printf("Divizorii numarului %u sunt: ", a);
+    for (unsigned int i = 1; i <= a; i++)
+        if (a % i == 0)
+            printf("%u ", i);
+
+    return 0;
+}
+
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Produsul a doua numere folosind adunari succesive
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int inmultire(int a, int b);
+int  main()
+{
+	int a, b;
+	puts("Intorduceti doua numere intregi");
+	scanf("%d %d", &a, &b);
+
+	printf("Rezultatul operatiei %d * %d = %d \n", a, b, inmultire(a, b));
+	return 0;
+}
+int inmultire(int a, int b)
+{
+	int rez = 0;
+	bool ok_a = false, ok_b = false;
+	a < 0 ? ok_a = true : ok_a = false;
+	b < 0 ? ok_b = true : ok_b = false;
+	a < 0 ? a = -a : a = a;
+	b < 0 ? b = -b : b = b;
+
+	if (a == 0 || b == 0)
+		return 0;
+	else
+		for (int i = 1; i <= b; i++)
+			rez += a;
+
+	if ((ok_a || ok_b) && ok_a != ok_b)
+		return -rez;
+	else
+		return rez;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Impartirea a doua numere folosind scaderi succesive
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int impartire(int a, int b);
+int  main()
+{
+	int a, b;
+	puts("Intorduceti doua numere intregi pentru a face impartirea primului la al doilea");
+	scanf("%d %d", &a, &b);
+
+	if (b == 0)
+		puts("Operatia nu e definita");
+	else
+		printf("Rezultatul operatiei %d / %d = %d\n", a, b, impartire(a, b));
+	return 0;
+}
+
+int impartire(int a, int b)
+{
+	bool ok_a = false, ok_b = false;
+	int cnt = 0;
+	a < 0 ? ok_a = true : ok_a = false;
+	b < 0 ? ok_b = true : ok_b = false;
+	a < 0 ? a = -a : a = a;
+	b < 0 ? b = -b : b = b;
+
+	if (b > a)
+		return 0;
+	else if (a == b)
+		return 1;
+	else
+		do
+		{
+			a -= b;
+			cnt++;
+		} while (a >= b);
+
+	if ((ok_a || ok_b) && ok_a != ok_b)
+		return -cnt;
+	else
+		return cnt;
+}
+

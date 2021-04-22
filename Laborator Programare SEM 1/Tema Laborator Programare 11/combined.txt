@@ -1,0 +1,870 @@
+/*Tema Laborator 11 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care afiseaza suma elementelor negative citite intr-un tablou alocat dinamic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+void citire(int n, int* c);
+
+int main() {
+	int* a, n,sum=0;
+
+	puts("Introduceti dimensiunea tabloului");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Dimensiune incorecta");
+		return 1;
+	}
+	a = (int*)calloc(n, sizeof(int));
+	if (a == NULL)
+	{
+		puts("Alocare nereusita");
+		return 2;
+	}
+	citire(n, a);
+
+	for (int i = 0; i < n; i++)
+		if (*(a+i) < 0)
+			sum += a[i];
+	if (sum)
+		printf("Suma elementelor negative citite este: %d", sum);
+	else printf("Tabloul nu contine elemente negative\n");
+	free(a);
+
+	return 0;
+
+}
+void citire(int n, int* c)
+{
+	puts("Introduceti elementele tabloului");
+	for (int i = 0; i < n; i++)
+	{
+		printf("v[%d] = ",i);
+			scanf("%d", c+i);
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Program care aloca memorie pentru o matrice de dimensiunea n x n si apoi afiseaza matrice si suma elementelor pare pozitive de sub diagonala principala
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int** alocare(int n);
+int suma(int** v, int n);
+void afisare(int** v, int n);
+void eliberare(int** v, int n);
+int main()
+{
+	int** v;
+	int n;
+	puts("Introduceti dimensiunea matricei");
+	scanf("%d", &n);
+	v = alocare(n);
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	puts("Introduceti elementele matricei");
+	for (int  i = 0; i < n; i++)
+		for (int  j = 0; j < n; j++)	
+			scanf("%d", &v[i][j]);
+		
+	puts("Matricea este:");
+	afisare(v, n);
+	printf("Suma elementelor pozitive pare de sub diagonala principala este: %d\n", suma(v, n));
+	eliberare(v, n);
+	return  0;
+}
+
+int** alocare(int n)
+{
+	int** v;
+	v = (int**)calloc(n, sizeof(int));
+	if (v == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++)
+	{
+		v[i] = (int*)calloc(n, sizeof(int));
+		if (v[i] == NULL)
+			return NULL;
+	}
+	return v;
+}
+int suma(int** v, int n)
+{
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if(i>j)
+			if ((v[i][j] > 0) && (v[i][j] % 2 == 0))
+				sum += v[i][j];
+		}
+	return sum;
+}
+void afisare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%d  ", v[i][j]);
+		printf("\n");
+	}
+}
+void eliberare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+		free(v[i]);
+	//free(v);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care genereaza un tablou de pointeri spre siruri de caractere folosind functia _strdup() si apoi afiseaza valorile pare din tablou
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main() {
+
+	const char s0[] = "Sir0",s1[] = "Sir1",s2[] = "Sir2",s3[] = "Sir3",s4[] = "Sir4",s5[] = "Sir5",s6[] = "Sir6",s7[] = "Sir7",s8[] = "Sir8";
+	char** p;
+	p = (char**)malloc(9* sizeof(char));
+	p[0] = _strdup(s0);
+	p[1] = _strdup(s1);
+	p[2] = _strdup(s2);
+	p[3] = _strdup(s3);
+	p[4] = _strdup(s4);
+	p[5] = _strdup(s5);
+	p[6] = _strdup(s6);
+	p[7] = _strdup(s7);
+	p[8] = _strdup(s8);
+	for (int i = 0; i < 9; i += 2)
+		printf("%s\n", p[i]);
+
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Program care determina, folosind functii, valoarea minima, maxima, media dintr-un sir de numere
+					- Apoi folosind functia Olympic_filter returneaza adresa unui tablou alocat dinamic, fara prima aparitie a valorii maxime si a valorii minime
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int valMaxim(int* v, int n);
+int valMinim(int* v, int n);
+double medie(int* v, int n);
+int* Olympic_filter(int* v, int n);
+void afisare(int* v, int n);
+
+int main()
+{
+	int n, * v, nr, * v2;
+	puts("Introduceti dimensiunea sirului, nr din intervalul [2,10]");
+	scanf("%d", &n);
+	while (n < 2 || n>10)
+	{
+		puts("Dimensiune invalida");
+		scanf("%d", &n);
+	}
+
+	v = (int*)calloc(n, sizeof(int));
+
+	puts("Introduceti elementele tabloului, numere din intervalul [2,10]");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &nr);
+		if (nr >= 2 && nr <= 10)
+			v[i] = nr;
+		else
+		{
+			puts("Numarul introdus nu apartine intervalului cerut");
+			i--;
+		}
+	}
+
+	puts("Sirul initial este:");
+	afisare(v, n);
+	printf("Valoare minima din sir este %d si valoare maxima este %d\nMedia elementelor este %g\n", valMinim(v, n), valMaxim(v, n), medie(v, n));
+	v2 = Olympic_filter(v, n);
+	puts("Noul sir obtinut dupa aplicarea functiei Olympic_filter este:");
+	afisare(v2, n - 2);
+	printf("Media noului sir este %g\n", medie(v2, n - 2));
+	free(v);
+	free(v2);
+	return  0;
+}
+
+int valMaxim(int* v, int n)
+{
+	int maxim = v[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (v[i] > maxim)
+			maxim = v[i];
+	}
+	return maxim;
+}
+int valMinim(int* v, int n)
+{
+	int minim = v[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (v[i] < minim)
+			minim = v[i];
+	}
+	return minim;
+}
+double medie(int* v, int n)
+{
+	double medie = 0.0;
+	for (int i = 0; i < n; i++)
+		medie += v[i];
+	medie /= (double)n;
+	return medie;
+}
+int* Olympic_filter(int* v, int n)
+{
+	int* v2 = (int*)calloc(n - 2, sizeof(int));
+	int maxim = valMaxim(v, n), minim = valMinim(v, n), k = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] == minim)
+			minim = -1;
+		else if (v[i] == maxim)
+			maxim = -1;
+		else
+			v2[k++] = v[i];
+	}
+	return v2;
+}
+void afisare(int* v, int n)
+{
+	for (int i = 0; i < n; i++)
+		printf("%d, ", v[i]);
+	printf("\b\b  \n");
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Program care creaza 5 pointeri float care arata spre 3 date de tip float
+					 - functie prin care se citesc date in cei 5 pointeri
+					 - fuctie care permite determinarea totalului din fiecare dintre cei 5 pointeri
+					 - functie care elibereaza memoria utilizata
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+float** alocare();
+void introducereDate(float** a);
+float totalVanzari(float* a);
+void eliberare(float** a);
+int main()
+{
+	float** v;
+	float medie = 0;
+	v = alocare();
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	introducereDate(v);
+	for (int i = 0; i < 5; i++)
+		medie += totalVanzari(v[i]);
+	medie /= 5;
+	printf("Media vanzarilor este: %f\n", medie);
+	eliberare(v);
+	return  0;
+}
+float** alocare()
+{
+	float** a;
+	a = (float**)calloc(5, sizeof(float));
+	if (a == NULL)
+		return NULL;
+	for (int i = 0; i < 5; i++)
+	{
+		a[i] = (float*)calloc(3, sizeof(float));
+		if (a[i] == NULL)
+			return NULL;
+	}
+	return a;
+}
+
+void introducereDate(float** a)
+{
+	for (int i = 0; i < 5; i++) 
+	{
+		printf("Introduceti datele pentru orasul %d\n", (i + 1));
+		for (int j = 0; j < 3; j++)
+		{
+			printf("Magazinul %d: ",(j + 1));
+			scanf("%f", &a[i][j]);
+		}
+
+	}
+}
+
+float totalVanzari(float* a)
+{
+	float sum = 0;
+	for (int i = 0; i < 3; i++)
+		sum += a[i];
+	return sum;
+}
+void eliberare(float** a)
+{
+	for (int i = 0; i < 5; i++)
+		free(a[i]);
+	free(a);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care afiseaza doua matrici si suma lor, toate alocate dinamic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int** alocareMatrice(int m, int n);
+int** adunare(int m, int n, int** a, int** b);
+void afisare(int m, int n, int** c);
+void eliberare(int** a, int m);
+int main() {
+	int** a, ** b, ** c;
+	int n, m;
+
+	puts("Introduceti dimensiunile matricilor");
+	printf("Nr. coloane: "); scanf("%d", &n);
+	printf("Nr. liniilor: "); scanf("%d", &m);
+
+	a = alocareMatrice(m, n);
+	if (a == NULL)
+	{
+		puts("Alocarea lui A nu a reusit");
+		return 1;
+	}
+	b = alocareMatrice(m, n);
+	if (n == NULL)
+	{
+		puts("Alocarea lui B nu a reusit");
+		return 1;
+	}
+
+	puts("Introduceti elementele A");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tA[%d][%d] = ", i, j);
+			scanf("%d", &a[i][j]);
+		}
+	puts("Introduceti elementele B");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tB[%d][%d] = ", i, j);
+			scanf("%d", &b[i][j]);
+		}
+
+	c = adunare(m, n, a, b);
+	if (c == NULL)
+	{
+		puts("Alocarea sumei nu a reusit");
+		return 1;
+	}
+	
+	printf("Matricea A este:\n");
+	afisare(n, m, a);
+	printf("Matricea B este:\n");
+	afisare(n, m, b);
+	printf("Suma matricilor A si B este:\n");
+	afisare(n, m, c);
+
+	eliberare(a, m);
+	eliberare(b, m);
+	eliberare(c, m);
+	return 0;
+}
+
+
+int** alocareMatrice(int m, int n)
+{
+	int** a;
+	a = (int**)calloc(m, sizeof(int*));
+	if (a == NULL)
+		return NULL;
+	for (int i = 0; i < m; i++) {
+		a[i] = (int*)malloc(sizeof(int) * n);
+		if (a[i] == NULL) {
+			return NULL;
+		}
+	}
+	return a;
+}
+
+int** adunare(int m, int n, int** a, int** b)
+{
+	int** c;
+	c = alocareMatrice(m, n);
+	if (c == NULL)
+		return NULL;
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+			c[i][j] = a[i][j] + b[i][j];
+	return c;
+}
+
+void afisare(int m, int n, int** c)
+{
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++)
+			printf("%d ", c[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+void eliberare(int** a, int m) 
+{
+	for (int i = 0; i < m; i++)
+		free(a[i]);
+	free(a);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care aloca dinamic memorie pentru n siruri de caractere citite de la tastatura
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char *s,**p;
+	int n;
+	puts("Introduceti numarul de siruri de caractere");
+	scanf("%d", &n);
+	s = (char*)calloc(DIM, sizeof(char));
+	if (s == NULL)
+	{
+		printf("Alocare nereusita\n");
+		return 1;
+	}
+	p = (char**)calloc(n, sizeof(char));
+	if (s == NULL)
+	{
+		printf("Alocare nereusita\n");
+		return 2;
+	}
+	puts("Introduceti siriruile de caractere");
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%s", s);
+		p[i] = (char*)calloc(strlen(s), sizeof(char));
+		strcpy(p[i], s);
+	}
+	free(s);
+	puts("Sirurile introduse sunt:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("%s\n", p[i]);
+	}
+	return  0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care calculeaza media elementelor citite de la tastatura si apoi Mn dupa formula Mn=(sum(pow((xi-xmed),n))/N, unde n=1,2,3
+					- Realizeaza aceeasi aplicatie si cu numere reale aleatoare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <cmath>
+
+float* p=NULL;
+
+int main()
+{
+	int n;
+	float medie = 0.0, Mn = 0.0,r;
+	puts("Introduceti dimensiunea tabloului");
+	scanf("%d", &n);
+	p = (float*)malloc(n * sizeof(float));
+	if (p == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return 1;
+	}
+	puts("Introduceti elementele tabloului");
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tp[%d] = ", i);
+		scanf("%f", p+i);
+		medie += p[i];
+	}
+	medie /= (float)n;
+	printf("Media numerelelor citite este: %g\n", medie);
+
+	for (int j = 1; j <= 3; j++)
+	{
+		if (j == 1)
+		{
+			printf("M%d este: %d\n", j, 0); continue;
+		}
+		for (int i = 0; i < n; i++)
+			Mn += pow((p[i] - medie), j);
+		Mn /= (float)n;
+		printf("M%d este: %g\n", j,Mn);
+	}
+	
+	printf("\n");
+	puts("Eliberam memoria");
+	free(p);
+	medie = 0.0; Mn = 0.0;
+	puts("Memorie eliberata");
+	printf("\n");
+	
+	p = new float[n];
+	if (p == NULL)
+	{
+		puts("Alocare nereusita 2");
+		return 2;
+	}
+	printf("Numerele aleatorii sunt: ");
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < n; i++)
+	{
+		r = (float)(rand()) / ((float)(RAND_MAX / 100));// numere reale aleatorii pana la 100
+		p[i] = r;
+		medie += r;
+		printf("%f, ",r);
+	}
+	printf("\b\b  \b\n");
+	medie /= n;
+	printf("Media lor este: %g\n", medie);
+	for (int j = 1; j <= 3; j++)
+	{
+		if (j == 1)
+		{
+			printf("M%d este: %d\n", j, 0); continue;
+		}
+		for (int i = 0; i < n; i++)
+			Mn += pow((p[i] - medie), j);
+		Mn /= (float)n;
+		printf("M%d este: %g\n", j, Mn);
+	}
+	delete[] p;
+	
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care aloca dinamic o matrice, iar daca este patratica afiseaza determinantul ei
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 6
+int** submatrice(int** matrice, int p, int q, int n);
+int determinant(int** matrice, int n);
+void eliberare(int** v, int n);
+int main()
+{
+	int** matrice;
+	int n, m;
+	puts("Introduceti dimensiunile matricii, numere intregi cuprinse in intervalul [1,6]");
+	printf("Nr. coloane: "); scanf("%d", &m);
+	printf("Nr. linii: "); scanf("%d", &n);
+	if (m * n >= 49 || m * n <= 0)
+	{
+		puts("Dimensiuni invalide");
+		return 1;
+	}
+	matrice = (int**)calloc(m, sizeof(int));
+	if (matrice == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return 2;
+	}
+	puts("Introduceti elementele matricii");
+	for (int i = 0; i < m; i++)
+	{
+		matrice[i] = (int*)calloc(n, sizeof(int));
+		for (int j = 0; j < n; j++)
+			scanf("%d", &matrice[i][j]);
+	}
+	if (m == n)
+		printf("Determinantul matricii introduse este %d\n", determinant(matrice, n));
+	else
+		puts("Matricea nu este patratica");
+
+	eliberare(matrice, n);
+	return 0;
+}
+int** submatrice(int **matrice, int p, int q, int n)
+{
+	int i = 0, j = 0;
+	int **aux = (int**)calloc(n, sizeof(int));
+	if (aux == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++)
+	{
+		aux[i] = (int*)calloc(n, sizeof(int));
+		if (aux[i] == NULL)
+			return NULL;
+	}
+
+	for (int row = 0; row < n; row++)
+	for (int col = 0; col < n; col++)
+		if (row != p && col != q)
+		{
+			aux[i][j++] = matrice[row][col];
+			if (j == n - 1)
+			{
+				j = 0;
+				i++;
+			}
+		}
+	return aux;
+}
+int determinant(int **matrice, int n)
+{
+	int rezultat = 0;
+	if (n == 1)
+		return matrice[0][0];
+	int **temp;
+	int semn = 1;
+	for (int i = 0; i < n; i++)
+	{
+		temp = submatrice(matrice, 0, i, n);
+		rezultat += (semn * matrice[0][i]* determinant(temp, n - 1));
+		semn = -semn;
+	}
+	return rezultat;
+}
+void eliberare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+		delete v[i];
+	delete v;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care aloca memorie pentru 10.000 de numere intregi < 100 apoi afiseaza cele mai frecvente 10 numere si numarul lor de aparitii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define DIM 10000
+void celMaiMareElement(int* v);
+int main()
+{
+	int* p;
+	int fr[101] = {0}, high=100, low=1;
+	p = (int*)calloc(DIM, sizeof(int));
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < DIM; i++)
+	{
+		p[i] = rand() % (high - low + 1) + low;
+		fr[p[i]]++;
+	}
+	puts("In cele 10.000 de numere generate");
+	for (int i = 0; i < 10; i++)
+	{
+		celMaiMareElement(fr);
+	}
+	free(p);
+	return  0;
+}
+void celMaiMareElement(int* v)
+{
+	
+	int maximAparitii = v[0], nr = 0;
+	for(int i=1;i<=100;i++)
+		if (maximAparitii < v[i])
+		{
+			maximAparitii = v[i];
+			nr = i;
+		}
+
+		printf("Numarul %d aparut de %d ori\n", nr, maximAparitii);
+		v[nr] = 0;
+}
+	
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care extrage radicalul din elementele unui sir de numere citit de la tastatura si le stocheaza il alt sir de numere
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+double radical(double nr, double medie);
+int main()
+{
+
+	double* a,* b;
+	int n;
+	puts("Introduceti dimensiunea sirului");
+	scanf("%d", &n);
+	a = (double*)calloc(n, sizeof(double));
+	b = (double*)calloc(n, sizeof(double));
+	if (a == NULL || b == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &a[i]);
+		b[i] = radical(a[i],a[i]/2);
+	}
+	puts("Numerele initiale sunt:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", a[i]);
+	printf("\n");
+	puts("Tabloul format din radicalele numerelelor initiale este:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", b[i]);
+	printf("\n\n");
+	free(a); free(b);
+	return  0;
+}
+
+double radical(double nr, double medie)
+{
+	if ((medie - ((nr / medie) + medie) / 2) < 0.000001)
+		return medie;
+	else
+		return radical(nr, ((nr / medie) + medie) / 2);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care concateneaza n siruri de caractere intr-un sir de caractere alocat dinamic, programul se repeta de cate ori doreste utilizatorul 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+void concatenare();
+void eliberare(char** p, int n);
+int main()
+{
+	bool ok = true;
+	char c;
+	while (ok)
+	{
+		concatenare();
+
+		puts("Doriti sa mai introduceti siruri de caractere? (Y/N)");
+		scanf(" %c", &c);
+		if (c == 'N' || c == 'n')
+			ok = false;
+	}
+
+	return  0;
+}
+void concatenare()
+{
+	int n, lungime = 0;
+	char** s, * sir;
+	puts("Introduceti numarul de siruri de caractere");
+	scanf("%d", &n);
+
+	s = (char**)calloc(n, sizeof(char));
+	if (s == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return;
+	}
+	puts("Introduceti sirurile de caractere, (maxim 100 de caractere)");
+	for (int i = 0; i < n; i++)
+	{
+		s[i] = (char*)calloc(DIM, sizeof(char));
+		if (s[i] == NULL)
+		{
+			puts("Alocare nereusita 2");
+			return;
+		}
+		scanf("%s", s[i]);
+		lungime += strlen(s[i]);
+	}
+
+	lungime++;
+	sir = (char*)calloc(lungime, sizeof(char));
+
+	for (int i = 0; i < n; i++)
+	{
+		strcat(sir, s[i]);
+	}
+
+	puts("Sirul concatenat este:");
+	printf("%s\n", sir);
+
+	eliberare(s, n);
+	free(sir);
+}
+void eliberare(char** p, int n)
+{
+	for (int i = 0; i < n; i++)
+		free(p[i]);
+	//free(p);
+}
+
+

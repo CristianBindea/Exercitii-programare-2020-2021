@@ -1,0 +1,53 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care scrie 3 siruri de caractere pe linii diferite intr-un fisier,
+		apoi le citeste linie cu linie si le afiseaza in consola
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <algorithm>
+
+#define DIM 100
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f,"fisier.txt", "w");
+	if (err != 0) {
+		puts("(1) Eroare la creare fisierului");
+		exit(1);
+	}
+	char text[DIM];
+	puts("Introduceti 3 siruri de caractere, acestea vor fi scrise in fisier pe linii diferite");
+	for (int i = 1; i <= 3; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul sir: "); scanf("%[^\n]s", text); fprintf(f, "%s\n", text);
+		}
+		else
+		{
+			printf("Al %d-lea sir: ",i); scanf(" %[^\n]s", text); fprintf(f, "%s\n", text);
+		}
+	}
+	puts("Citire terminata");
+	fclose(f);
+	
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != 0) {
+		puts("(2) Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM];
+	for(int i=0;i<3; i++)
+	{
+		fgets(line, DIM, f);
+		printf("%s", line);
+	}
+	delete[]line;
+	fclose(f);
+	return 0;
+}

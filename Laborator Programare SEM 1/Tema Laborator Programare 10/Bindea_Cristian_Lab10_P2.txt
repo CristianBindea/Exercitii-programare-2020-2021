@@ -1,0 +1,29 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Suma si produsul a doi parametrii intregi si doi flotanti introdusi de la linia de comanda
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+	double suma = 0, produs=1, nr;
+	if (argc == 1) {
+		printf("Nu au fost introduse numere de la linia de comanda");
+		return 1;
+	}
+	for (int i = 1; i < argc; i++)
+	{
+		if (i <= 2)
+			nr = (double)atoi(argv[i]);
+		else 
+			nr = atof(argv[i]);
+		
+		suma += nr;
+		produs *= nr;
+	}
+	printf("Suma numerelelor introdus din linia de comanda este : %g\nSi produsul lor este: %g\n", suma,produs);
+
+	return 0;
+}

@@ -1,0 +1,37 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care citeste un numar n si un caracter c, apoi scrie intr-un fisier caracterul c pe n linii si n coloane
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, "fis.txt", "w");
+	if (err != 0)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	char c;
+	int n;
+	puts("Introduceti caracterul c");
+	scanf("%c", &c);
+	puts("Introduceti numarul n");
+	scanf("%d", &n);
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			fprintf(f,"%c ", c);
+		}
+		fprintf(f,"\n");
+	}
+	fclose(f);
+	return  0;
+}

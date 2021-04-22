@@ -1,0 +1,65 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 5 - program care determina:
+                                 - cel mai mare număr prim mai mic decât numărul dat
+                                 - toate numerele prime mai mici decât numărul dat
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include <cmath>
+bool eprim(int n);
+int cmmnpmdnd(int n);//cel mai mare numar prim mai mic decat numarul dat
+void numerePrime(int n);//toate numerele prime pana la numarul dat
+
+int main()
+{
+    double a;
+    int b, c;
+    puts("Introduceti un numar real pozitiv");
+    scanf("%lf", &a);
+
+    b = (int)a;
+    c = cmmnpmdnd(b);
+    if (c > 0)
+    {
+        printf("Cel mai mare numar prim mai mic decat cel introdus este : %d\n", c);
+        numerePrime(b);
+    }
+    else
+        printf("Nu exista numere prime mai mici decat cel dat\n");
+
+    return 0;
+}
+bool eprim(int n)
+{
+    if (n < 1) return false;
+    if (n == 2) return true;
+    if (n % 2 == 0) return false;
+
+    for (int i = 3; i <= sqrt(n); i += 2)
+        if (n % i == 0)
+            return false;
+
+    return true;
+}
+int cmmnpmdnd(int n)//cel mai mare numar prim mai mic decat numarul dat
+{
+    for (int i = n - 1; i >= 0; i--)
+    {
+        if (eprim(i))
+            return i;
+    }
+    return -1;
+}
+void numerePrime(int n)//toate numerele prime pana la numarul dat
+{
+    printf("Toate numerele prime pana la numarul introdus sunt : ");
+    bool ok = true;
+    for (int i = 2; i < n; i++)
+        if (eprim(i))
+        {
+            printf("%d ", i);
+            ok = false;
+        }
+    printf("\n");
+}

@@ -1,0 +1,74 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care concateneaza n siruri de caractere intr-un sir de caractere alocat dinamic, programul se repeta de cate ori doreste utilizatorul 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+void concatenare();
+void eliberare(char** p, int n);
+int main()
+{
+	bool ok = true;
+	char c;
+	while (ok)
+	{
+		concatenare();
+
+		puts("Doriti sa mai introduceti siruri de caractere? (Y/N)");
+		scanf(" %c", &c);
+		if (c == 'N' || c == 'n')
+			ok = false;
+	}
+
+	return  0;
+}
+void concatenare()
+{
+	int n, lungime = 0;
+	char** s, * sir;
+	puts("Introduceti numarul de siruri de caractere");
+	scanf("%d", &n);
+
+	s = (char**)calloc(n, sizeof(char));
+	if (s == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return;
+	}
+	puts("Introduceti sirurile de caractere, (maxim 100 de caractere)");
+	for (int i = 0; i < n; i++)
+	{
+		s[i] = (char*)calloc(DIM, sizeof(char));
+		if (s[i] == NULL)
+		{
+			puts("Alocare nereusita 2");
+			return;
+		}
+		scanf("%s", s[i]);
+		lungime += strlen(s[i]);
+	}
+
+	lungime++;
+	sir = (char*)calloc(lungime, sizeof(char));
+
+	for (int i = 0; i < n; i++)
+	{
+		strcat(sir, s[i]);
+	}
+
+	puts("Sirul concatenat este:");
+	printf("%s\n", sir);
+
+	eliberare(s, n);
+	free(sir);
+}
+void eliberare(char** p, int n)
+{
+	for (int i = 0; i < n; i++)
+		free(p[i]);
+	//free(p);
+}

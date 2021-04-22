@@ -1,0 +1,61 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 7 - Rearanjarea numerelor intr-o matrice astfel incat suma elementelor fiecarei coloane sa fie crescatoare
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 3
+void ordonare(float v[], int x);
+void schimbare(float& a, float& b);
+
+int  main()
+{
+    float m[DIM][DIM];
+    puts("Introduceti elementele matricei:");
+    for (int i = 0; i < DIM; i++)
+        for (int j = 0; j < DIM; j++)
+        {
+            printf("m[%d][%d] = ", i, j);
+            scanf("%f", &m[i][j]);
+        }
+    for (int i = 0; i < DIM; i++)
+        ordonare(m[i], DIM);
+
+    puts("\nMatricea rearanjata este:");
+
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+            printf("%g ", m[i][j]);
+
+        printf("\n");
+    }
+    
+    int suma = 0;
+    printf("Pentru ca suma de pe ");
+    for (int i = 0; i < DIM; i++)
+    {
+        for (int j = 0; j < DIM; j++)
+            suma += m[j][i];
+        printf("coloana %d este %d, ", (i+1), suma);
+    }
+    printf("\b\b  \n");
+    
+    
+    return 0;
+}
+void ordonare(float v[], int x)
+{
+    for (int i = 0; i < x - 1; i++)
+        for (int j = 0; j < x - i - 1; j++)
+            if (v[j] > v[j + 1])
+                schimbare(v[j], v[j + 1]);
+}
+void schimbare(float& a, float& b)
+{
+    float aux;
+    aux = a;
+    a = b;
+    b = aux;
+}

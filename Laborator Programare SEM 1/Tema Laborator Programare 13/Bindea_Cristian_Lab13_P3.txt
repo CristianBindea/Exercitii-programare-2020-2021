@@ -1,0 +1,79 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care citeste n numere de la tastatura, 
+		le pune intr-un fisier cu nume introdus de utilizator, apoi face media numerelor si o adauga la fisier
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char numeFisier[20]="";
+	puts("Introduceti numele fisierului:");
+	scanf("%s", numeFisier);
+	errno_t err;
+	FILE* f;
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+
+	unsigned int n;
+	int nr;
+	puts("Introduceti numarul de numere care vor fi citite");
+	scanf("%u", &n);
+	while (n <= 0)
+	{
+		printf("Numar invalid, mai incercati");
+		scanf("%u", &n);
+	}
+	printf("Introduceti %u numere\n",n);
+	for (unsigned int i = 1; i <= n; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar: "); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar: ", i); scanf("%d", &nr); fprintf(f, "%d\n", nr);
+		}
+	}
+	puts("Citire terminata\n");
+	fclose(f);
+
+
+	err = fopen_s(&f, numeFisier, "r");
+	if (err != 0) {
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+
+	char* line = new char[DIM];
+	int* v = new int[n];
+	double media=0;
+	for (unsigned int i = 0; i < n; i++)
+	{
+		fgets(line, DIM, f);
+		v[i] = atoi(line);
+		media += v[i];
+	}
+	media /= n;
+	printf("Media numerelor citite este %g", media);
+	delete[]line;
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "a");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+	fprintf(f, "%lf\n", media);
+	fclose(f);
+	return  0;
+}

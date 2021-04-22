@@ -1,0 +1,16 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Lungimea si aria cercului de raza data
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int r;
+	const double pi = 3.14159265359;
+	printf("Introduceti un numar intreg pentru raza cercului\n");
+	scanf("%d", &r);
+	printf("Lungimea cercului este %.3lf si aria cercului este %.3lf\n", (2 * pi * r), (pi * r * r));
+	return 0;
+}

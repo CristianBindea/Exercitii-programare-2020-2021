@@ -1,0 +1,27 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 12 - Se citeste un N apoi se introduc numere pana cand suma numerelelor e mai mare decat N
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int n,contor=0;
+	double x, s=0;
+	printf("Introduceti un numar intreg pozitiv\n");
+	scanf("%d", &n);
+
+
+	while (s < n)
+	{
+		printf("Introduceti un numar real\n");
+		scanf("%lf", &x);
+		s = s + x;
+		contor++;
+	}
+
+	printf("Suma este egala cu %.2lf si au fost introduse %d numere\n", s, contor);
+   
+	return 0;
+}

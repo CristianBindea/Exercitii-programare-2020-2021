@@ -1,0 +1,26 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 6 - Numele a doi studenti si media notelor lor
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	char s1[100], s2[100];
+	double nota_s1, nota_s2;
+
+	printf("Introduceti numele studentilor si notele studentilor\n");
+	printf("Numele primului student : ");
+	scanf("%[^\n]s", &s1);
+	printf("Nota primului student : ");
+	scanf(" %lf", &nota_s1);
+	printf("Numele celui de-al doilea student : ");
+	scanf(" %[^\n]s", &s2);
+	printf("Nota celui de-al doilea student : ");
+	scanf(" %lf", &nota_s2);
+	printf("\n");
+	printf("Primul student: %20s \nAl doilea student: %-20s\nMedia notelor: %.2lf\n", s1, s2, (nota_s1 + nota_s2) / 2);
+
+	return 0;
+}

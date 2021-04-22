@@ -1,0 +1,70 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 13 - Program care citeste date despre n prajituri si le scrie intr-un fisier binar, 
+		apoi din fisier afiseaza prajitura cu pretul cel mai mic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+struct prajitura
+{
+	char nume[DIM];
+	int nr_bucati;
+	double pret;
+};
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[] = "fis.bin";
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+	prajitura *s=new prajitura;
+	
+	puts("Introduceti numarul de prajituri");
+	scanf("%d", &n);
+	puts("Introduceti date despre prajituri");
+
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Prajitura %d\n", i + 1);
+		printf("Nume:"); scanf("%s", &s->nume); 
+		printf("Numar bucati:"); scanf("%d", &s->nr_bucati); 
+		printf("Pret:"); scanf("%lf", &s->pret); 
+		fwrite((s + i), sizeof(prajitura), 1, f);
+	}
+
+	fclose(f);
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	prajitura* ieftin = new prajitura;
+	fread(&ieftin, sizeof(prajitura), 1, f);
+	for (int i = 1; i < n; i++)
+	{
+		fread(s, sizeof(prajitura), 1, f);
+		if (s->pret < ieftin->pret)
+		{
+			ieftin->pret = s->pret;
+			ieftin->nr_bucati = s->nr_bucati;
+			strcpy(ieftin->nume, s->nume);
+		}
+	}
+	printf("Cea mai ieftina prajitura este %s, la pretul de %g, nr. de bucati %d", ieftin->nume, ieftin->pret, ieftin->nr_bucati);
+	fclose(f);
+	delete s;
+	delete ieftin;
+	return 0;
+}

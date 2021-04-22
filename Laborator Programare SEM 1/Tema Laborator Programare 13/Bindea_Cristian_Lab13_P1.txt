@@ -1,0 +1,57 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care scrie intr-un fisier numere citite de la tastatura apoi citeste fisierul si afiseaza numerele
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main()
+{
+	char numeFisier[20]="", numere[DIM] = "";
+	puts("Introduceti numele fisierului:");
+	scanf("%s", numeFisier);
+	char numar[DIM]="", c;
+	errno_t err;
+	FILE* f;
+	err = fopen_s(&f, numeFisier, "w");
+	if (err != 0) {
+		puts("Eroare la creare fisierului");
+		exit(1);
+	}
+
+	printf("Introduceti numere intregi separate de un singur spatiu care vor fi puse in fisierul %s\nPentru a finaliza citirea numerelor apasati ENTER\n", numeFisier);
+	scanf(" %[^\n]", numere);
+	fputs(numere, f);
+	fclose(f);
+
+
+	err = fopen_s(&f, numeFisier, "r");
+	if (err != 0) {
+		puts("Eroare la deschiderea fisierului");
+		exit(1);
+	}
+	printf("Numerele din fisierul %s sunt:\n", numeFisier);
+	int k = 0;
+	int nr;
+	while ((fscanf(f, "%c", &c)) != EOF)
+	{
+		if (c != ' ')
+			numar[k++] = c;
+		else if (c == ' ')
+		{
+			nr = atoi(numar);
+			printf("%d ", nr);
+			strcpy_s(numar, "");
+			k = 0;
+		}
+
+	}
+	nr = atoi(numar);
+	printf("%d\n", nr);
+	fclose(f);
+
+	return  0;
+}

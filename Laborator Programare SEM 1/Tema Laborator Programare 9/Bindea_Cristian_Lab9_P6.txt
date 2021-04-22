@@ -1,0 +1,73 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema  6 - Se citeste un sir de caractere apoi se afiseaza afiseaza caracterele din care se compune sirul citit si numarul de aparitii a lor
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+
+void eliminare(char s[]);
+void nrAparitii(char* p);
+int main()
+{
+	char s[DIM];
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s); printf("\n");
+
+	nrAparitii(s);
+
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	char aux[DIM];
+	lungime = strlen(s);
+
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i <= lungime; i++)
+			if (*(s + k) == *(s + i) && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i))
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}
+void nrAparitii(char* p)
+{
+	int fr[150];
+	for (char i = 'A'; i <= 'z'; i++)
+		fr[i] = 0;
+	int lungime = strlen(p);
+
+	for (int i = 0; i < lungime; i++)
+		if (*(p+i) > 'A' && *(p+i) < 'z')
+			fr[*(p+i)]++;
+
+	eliminare(p);
+	printf("Caracterele care compun sirul sunt: %s\n", p);
+
+	for (char i = 'A'; i <= 'z'; i++)
+		if (fr[i] > 0)
+		{
+			if (fr[i] == 1)
+				printf("Caracterul \"%c\" a aparut odata\n", i);
+			else if (fr[i] == 2)
+				printf("Caracterul \"%c\" a aparut de doua ori\n", i);
+			else
+				printf("Caracterul \"%c\" a aparut de %d ori\n", i, fr[i]);
+		}
+}

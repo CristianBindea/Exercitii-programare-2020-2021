@@ -1,0 +1,76 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care citeste n numere intregi, le scrie intr-un fisier binar, 
+		apoi din fisierul binar le afiseaza, si pe urmatorul rand afiseaza offsetul numerelor pare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+void citire(int* v, int n);
+int main()
+{
+	int n;
+	puts("Introduceti un numar intreg");
+	scanf("%d", &n);
+	int* v = new int[n];
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		exit(1);
+	}
+
+	char numeFisier[30];
+	puts("Introduceti numele fisierului");
+	scanf("%s", &numeFisier);
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+	citire(v, n);
+	for (int i = 0; i < n; i++)
+	{
+		fprintf(f, "%d ", v[i]);
+	}
+	delete[]v;
+	fclose(f);
+
+	int* p = new int[n];
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	puts("Numerele din fisier sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		fscanf(f, "%d ", &p[i]);
+		printf("%d ", p[i]);
+	}
+	printf("\n");
+	for (int i = 0; i < n; i++)
+	{
+		if (p[i] % 2 == 0)
+			printf("Numarul par, %d, are offsetul %d\n", p[i], i);
+	}
+
+	delete[]p;
+	fclose(f);
+	return 0;
+}
+
+void citire(int* v, int n)
+{
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}

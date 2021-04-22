@@ -1,0 +1,19 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 2 - verifica daca numarul este patrat perfect 
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#include <cmath>
+int  main()
+{
+    double a;
+    puts("Introduceti un numar real pozitiv:");
+    scanf("%lf", &a);
+
+    if (sqrt(a) == (int)sqrt(a))
+        puts("Este patrat perfect");
+    else puts("Nu este patrat perfect");
+    return 0;
+}

@@ -1,0 +1,37 @@
+/*
+        Bindea  Gheorghe Cristian
+        Problema   4 -  valorile bitilor unei variabile de tip unsigned char
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void baza2(unsigned int a);
+unsigned getsets(unsigned int x, unsigned int p, unsigned int n);
+
+int  main()
+{
+    unsigned int a;
+    puts("Introduceti un numar intreg pozitiv");
+    scanf("%u", &a);
+    printf("Numarul in zecimal : %d\nNumarul in octal : %o\nNumarul in hexazecimal : %o\n", a, a, a);
+    printf("Numarul in binar : "); baza2(a); printf("\n\n");
+
+    int x, p, n;
+    puts("Introduceti un alt numar intreg pozitiv");  scanf(" %d", &x);
+    puts("Apoi pozitia unui bit din acel numar");  scanf(" %d", &p);
+    puts("Si in final un numar de biti care vor fi extrasi din reprezentarea binara a intregului");  scanf(" %d", &n);
+    unsigned int w = getsets(x,p,n);
+    printf("Rezultatul functiei in zecimal : %d\nIn octal : %o\nIn hexazecimal : %x\n", w, w, w);
+    printf("In binar : "); baza2(w); printf("\n");
+
+    return 0;
+}
+
+void baza2(unsigned int a) {
+    if (a)
+        baza2(a/2);
+    printf("%d ", a % 2);
+}
+
+unsigned getsets(unsigned int x, unsigned int p, unsigned int n) {
+    return  (x >> (p + 1 - n))&(~(~0 << n)) ;
+}

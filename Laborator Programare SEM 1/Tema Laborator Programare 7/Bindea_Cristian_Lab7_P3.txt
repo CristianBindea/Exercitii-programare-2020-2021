@@ -1,0 +1,31 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 3 - Ridicarea la puterea n a unui numar intreg a
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int putere(int a, int b);
+int  main()
+{
+    int a=2, n, rez;
+    printf("Introduceti un numar intreg (n), puterea la care sa fie ridicat numarul a = %d\n", a);
+    scanf("%d", &n);
+
+    rez = putere(a, n);
+    printf("%d la puterea %d este : %d\n", a, n, rez);
+
+    return 0;
+}
+
+int putere(int a, int p) {
+    int r = 1;
+    while (p)
+    {
+        if (p % 2 == 1)
+            r = r * a;
+        a = a * a;
+        p = p / 2;
+    }
+    return r;
+}

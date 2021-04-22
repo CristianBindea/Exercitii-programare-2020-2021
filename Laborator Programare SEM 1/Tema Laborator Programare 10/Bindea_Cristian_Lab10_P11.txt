@@ -1,0 +1,83 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Se citeste o matrice si se afiseaza numarul de elemente negative de deasupra diagonalei secundare, toate acestea folosind functii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+
+int nrElem(int** array, int n);
+int** alocare(int n);
+int** citire(int n);
+void eliberare(int** a, int m);
+int main()
+{
+	int** arr;
+    int n;
+    puts("Introduceti dimensiunea matricii patratice:");
+    scanf("%d", &n);
+    
+    arr = citire(n);
+    if (arr == NULL)
+    {
+        puts("Alocare nereusita");
+        return 1;
+    }
+    int nrElemente = nrElem(arr, n);
+    if (nrElemente > 0)
+        printf("Numarul de elemente negative de deasupra diagonalei secundare este: %d\n", nrElemente);
+    else
+        puts("Nici un element negativ nu se afla deasupra diagonalei secundare");
+    eliberare(arr, n);
+	return  0;
+
+}
+int nrElem(int** array, int n)
+{
+    int cnt = 0;
+    for (int i = 1; i < n; i++)
+        for (int j = i; j < n; j++)
+        {
+            if (array[i][j] < 0)
+                cnt++;
+        }
+    return cnt;
+}
+
+int** alocare(int n) {
+    int** array;
+    array = (int**)calloc(n, sizeof(int*));
+    if (array == NULL)
+        return NULL;
+    for (int i = 0; i < n; i++) {
+        array[i] = (int*)malloc(sizeof(int) * n);
+        if (array[i] == NULL) {
+            return NULL;
+        }
+    }
+    return array;
+}
+
+int** citire(int n)
+{
+    int** array = alocare(n);
+    if (array == NULL)
+        return NULL;
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+        {
+            printf("\tm[%d][%d] = ", i, j);
+            scanf("%d", &array[i][j]);
+        }
+    return array;
+}
+
+void eliberare(int** a, int m) {
+    int i;
+    for (i = 0; i < m; i++)
+        free(a[i]);
+    free(a);
+}

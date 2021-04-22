@@ -1,0 +1,37 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Functie care inverseaza un sir de caractere si formeaza un alt sir doar caracterele de pe pozitiile pare ale sirului inversat
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define DIM 100
+char* inversare(char s[]);
+int  main()
+{
+	char s[DIM], s2[DIM];
+	puts("Introduceti un sir de caractere:");
+	scanf("%s", s);
+
+	strcpy(s2,inversare(s));
+	printf("Sirul de caractere inversat este: %s\nElementele de pe pozitiile pare ale sirului inversat sunt: %s\n", s, s2);
+	return  0;
+}
+char* inversare(char s[])
+{
+	int L = strlen(s) - 1;
+	char aux;
+	for (int i = 0; i < L / 2; i++)
+	{
+		aux = s[i];
+		s[i] = s[L - i];
+		s[L - i] = aux;
+	}
+
+	static char s2[DIM];
+	int k = 0;
+	for (int i = 0; i < L; i += 2)
+		s2[k++] = s[i];
+
+	return s2;
+}

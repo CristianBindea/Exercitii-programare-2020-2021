@@ -1,0 +1,89 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care citeste date despre un numar n de angajati apoi ii afiseaza in ordinea datei angajarii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+#define NR 20
+struct data
+{
+	int zi;
+	int luna;
+	int an;
+};
+struct Angajat {
+	char nume[DIM];
+	char prenume[DIM];
+	char CNP[DIM];
+	char data_nasterii[DIM];
+	data data_angajarii;
+};
+
+bool comparare(Angajat d1, Angajat d2);
+void sortare(Angajat a[NR], int n);
+
+int main()
+{
+	int n;
+	Angajat angajati[NR];
+	puts("Introduceti numarul angajatilor (un numar <20)");
+	scanf("%d", &n);
+	if (n > NR)
+	{
+		puts("Numar prea mare");
+		return 1;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Date despre angajatul %d\n", i + 1);
+		printf("Nume: "); scanf("%s", &angajati[i].nume);
+		printf("Prenume: "); scanf("%s", &angajati[i].prenume);
+		printf("Cod Numeric Personal: "); scanf("%s", &angajati[i].CNP);
+		printf("Data nasterii (ZZ LL AAAA): "); scanf("%s", &angajati[i].data_nasterii);
+		printf("Data angajarii: (ZZ LL AAAA)\n");
+		printf("Ziua:"); scanf("%d", &angajati[i].data_angajarii.zi);
+		printf("Luna:"); scanf("%d", &angajati[i].data_angajarii.luna);
+		printf("Anul:"); scanf("%d", &angajati[i].data_angajarii.an);
+	}
+
+	sortare(angajati, n);
+	printf("\n");
+	puts("Angajatii ordonati in funtie de data angajarii\n");
+	for (int i = 0; i < n; i++)
+	{	
+		printf("%s %s\nCNP:%s\nData nasterii: %s\n",angajati[i].nume, angajati[i].prenume, angajati[i].CNP, angajati[i].data_nasterii);
+		printf("Data angajarii: %d/%d/%d\n", angajati[i].data_angajarii.zi, angajati[i].data_angajarii.luna, angajati[i].data_angajarii.an);
+	}
+	return  0;
+}
+
+bool comparare(Angajat d1, Angajat d2)
+{
+	if (d1.data_angajarii.an < d2.data_angajarii.an)
+		return true;
+	if (d1.data_angajarii.an == d2.data_angajarii.an && d1.data_angajarii.luna < d2.data_angajarii.luna)
+		return true;
+	if (d1.data_angajarii.an == d2.data_angajarii.an && d1.data_angajarii.luna == d2.data_angajarii.luna && d1.data_angajarii.zi < d2.data_angajarii.zi)
+		return true;
+	return false;
+}
+
+void sortare(Angajat a[NR], int n){
+
+	data aux;
+	for (int i = 0; i < n - 1; i++)
+		for (int j = 0; j < n - i - 1; j++)
+	{
+		if (!comparare(a[j], a[j + 1]))
+		{
+			aux = a[i].data_angajarii;
+			a[i].data_angajarii = a[i + 1].data_angajarii;
+			a[i + 1].data_angajarii = aux;
+		}
+	}
+}

@@ -1,0 +1,260 @@
+/*Tema Laborator 6 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe Cristian
+        Problema   1 -  valoarea polinomului de grad 3 intr-un un x citit de la tastatura
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+    double a, b, c, d, x;
+    printf("Introduceti coeficientii, a, b, c si d ai ecuatiei de gradul 3:  a*x*x%c + b*x%c + c*x + d = 0\n", 253, 253);
+    
+    printf("a = "); scanf("%lf", &a);
+    printf("b = "); scanf(" %lf", &b);
+    printf("c = "); scanf(" %lf", &c);
+    printf("d = "); scanf(" %lf", &d);
+    printf("Introduceti valoarea lui x pentru care trebuie calculat polinomul %g*x*x%c + %g*x%c + %g*x + %g = 0\n x = ", a, 253, b, 253, c, d);
+    scanf(" %lf", &x);
+
+    printf("Valoarea polinomului este %g", (a * x * x * x + b * x * x + c * x + d));
+   
+    return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 2 - Aria unui triunghi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b, c;
+	double semi;
+	printf("Introduceti 3 numere intregi pozitive pentru laturile unui triunghi\n");
+	scanf("%d %d %d", &a, &b, &c);
+	if(a==0 || b==0 || c==0 || c>=a+b || a>=b+c || b>=a+c)
+		printf("Numerele introduse nu formeaza un triunghi\n");
+	else
+	{
+		semi = (double)(a + b + c) / 2;
+		printf("Aria triunghiului este %g\n", (sqrt(semi * (semi - a) * (semi - b) * (semi - b))));
+	}
+
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe Cristian
+        Problema   3 -  valorile biLLilor unei variabile de tip unsigned char
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void baza2(unsigned char a);
+
+int  main()
+{
+    unsigned char a;
+    scanf("%hhu", &a);
+    baza2(a);
+    return  0;
+}
+
+void baza2(unsigned char a) {
+    if (a)
+        baza2(a >> 1);
+    printf("%d ", a % 2);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe Cristian
+        Problema   4 -  valorile bitilor unei variabile de tip unsigned char
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void baza2(unsigned int a);
+unsigned getsets(unsigned int x, unsigned int p, unsigned int n);
+
+int  main()
+{
+    unsigned int a;
+    puts("Introduceti un numar intreg pozitiv");
+    scanf("%u", &a);
+    printf("Numarul in zecimal : %d\nNumarul in octal : %o\nNumarul in hexazecimal : %o\n", a, a, a);
+    printf("Numarul in binar : "); baza2(a); printf("\n\n");
+
+    int x, p, n;
+    puts("Introduceti un alt numar intreg pozitiv");  scanf(" %d", &x);
+    puts("Apoi pozitia unui bit din acel numar");  scanf(" %d", &p);
+    puts("Si in final un numar de biti care vor fi extrasi din reprezentarea binara a intregului");  scanf(" %d", &n);
+    unsigned int w = getsets(x,p,n);
+    printf("Rezultatul functiei in zecimal : %d\nIn octal : %o\nIn hexazecimal : %x\n", w, w, w);
+    printf("In binar : "); baza2(w); printf("\n");
+
+    return 0;
+}
+
+void baza2(unsigned int a) {
+    if (a)
+        baza2(a/2);
+    printf("%d ", a % 2);
+}
+
+unsigned getsets(unsigned int x, unsigned int p, unsigned int n) {
+    return  (x >> (p + 1 - n))&(~(~0 << n)) ;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Numarul de zerouri din reprezentarea in binar a unui nr. intreg
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, cnt = 0;
+	printf("Introduceti un numar intreg");
+	scanf("%d", &a);
+
+	while (a)
+	{
+		if (!(a % 2))
+			cnt++;
+		a /= 2;
+	}
+	printf("Numarul de zerouri din scrierea intregului introdus, %d este %d", a, cnt);
+
+	return 0;
+
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe Cristian
+        Problema 6 - octetii unui numar in format zecimal
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int  main()
+{
+    int a, masca = 0xFF, w;
+    puts("Introduceti un numar intreg");
+    scanf("%d", &a);
+    printf("Octetii numarului transformati A®n format zecimal sunt: ");
+    for(int i=1;i<=sizeof(a);i++)
+    {
+        w = a & masca;
+        printf("%d ", w);
+        a = a >> 8;
+    }
+    printf("\n");
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Adunarea, scaderea, inmultirea si impartirea, apoi afisarea maximului dintre doua numere reale
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	double a, b;
+	printf("Introduceti doua reale\n");
+	scanf("%lf %lf", &a, &b);
+
+	printf("%g + %g = %g rotunjit la numere intregi: %d\n", a, b, (a + b), (int)(a + b));
+	printf("%g - %g = %g rotunjit la numere intregi: %d\n", a, b, (a - b), (int)(a - b));
+	printf("%g * %g = %g rotunjit la numere intregi: %d\n", a, b, (a * b), (int)(a * b));
+	printf("%g / %g = %g rotunjit la numere intregi: %d\n", a, b, (a / b), (int)(a / b));
+
+	printf("Maximul dintre %g si %g este %g\n", a, b, (a > b ? a : b));
+	
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+        Bindea  Gheorghe Cristian
+        Problema 8 - Transformare caractere din litere mici in litere mari prin doua modalitati
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include <string.h>
+void literemari_1(char s[]);
+void literemari_2(char s[]);
+int  main()
+{
+    char s1[100], s2[100];
+    puts("Introduceti un sir de caractere");
+    scanf("%s", s1);
+    literemari_1(s1);
+    puts(s1);
+    puts("Introduceti inca un sir de caractere");
+    scanf(" %s", s2);
+    literemari_2(s2);
+    puts(s2);
+    return 0;
+}
+void literemari_1(char s[])
+{
+    for (int i = 0; i <= strlen(s); i++)
+        if (s[i] >= 'a' && s[i] <= 'z')
+            s[i] = s[i] - 'a' + 'A';
+}
+void literemari_2(char s[])
+{
+    int masca = 0xDF;
+    for (int i = 0; i <= strlen(s); i++)
+    {
+        if (s[i] >= 'a' && s[i] <= 'z')
+            s[i] = s[i] & masca;
+    }
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 9 - Aria cercului sau aria dreptunghiului
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	const double pi = 3.14159265359;
+	int a, b;
+	printf("Introduceti 2 numere intregi\n");
+	scanf("%d %d", &a, &b);
+	if (a == b)
+		printf("Aria cercului de raza %d este %g", a, (pi * a * a));
+	else
+		printf("Aria dreptunghiului cu laturile %d si %d este %d", a, b, (a * b));
+
+	return 0;
+}
+

@@ -1,0 +1,61 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - media elementelor pozitive/negative dintr-un sir
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+double mediaNegativa(double v[], int n);
+double mediaPozitiva(double v[], int n);
+int  main()
+{
+	int n;
+	double v[DIM];
+	puts("Introduceti un numar natural pentru lungimea sirului");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &v[i]);
+	}
+
+	if (mediaPozitiva(v, n))
+		printf("Media elementelor pozitive din sir este %g\n", mediaPozitiva(v, n));
+	else puts("Sirul nu contine elemente pozitive");
+
+	if (mediaNegativa(v, n))
+		printf("Media elementelor negative din sir este %g\n", mediaNegativa(v, n));
+	else puts("Sirul nu contine elemente negative");
+	return 0;
+}
+
+double mediaNegativa(double v[], int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (v[i] < 0)
+		{
+			suma += v[i];
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}
+double mediaPozitiva(double v[], int n)
+{
+	int suma = 0, cnt = 0;;
+	for (int i = 0; i < n; i++)
+		if (v[i] > 0)
+		{
+			suma += v[i];
+			cnt++;
+		}
+	if (suma)
+		return suma / (double)cnt;
+	else
+		return 0;
+}

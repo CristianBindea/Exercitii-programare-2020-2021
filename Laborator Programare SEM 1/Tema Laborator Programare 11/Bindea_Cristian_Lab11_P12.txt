@@ -1,0 +1,103 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Program care determina, folosind functii, valoarea minima, maxima, media dintr-un sir de numere
+					- Apoi folosind functia Olympic_filter returneaza adresa unui tablou alocat dinamic, fara prima aparitie a valorii maxime si a valorii minime
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int valMaxim(int* v, int n);
+int valMinim(int* v, int n);
+double medie(int* v, int n);
+int* Olympic_filter(int* v, int n);
+void afisare(int* v, int n);
+
+int main()
+{
+	int n, * v, nr, * v2;
+	puts("Introduceti dimensiunea sirului, nr din intervalul [2,10]");
+	scanf("%d", &n);
+	while (n < 2 || n>10)
+	{
+		puts("Dimensiune invalida");
+		scanf("%d", &n);
+	}
+
+	v = (int*)calloc(n, sizeof(int));
+
+	puts("Introduceti elementele tabloului, numere din intervalul [2,10]");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &nr);
+		if (nr >= 2 && nr <= 10)
+			v[i] = nr;
+		else
+		{
+			puts("Numarul introdus nu apartine intervalului cerut");
+			i--;
+		}
+	}
+
+	puts("Sirul initial este:");
+	afisare(v, n);
+	printf("Valoare minima din sir este %d si valoare maxima este %d\nMedia elementelor este %g\n", valMinim(v, n), valMaxim(v, n), medie(v, n));
+	v2 = Olympic_filter(v, n);
+	puts("Noul sir obtinut dupa aplicarea functiei Olympic_filter este:");
+	afisare(v2, n - 2);
+	printf("Media noului sir este %g\n", medie(v2, n - 2));
+	free(v);
+	free(v2);
+	return  0;
+}
+
+int valMaxim(int* v, int n)
+{
+	int maxim = v[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (v[i] > maxim)
+			maxim = v[i];
+	}
+	return maxim;
+}
+int valMinim(int* v, int n)
+{
+	int minim = v[0];
+	for (int i = 1; i < n; i++)
+	{
+		if (v[i] < minim)
+			minim = v[i];
+	}
+	return minim;
+}
+double medie(int* v, int n)
+{
+	double medie = 0.0;
+	for (int i = 0; i < n; i++)
+		medie += v[i];
+	medie /= (double)n;
+	return medie;
+}
+int* Olympic_filter(int* v, int n)
+{
+	int* v2 = (int*)calloc(n - 2, sizeof(int));
+	int maxim = valMaxim(v, n), minim = valMinim(v, n), k = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (v[i] == minim)
+			minim = -1;
+		else if (v[i] == maxim)
+			maxim = -1;
+		else
+			v2[k++] = v[i];
+	}
+	return v2;
+}
+void afisare(int* v, int n)
+{
+	for (int i = 0; i < n; i++)
+		printf("%d, ", v[i]);
+	printf("\b\b  \n");
+}

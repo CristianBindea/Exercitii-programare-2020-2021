@@ -1,0 +1,31 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 8 - Durata calatoriei de la Cluj la Brasov
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int ora1, ora2, minut1, minut2;
+	int durata_ore, durata_minute;
+	printf("Introduceti ora plecarii (ora minut) \n");
+	scanf("%d %d", &ora1, &minut1);
+	printf("Introduceti ora sosirii (ora minut) \n");
+	scanf("%d %d", &ora2, &minut2);
+
+	if (ora2 < ora1)
+		durata_ore = 24 + ora2 - ora1;
+	else
+		durata_ore = ora2 - ora1;
+	if (minut2 < minut1)
+	{
+		durata_minute = 60 + minut2 - minut1;
+		durata_ore--;
+	}
+	else
+		durata_minute = minut2 - minut1;
+
+	printf("Durata calatoriei este de %d ore si %d minute\n", durata_ore, durata_minute);
+	return 0;
+}

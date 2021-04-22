@@ -1,0 +1,23 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema  15 - Afiseaza un caracter pe n randuri si n coloane
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+	char c;
+	int n;
+	puts("Introduceti un caracter si apoi un numar natural n, numarul de randuri si coloane pe care sa fie afisat caracterul");
+	scanf("%c %d", &c, &n);
+	
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%c ", c);
+
+		printf("\n");
+	}
+	return 0;
+}

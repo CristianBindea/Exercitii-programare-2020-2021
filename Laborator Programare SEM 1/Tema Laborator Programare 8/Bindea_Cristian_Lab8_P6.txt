@@ -1,0 +1,103 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 6 - functii care - afiseaza pozitiile elementelor pare din fiecare matrice
+                                  - afiseaza suma elementelor impare din ambele matrice
+                                  - afiseaza suma matricelor
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+void pozElemPare(int a[][DIM], int n, int m);
+void sumaElemImpare(int a[][DIM], int b[][DIM], int n, int m);
+void sumaMatrici(int a[][DIM], int b[][DIM], int n, int m);
+int  main()
+{
+    int a[DIM][DIM], n, m;
+    int b[DIM][DIM];
+    puts("Introduceti marimile matricei, nr. de coloane si nr. de randuri");
+    printf("Nr. coloane: "); scanf("%d", &m);
+    printf("Nr. randuri: "); scanf("%d", &n);
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            printf("\ta[%d][%d] = ", i, j);
+            scanf("%d", &a[i][j]);
+        }
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            printf("\tb[%d][%d] = ", i, j);
+            scanf("%d", &b[i][j]);
+        }
+
+    pozElemPare(a, n, m);
+    pozElemPare(b, n, m);
+
+    sumaElemImpare(a, b,n, m);
+
+    sumaMatrici(a, b, n, m);
+    return 0;
+}
+
+void pozElemPare(int a[][DIM], int n, int m)
+{
+    bool ok = true;
+    printf("Pozitiile elementelor pare sunt : ");
+    for (int i = 0; i < n  ; i++)
+        for (int j = 0; j < m; j++)
+        {
+            if (!(a[i][j] % 2))
+            {
+                printf("%d ", i);
+                ok = false;
+            }
+        }
+    if(ok)
+        printf("\33[2K\rMatricea nu are elemente pare");
+    printf("\n");
+}
+void sumaElemImpare(int a[][DIM], int b[][DIM], int n, int m)
+{
+    int suma = 0;
+    bool ok = false;
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            if (a[i][j] % 2)
+            {
+                suma += a[i][j];
+                ok = true;
+            }
+            if (b[i][j] % 2)
+            {
+                suma += b[i][j];
+                ok = true;
+            }
+        }
+    if (ok)
+        printf("Suma elementelor impare din abele matrici este : %d\n", suma);
+    else
+        puts("Matricea nu are elemente impare");
+}
+void sumaMatrici(int a[][DIM], int b[][DIM], int n, int m)
+{
+    int suma[DIM][DIM];
+
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < m; j++)
+        {
+            suma[i][j] = a[i][j] + b[i][j];
+        }
+
+    puts("Suma matricilor este:");
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+            printf("%d ", suma[i][j]);
+
+     printf("\n");
+    }
+}

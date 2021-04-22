@@ -1,0 +1,40 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Se citesc mai multe medii. Sa se afiseze numarul studentiilor cu media mai mare sau egala cu 8
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 100
+int nrMedii(float* p, int lungime);
+int main()
+{
+	int nrStud;
+	float medii[DIM];
+	puts("Introduceti numarul studentilor:");
+	scanf("%d", &nrStud);
+	puts("Introduceti mediile:");
+	for (int i = 0; i < nrStud; i++)
+	{
+		printf("\tmedie %d = ", i + 1);
+		scanf("%f", &medii[i]);
+	}
+	printf("\n");
+	int nrMed = nrMedii(medii, nrStud);
+	if (nrMed > 0)
+		printf("Numarul studentilor cu media mai mare sau egala cu 8 este: %d\n", nrMed);
+	else
+		puts("Nu sunt studenti cu media mai mare sau egala cu 8");
+
+	return  0;
+}
+int nrMedii(float* p, int lungime)
+{
+	int cnt = 0;
+	for (int i = 0; i < lungime; i++)
+	{
+		if (p[i] >= 8)
+			cnt++;
+	}
+	return cnt;
+}

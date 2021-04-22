@@ -1,0 +1,27 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care concateneaza mai multe siruri de caractere introduse in linia de comanda
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+int main(int argc, char* argv[])
+{
+	
+	if (argc == 1) {
+		printf("Nu au fost introduse siruri de caractere de la linia de comanda");
+		return 1;
+	}
+	char s[DIM];
+	strcpy(s, argv[1]);
+	for (int i = 2; i < argc; i++)
+	{
+		strcat(s, argv[i]);
+	}
+	printf("%s", s);
+		
+	return 0;
+}

@@ -1,0 +1,21 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 5 - citirea si afisarea cu majuscula a numelui unei persoane
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#define DIM 100
+int  main()
+{
+    char nume[DIM], prenume[DIM];
+    puts("Introduceti numele si prenumele"); scanf("%s %s", nume, prenume);
+    printf("\n");
+
+    if ('a' < nume[0] && 'z' > nume[0])
+        nume[0] = nume[0] - 'a' + 'A';
+    if ('a' < prenume[0] && 'z' > prenume[0])
+        prenume[0] = prenume[0] - 'a' + 'A';
+
+    printf("%s\t\t%s\n", nume, prenume);
+    return 0;
+}

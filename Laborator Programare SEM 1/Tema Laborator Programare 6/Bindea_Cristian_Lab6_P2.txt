@@ -1,0 +1,24 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 2 - Aria unui triunghi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b, c;
+	double semi;
+	printf("Introduceti 3 numere intregi pozitive pentru laturile unui triunghi\n");
+	scanf("%d %d %d", &a, &b, &c);
+	if(a==0 || b==0 || c==0 || c>=a+b || a>=b+c || b>=a+c)
+		printf("Numerele introduse nu formeaza un triunghi\n");
+	else
+	{
+		semi = (double)(a + b + c) / 2;
+		printf("Aria triunghiului este %g\n", (sqrt(semi * (semi - a) * (semi - b) * (semi - b))));
+	}
+
+	return 0;
+}

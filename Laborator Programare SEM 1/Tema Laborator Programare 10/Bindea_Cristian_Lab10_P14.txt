@@ -1,0 +1,69 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 14 - Algoritm de interclasare a doi vectori
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+
+struct vec {
+	int* valori;
+	int dimensiune;
+};
+
+struct vec interclasare(vec vector1, vec vector2);
+int main()
+{
+	vec vector1;
+	vec vector2;
+	int v1[DIM], v2[DIM];
+	puts("Introduceti o dimensiune, din intervalul [0,99], pentru primul tablou");
+	scanf("%d", &vector1.dimensiune);
+	puts("Introduceti elementele ordonate crescator pentru primul tablou:");
+	for (int i = 0; i < vector1.dimensiune; i++)
+	{
+		printf("\tv1[%d] = ", i);
+		scanf("%d", &v1[i]);
+	}
+	puts("Introduceti o dimensiune, din intervalul [0,99], pentru al doilea tablou ");
+	scanf("%d", &vector2.dimensiune);
+	puts("Introduceti elementele ordonate crescator pentru doilea tablou:");
+	for (int i = 0; i < vector2.dimensiune; i++)
+	{
+		printf("\tv2[%d] = ", i);
+		scanf("%d", &v2[i]);
+	}
+	vector1.valori = v1;
+	vector2.valori = v2;
+	vec vector3;
+	vector3 = interclasare(vector1, vector2);
+
+	puts("Valorile vectorului interclasat sunt: ");
+	for (int i = 0; i < vector3.dimensiune; i++)
+		printf("%d ", vector3.valori[i]);
+	printf("\n");
+	return  0;
+}
+struct vec interclasare(vec vector1, vec vector2)
+{
+	vec vector3;
+	vector3.valori = (int*)malloc(sizeof(int) * (vector1.dimensiune + vector2.dimensiune));
+	vector3.dimensiune = 0;
+
+	//i - pozitia curenta vector1
+	//j - pozitia curenta vector2
+	int i = 0, j = 0;
+	while (i < vector1.dimensiune && j < vector2.dimensiune)
+		if (vector1.valori[i] < vector2.valori[j])
+			vector3.valori[vector3.dimensiune++] = vector1.valori[i++];
+		else
+			vector3.valori[vector3.dimensiune++] = vector2.valori[j++];
+	while (i < vector1.dimensiune)
+		vector3.valori[vector3.dimensiune++] = vector1.valori[i++];
+	while (j < vector2.dimensiune)
+		vector3.valori[vector3.dimensiune++] = vector2.valori[j++];
+
+	return vector3;
+}

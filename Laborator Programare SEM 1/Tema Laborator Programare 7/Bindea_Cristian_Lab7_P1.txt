@@ -1,0 +1,17 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 1 - aria unui dreptunghi si diagonala
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+    double a, b, c;
+    puts("Introduceti 3 numere reale pozitive:");
+    scanf("%lf %lf %lf", &a, &b, &c);
+    printf("Aria dreptunghiului cu laturile %g si %g este %g\n", a, b, (a * b));
+    (a * a + b * b == c * c) ? printf("%g Este", c) : printf("%g Nu este", c);
+    printf(" diagonala");
+    return 0;
+}

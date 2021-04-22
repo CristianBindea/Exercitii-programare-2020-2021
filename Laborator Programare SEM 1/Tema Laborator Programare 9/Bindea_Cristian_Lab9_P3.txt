@@ -1,0 +1,61 @@
+
+/*
+				Bindea  Gheorghe  Cristian
+				Problema    3  -  Citeste  un  sir  de  numere  si  copiaza  in  altul  doar  valorile  mai  mari  decat  media  numerelelor  citite
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define DIM  100
+
+struct arr copiere(struct arr* ptr, int m);
+
+struct arr {
+	int dimensiune;
+	int v[DIM];
+};
+
+int  main()
+{
+	struct arr array1;
+	double medie = 0.0;
+	puts("Introduceti marimea tabloului:");
+	scanf("%d", &array1.dimensiune);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < array1.dimensiune; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", array1.v + i);
+		medie += (double)*(array1.v + i);
+	}
+	medie /= (double)array1.dimensiune;
+
+	struct  arr  array2 = copiere(&array1, medie);
+
+	puts("Elementele tabloului sunt:");  printf("\t");
+	for (int i = 0; i < array1.dimensiune; i++)
+		printf("%d ", array1.v[i]);
+	printf("\n");
+	if (array2.dimensiune == 0)
+	{
+		puts("Tabloul nu contine elemente strict mai mari decat media valorilor introduse");
+	}
+	else
+	{
+		puts("Elementele mai mici decat media tabloului citit sunt:"); printf("\t");
+		for (int i = 0; i < array2.dimensiune; i++)
+			printf("%d  ", array2.v[i]);
+	}
+	printf("\n");
+	return 0;
+}
+
+struct arr copiere(struct arr* ptr, int m)
+{
+	struct arr array;
+
+	array.dimensiune = 0;
+	for (int i = 0; i < ptr->dimensiune; i++)
+		if (ptr->v[i] > m)
+			array.v[array.dimensiune++] = ptr->v[i];
+	return array;
+}

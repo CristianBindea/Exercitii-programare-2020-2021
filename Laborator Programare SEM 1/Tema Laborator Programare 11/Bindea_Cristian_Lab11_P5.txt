@@ -1,0 +1,88 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care calculeaza media elementelor citite de la tastatura si apoi Mn dupa formula Mn=(sum(pow((xi-xmed),n))/N, unde n=1,2,3
+					- Realizeaza aceeasi aplicatie si cu numere reale aleatoare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <cmath>
+
+float* p=NULL;
+
+int main()
+{
+	int n;
+	float medie = 0.0, Mn = 0.0,r;
+	puts("Introduceti dimensiunea tabloului");
+	scanf("%d", &n);
+	p = (float*)malloc(n * sizeof(float));
+	if (p == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return 1;
+	}
+	puts("Introduceti elementele tabloului");
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tp[%d] = ", i);
+		scanf("%f", p+i);
+		medie += p[i];
+	}
+	medie /= (float)n;
+	printf("Media numerelelor citite este: %g\n", medie);
+
+	for (int j = 1; j <= 3; j++)
+	{
+		if (j == 1)
+		{
+			printf("M%d este: %d\n", j, 0); continue;
+		}
+		for (int i = 0; i < n; i++)
+			Mn += pow((p[i] - medie), j);
+		Mn /= (float)n;
+		printf("M%d este: %g\n", j,Mn);
+	}
+	
+	printf("\n");
+	puts("Eliberam memoria");
+	free(p);
+	medie = 0.0; Mn = 0.0;
+	puts("Memorie eliberata");
+	printf("\n");
+	
+	p = new float[n];
+	if (p == NULL)
+	{
+		puts("Alocare nereusita 2");
+		return 2;
+	}
+	printf("Numerele aleatorii sunt: ");
+	srand((unsigned)time(NULL));
+	for (int i = 0; i < n; i++)
+	{
+		r = (float)(rand()) / ((float)(RAND_MAX / 100));// numere reale aleatorii pana la 100
+		p[i] = r;
+		medie += r;
+		printf("%f, ",r);
+	}
+	printf("\b\b  \b\n");
+	medie /= n;
+	printf("Media lor este: %g\n", medie);
+	for (int j = 1; j <= 3; j++)
+	{
+		if (j == 1)
+		{
+			printf("M%d este: %d\n", j, 0); continue;
+		}
+		for (int i = 0; i < n; i++)
+			Mn += pow((p[i] - medie), j);
+		Mn /= (float)n;
+		printf("M%d este: %g\n", j, Mn);
+	}
+	delete[] p;
+	
+	return  0;
+}

@@ -1,0 +1,106 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Se citeste o matrice si se interschimba doua linii ale matricii, toate acestea folosind functii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void interschimbare(int** array, int n, int l1, int l2);
+int** alocare(int n);
+int** citire(int n);
+void afisare(int** array, int n);
+void eliberare(int** a, int m);
+void schimb(int& a, int& b);
+int main()
+{
+	int** arr;
+	int n, l1, l2;
+	puts("Introduceti dimensiunea matricii patratice:");
+	scanf("%d", &n);
+
+	printf("Introduceti numerele a doua linii care vor fi interschimbate (strict mai mici decat %d)\nTinand cont ca numerotarea liniilor incepe de la 0\n", n);
+	printf("Prima linie: "); scanf("%d", &l1);
+	if (l1 >= n || l1 < 0) { puts("Numarul liniei introduse este invalid"); return 1; }
+	printf("A doua linie: "); scanf("%d", &l2);
+	if (l2 >= n || l2 < 0) { puts("Numarul liniei introduse este invalid"); return 1; }
+
+	arr = citire(n);
+	if (arr == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+
+	puts("Matricea introdusa este:");
+	afisare(arr, n);
+	interschimbare(arr, n, l1, l2);
+	printf("\n");
+	puts("Matricea modificata este:");
+	afisare(arr, n);
+
+	return  0;
+
+}
+void interschimbare(int** array, int n, int l1, int l2)
+{
+	for (int i = 0; i < n; i++)
+	{
+		schimb(array[l1][i], array[l2][i]);
+	}
+}
+
+int** alocare(int n) {
+	int** array;
+	array = (int**)calloc(n, sizeof(int*));
+	if (array == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++) {
+		array[i] = (int*)malloc(sizeof(int) * n);
+		if (array[i] == NULL) {
+			return NULL;
+		}
+	}
+	return array;
+}
+
+int** citire(int n)
+{
+	int** array = alocare(n);
+	if (array == NULL)
+		return NULL;
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tm[%d][%d] = ", i, j);
+			scanf("%d", &array[i][j]);
+		}
+	return array;
+}
+
+void afisare(int** array, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%d  ", array[i][j]);
+
+		printf("\n");
+	}
+}
+
+void eliberare(int** a, int m) {
+	int i;
+	for (i = 0; i < m; i++)
+		free(a[i]);
+	free(a);
+}
+void schimb(int& a, int& b)
+{
+	int aux;
+	aux = a;
+	a = b;
+	b = aux;
+}

@@ -1,0 +1,31 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 1 - Rezistente echivalente serie si paralel
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int rez_echiv_serie(int a, int b);
+double rez_echiv_paralel(int a, int b);
+
+int main()
+{
+	int r1, r2, rez_serie;
+	double rez_paralel;
+	
+	printf("Introduceti doua numere intregi pentru valorile rezistentelor: ");
+	scanf("%d %d", &r1, &r2);
+	rez_serie = rez_echiv_serie(r1, r2);
+	rez_paralel = rez_echiv_paralel(r1, r2);
+	printf("\nRezistenta echivalenta serie: %d\nRezistenta echivalenta paralel: %.3lf\n", rez_serie, rez_paralel);
+	return 0;
+
+}
+int rez_echiv_serie(int a, int b) {
+
+	return a + b;
+}
+double rez_echiv_paralel(int a, int b) {
+
+	return (double)a * b / ((double)a + b);
+}

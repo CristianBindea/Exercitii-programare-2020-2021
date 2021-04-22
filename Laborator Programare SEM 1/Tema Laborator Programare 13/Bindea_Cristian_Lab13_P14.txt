@@ -1,0 +1,81 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 14 - Program care citeste un numar n de numere, le scrie intr-un fisier binar,
+		apoi afiseaza daca numerele de pe pozitiile impare sunt pare sau impare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void citire(int* v, int n);
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[]="fis.bin";
+
+	puts("Introduceti un numar intreg n");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Valoare invalida");
+		exit(1);
+	}
+	int* v = new int[n];
+	if (v == NULL)
+	{
+		puts("Alocarea nu a reusit");
+		exit(1);
+	}
+	citire(v, n);
+
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	fwrite(v, sizeof(int), n, f);
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	int* ptr = new int[n];
+
+	fseek(f, 0L, SEEK_SET);
+	int nr;
+	int a=1;
+	printf("Numerele de pe pozitii impare sunt:\n");
+	while (fread(&nr, sizeof(int), 1, f))
+	{
+		if (a % 2 != 0)
+		{
+			if (nr % 2 == 0)
+				printf("Numarul: %d de pe pozitia: %d este par\n",nr,a);
+			else
+				printf("Numarul: %d de pe pozitia: %d este impar\n",nr,a);
+		}
+		a++;
+	}
+	delete[]ptr;
+	fclose(f);
+	return 0;
+}
+void citire(int* v, int n)
+{
+	printf("Introduceti %d valori\n", n);
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+}

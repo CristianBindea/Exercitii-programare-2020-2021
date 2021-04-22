@@ -1,0 +1,43 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program cu funtie care returneaza o structura de date
+		In acest exemplu particular programul declara o structura tablou, formata dint-un vector si dimensiunea lui
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+struct tablou {
+	int vec[DIM];
+	int dimensiune;
+};
+
+tablou eliminareNumereImpare(tablou t);
+
+int main()
+{
+	tablou tab1; 
+	for (int i = 1; i <= 10; i++)
+		tab1.vec[i - 1] = i;
+
+	tab1.dimensiune = 9;
+
+	tablou tab2 = eliminareNumereImpare(tab1);
+
+	for (int i = 0; i < tab2.dimensiune; i++)
+		printf("%d ", tab2.vec[i]);
+	printf("\n");
+	return  0;
+}
+tablou eliminareNumereImpare(tablou t)
+{
+	static tablou t2;
+	t2.dimensiune = 0;
+	for(int i=0;i<t.dimensiune;i++)
+		if (t.vec[i] % 2 == 0)
+		{
+			t2.vec[t2.dimensiune++]=t.vec[i];
+		}
+	return t2;
+}

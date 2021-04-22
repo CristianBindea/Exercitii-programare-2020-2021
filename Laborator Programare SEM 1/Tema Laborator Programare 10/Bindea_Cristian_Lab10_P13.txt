@@ -1,0 +1,60 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 13 - Program care ordoneaza valorile la citire, intr-un vector
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 100
+
+int* citireOrdonata(int n);
+void schimb(int& a, int& b);
+
+int main()
+{
+	int n;
+	int* a;
+	puts("Introduceti dimensiunea tabloului:");
+	scanf("%d", &n);
+	a = citireOrdonata(n);
+	if (a == NULL)
+	{
+		puts("Alocarea a esuat");
+		return 1;
+	}
+	puts("Elementele introduse sunt: ");
+	for (int i = 0; i < n; i++)
+		printf("%d ", a[i]);
+	return 0;
+}
+int* citireOrdonata(int n)
+{
+	int poz;
+	bool ok = true;
+	int* v = (int*)malloc(sizeof(int) * n);
+	if (v == NULL)
+		return NULL;
+	puts("Introduceti elementele tabloului");
+	printf("\tv[%d] = ", 0);
+	scanf("%d", &v[0]);
+	for (int i = 1; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+
+		int j = i;
+		while (v[j] < v[j - 1] && j>0)
+		{
+			schimb(v[j], v[j - 1]);
+			j--;
+		}
+	}
+	return v;
+}
+void schimb(int& a, int& b)
+{
+	int aux;
+	aux = a;
+	a = b;
+	b = aux;
+}

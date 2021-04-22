@@ -1,0 +1,76 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Program care aloca memorie pentru o matrice de dimensiunea n x n si apoi afiseaza matrice si suma elementelor pare pozitive de sub diagonala principala
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int** alocare(int n);
+int suma(int** v, int n);
+void afisare(int** v, int n);
+void eliberare(int** v, int n);
+int main()
+{
+	int** v;
+	int n;
+	puts("Introduceti dimensiunea matricei");
+	scanf("%d", &n);
+	v = alocare(n);
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	puts("Introduceti elementele matricei");
+	for (int  i = 0; i < n; i++)
+		for (int  j = 0; j < n; j++)	
+			scanf("%d", &v[i][j]);
+		
+	puts("Matricea este:");
+	afisare(v, n);
+	printf("Suma elementelor pozitive pare de sub diagonala principala este: %d\n", suma(v, n));
+	eliberare(v, n);
+	return  0;
+}
+
+int** alocare(int n)
+{
+	int** v;
+	v = (int**)calloc(n, sizeof(int));
+	if (v == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++)
+	{
+		v[i] = (int*)calloc(n, sizeof(int));
+		if (v[i] == NULL)
+			return NULL;
+	}
+	return v;
+}
+int suma(int** v, int n)
+{
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if(i>j)
+			if ((v[i][j] > 0) && (v[i][j] % 2 == 0))
+				sum += v[i][j];
+		}
+	return sum;
+}
+void afisare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			printf("%d  ", v[i][j]);
+		printf("\n");
+	}
+}
+void eliberare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+		free(v[i]);
+	//free(v);
+}

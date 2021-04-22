@@ -1,0 +1,49 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Program care stocheaza date despre studenti, folosind structura tip Student si afiseaza doar studentul cu media cea mai mare 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+	char nume[20];
+	char prenume[20];
+	double media;
+};
+
+Student ceaMaiMareMedie(Student* p, int n);
+
+int main()
+{
+	int n;
+	puts("Introduceti numarul de studenti");
+	scanf("%d", &n);
+	Student* stud = new Student[n];
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < n; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+		printf("Media: "); scanf("%lf", &stud[i].media);
+
+	}
+	Student MedieMax = ceaMaiMareMedie(stud, n);
+	printf("Studentul cu cea mai mare medie este %s %s cu media %g", MedieMax.nume, MedieMax.prenume, MedieMax.media);
+	delete[]stud;
+	return  0;
+}
+Student ceaMaiMareMedie(Student* p,int n)
+{
+	double medieMax = p->media;
+	int poz = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (medieMax < (p + i)->media)
+		{
+			medieMax = (p + i)->media;;
+			poz = i;
+		}
+	}
+	return p[poz];
+}

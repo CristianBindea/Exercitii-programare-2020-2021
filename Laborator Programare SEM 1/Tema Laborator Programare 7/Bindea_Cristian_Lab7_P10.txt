@@ -1,0 +1,27 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Numarul de cifre a unui intreg citit
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int nrCif(int a);
+int  main()
+{
+	int a;
+	puts("Intorduceti un numar intreg");
+	scanf("%d", &a);
+
+	printf("Numarul %d este format din %d cifre\n", a, nrCif(a));
+	return 0;
+}
+int nrCif(int a)
+{
+	int cnt = 0;
+	do
+	{
+		a /= 10;
+		cnt++;
+	} while (a);
+
+	return cnt;
+}

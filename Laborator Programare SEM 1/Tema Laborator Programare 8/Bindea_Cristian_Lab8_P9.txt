@@ -1,0 +1,32 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 9 - Nr. de elemente negative dintr-un sir si afisarea lor
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+int main()
+{
+    int  v[DIM], n, nr=0;
+    puts("Introduceti un numar intreg, numarul de elemente a sirului");
+    scanf("%d", &n);
+
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%d", &v[i]);
+
+        if (v[i] < 0)
+            nr++;
+    }
+    printf("Numarul de elemente negative ale sirului este %d\nAcestea sunt : ", nr);
+    for (int i = 0; i < n; i++)
+    {
+        if (v[i] < 0)
+            printf("%d ", v[i]);
+    }
+    return 0;
+}

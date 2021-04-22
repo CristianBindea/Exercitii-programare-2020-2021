@@ -1,0 +1,21 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 9 - Aria cercului sau aria dreptunghiului
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	const double pi = 3.14159265359;
+	int a, b;
+	printf("Introduceti 2 numere intregi\n");
+	scanf("%d %d", &a, &b);
+	if (a == b)
+		printf("Aria cercului de raza %d este %g", a, (pi * a * a));
+	else
+		printf("Aria dreptunghiului cu laturile %d si %d este %d", a, b, (a * b));
+
+	return 0;
+}

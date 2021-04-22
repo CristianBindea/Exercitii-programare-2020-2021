@@ -1,0 +1,85 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 16 - Program care citeste numere pana la apasarea tastei ESC apoi afiseaza media numerelor impare pozitive
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include <conio.h>
+
+int main()
+{
+	int cnt = 0, suma = 0;
+	char ch;
+	printf("Introduceti numere intregi si apasati ESC pentru a afisa media numerelor impare pozitive :\n");
+	do
+	{
+		int numar = 0;
+		bool ok_esc = false;
+
+		ch = _getch();
+		if ((ch >= '0' && ch <= '9') || ch == 27 || ch == 13 || ch == 45 || ch == 32)
+		{
+			if (ch == 27)
+				break;
+			else if (ch == 13)
+				printf("\n");
+			else if (ch == 45)
+			{
+				while (ch != 13 && ch != 32)
+				{
+					printf("%c", ch);
+					ch = _getch();
+
+					if (ch == 27) {
+						ok_esc = true;
+						break;
+					}
+
+				}
+				if (ok_esc)
+					break;
+				if (ch == 13)
+					printf("\n");
+				else
+					printf(" ");
+			}
+			else
+			{
+				while (ch != 13 && ch != 32)
+				{
+					printf("%c", ch);
+					if (ch >= '0' && ch <= '9')
+						numar = numar * 10 + (ch - '0');
+					ch = _getch();
+
+					if (ch == 27) {
+						ok_esc = true;
+						break;
+					}
+				}
+				if (ok_esc)
+					break;
+				if (ch == 13)
+					printf("\n");
+				else
+					printf(" ");
+			}
+
+			if (numar % 2 == 1)
+			{
+				suma += numar;
+				cnt++;
+			}
+		}
+		else
+			printf("Caracterul introdus nu este o cifra\n");
+	} while (1);
+		if (cnt > 0)
+		{
+			puts("\n Media numerelor impare pozitive este: ");
+			printf("%g ", ((double)suma / (double)cnt));
+		}
+		else
+			puts("\n Nu au fost introduse numere impare pozitive");
+		return 0;
+}

@@ -1,0 +1,21 @@
+/*
+        Bindea  Gheorghe Cristian
+        Problema   3 -  valorile biţilor unei variabile de tip unsigned char
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void baza2(unsigned char a);
+
+int  main()
+{
+    unsigned char a;
+    scanf("%hhu", &a);
+    baza2(a);
+    return  0;
+}
+
+void baza2(unsigned char a) {
+    if (a)
+        baza2(a >> 1);
+    printf("%d ", a % 2);
+}

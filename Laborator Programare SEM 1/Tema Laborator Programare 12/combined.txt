@@ -1,0 +1,656 @@
+/*Tema Laborator 12 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema  1 - Se citesc datele unui student in structura Student apoi afiseaza numarul de studenti straini, adica cei care nu au "Romania" sau "romania" la tara de origine 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define MAX 100
+
+struct Student {
+	char nume[20];
+	char prenume[20];
+	char grupa[10];
+	char tara_de_origine[30];
+	int anul_nasterii;
+};
+int main()
+{
+	Student stud[MAX];
+	int cnt = 0;
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < MAX; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+
+		if (!strcmp(stud[i].nume, "AAA"))
+		{
+			break;
+		}
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+		printf("Grupa: "); scanf("%d", &stud[i].grupa);
+		printf("Anul nasterii: "); scanf("%d", &stud[i].anul_nasterii);
+		printf("Tara de origine: "); scanf("%s", &stud[i].tara_de_origine);
+
+		if (!strcmp(stud[i].tara_de_origine,"Romania") || !strcmp(stud[i].tara_de_origine, "romania"))
+			continue;
+		else
+			cnt++;
+
+	}
+	if (cnt == 0)
+		printf("Nu sunt studeti straini");
+	else
+		printf("Numarul studentilor straini este: %d",cnt);
+		
+	return  0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 10 - Program care citeste datele unei masini si afiseaza informatiile doar pentru masini rosi, fabricate dupa anul 2010
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 30
+
+struct Masina {
+	char producator[DIM];
+	int anul_fabrictiei;
+	double capacitatea_cilindrica;
+	char culoare[DIM];
+};
+
+void citireDate(struct Masina* p);
+
+int main()
+{
+
+	int n;
+	puts("Introduceti numarul de masini");
+	scanf("%d", &n);
+	Masina* masini=new Masina[n];
+	if (n <= 0)
+	{
+		puts("Dimensiune invalida");
+		return 1;
+	}
+	else if(n==1)
+	printf("Introduceti datele pentru o masina\n");
+	else 
+	printf("Introduceti datele pentru %d masini\n", n);
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Masina %d\n", i+1);
+		citireDate(masini+i);
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		if (masini[i].anul_fabrictiei > 2010 && (!(strcmp("rosu", masini[i].culoare)) || !(strcmp("rosie", masini[i].culoare))))
+		{
+			printf("Masina rosie, fabricata dupa anul 2010 este masina cu %g capacitate cilindrica, fabricata de %s\n", masini[i].capacitatea_cilindrica, masini[i].producator);
+		}
+	}
+	
+	delete[]masini;
+	return  0;
+}
+void citireDate(struct Masina* p)
+{
+	puts("Producatorul masinii:");
+	scanf("%s", &p->producator);
+	puts("Anul de fabricatie a masinii:");
+	scanf("%d", &p->anul_fabrictiei);
+	puts("Capacitatea cilindrica a masinii:");
+	scanf("%lf", &p->capacitatea_cilindrica);
+	puts("Culoarea masinii:");
+	scanf("%s", &p->culoare);
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 11 - Program care face diferenta dintre union si struct 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+union grup {
+	int nrNatural;
+	double nrReal;
+	char sir[20];
+};
+struct grup2 {
+	int nrNatural;
+	double nrReal;
+	char sir[20];
+};
+int main()
+{
+	grup elem1;
+	grup2 elem2;
+
+	puts("UNION");
+	puts("Introduceti un numar natural");
+	scanf("%d", &elem1.nrNatural);
+	puts("Introduceti un numar real");
+	scanf("%lf", &elem1.nrReal);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &elem1.sir);
+
+	printf("%d\n", elem1.nrNatural);
+	printf("%lf\n", elem1.nrReal);
+	printf("%s\n", elem1.sir);
+	printf("\n");
+
+	puts("Nu este posibil sa afisam in acelasi timp toate campurile, doar ultimul initializat");
+	puts("Dar folosind o structura struct se pot afisa toate campurile in acelasi timp");
+
+	printf("\n");
+	puts("STRUCT");
+	puts("Introduceti un numar natural");
+	scanf("%d", &elem2.nrNatural);
+	puts("Introduceti un numar real");
+	scanf("%lf", &elem2.nrReal);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &elem2.sir);
+	
+	printf("%d\n", elem2.nrNatural);
+	printf("%lf\n", elem2.nrReal);
+	printf("%s\n", elem2.sir);
+	
+	printf("Dar dimensiunea elementului union ( %u ) este semnificativ mai mica decat cea a elementului struct ( %u )\n", sizeof(elem1), sizeof(elem2));
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Program care initializeaza o structura de tip enum care contine culori, afiseaza cateva combinatii de culori, si apoi traduce toate culorile in limba engleza
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+enum Lumina_Alba {
+	rosu = 1, galben, portocaliu, albastru, violet, verde, indigo, sfarsit
+};
+
+void nume(Lumina_Alba culoare);
+void traducere(Lumina_Alba culoare);
+int main()
+{
+	Lumina_Alba lumina1 = albastru;
+	Lumina_Alba lumina2 = rosu;
+	int lumina3;
+	lumina3 = lumina1 + lumina2;
+	printf("Lumina mov %d = lumina albastra %d + lumina rosie %d\n", lumina3, lumina1, lumina2);
+	printf("Lumina magenta %d = lumina violet %d + lumina rosie %d\n", (violet + rosu), violet, rosu);
+	printf("Lumina cyan %d = lumina albastra %d + lumina verde %d\n\n", (albastru + verde), albastru, verde);
+
+	for (int i = Lumina_Alba::rosu; i != Lumina_Alba::sfarsit; i++)
+	{
+		printf("Numele initial: "); nume(static_cast<Lumina_Alba>(i)); printf(";");
+		printf(" Noul nume: "); traducere(static_cast<Lumina_Alba>(i)); printf(";");
+		printf(" Valoarea asociata: %d;\n\n", static_cast<Lumina_Alba>(i));
+	}
+
+	return  0;
+}
+void nume(Lumina_Alba culoare)
+{
+	switch (culoare) {
+	case rosu: printf("rosu"); break;
+	case portocaliu: printf("portocaliu"); break;
+	case galben: printf("galben"); break;
+	case indigo: printf("indigo"); break;
+	case violet:printf("violet"); break;
+	case verde: printf("verde"); break;
+	case albastru: printf("albastru"); break;
+	default: printf("");
+	}
+}
+
+
+void traducere(Lumina_Alba culoare)
+{
+	switch (culoare) {
+	case rosu: printf("red"); break;
+	case portocaliu: printf("orange"); break;
+	case galben: printf("yellow"); break;
+	case indigo: printf("indigo"); break;
+	case violet:printf("purple"); break;
+	case verde: printf("green"); break;
+	case albastru: printf("blue"); break;
+	default: printf("");
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Program in care se declara o structura apoi se afiseaza date din ea prin valoare si respectiv prin adresa
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct avion {
+	char culoare[20];
+};
+void afisare(struct avion p);
+void afisarePrinPointer(struct avion* p);
+int main()
+{
+
+	avion A;
+	strcpy(A.culoare, "alb");
+	afisare(A);
+	printf("\n");
+	afisarePrinPointer(&A);
+	return  0;
+}
+void afisare(struct avion p)
+{
+	puts("Afisare prin valoare:");
+	printf("Am vazut un avion %s\n", p.culoare);
+}
+void afisarePrinPointer(struct avion* p)
+{
+	puts("Afisare prin adresa:");
+	printf("Am vazut un avion %s\n", p->culoare);
+
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program cu funtie care returneaza o structura de date
+		In acest exemplu particular programul declara o structura tablou, formata dint-un vector si dimensiunea lui
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+struct tablou {
+	int vec[DIM];
+	int dimensiune;
+};
+
+tablou eliminareNumereImpare(tablou t);
+
+int main()
+{
+	tablou tab1; 
+	for (int i = 1; i <= 10; i++)
+		tab1.vec[i - 1] = i;
+
+	tab1.dimensiune = 9;
+
+	tablou tab2 = eliminareNumereImpare(tab1);
+
+	for (int i = 0; i < tab2.dimensiune; i++)
+		printf("%d ", tab2.vec[i]);
+	printf("\n");
+	return  0;
+}
+tablou eliminareNumereImpare(tablou t)
+{
+	static tablou t2;
+	t2.dimensiune = 0;
+	for(int i=0;i<t.dimensiune;i++)
+		if (t.vec[i] % 2 == 0)
+		{
+			t2.vec[t2.dimensiune++]=t.vec[i];
+		}
+	return t2;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care utilizeaza o structura de tip Angajat si afiseaza datele despre toti angajatii cu ocupatia de inginer
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+#define NR 20
+struct Angajat {
+	char nume[DIM];
+	char prenume[DIM];
+	char ocupatie[DIM];
+	char data_nasterii[DIM];
+	char sectie[DIM];	
+};
+
+int main()
+{
+	int n;
+	Angajat angajati[NR];
+	puts("Introduceti numarul angajatilor (un numar <20)");
+	scanf("%d", &n);
+	if (n > NR)
+	{
+		puts("Numar prea mare");
+		return 1;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Date despre angajatul %d\n", i + 1);
+		printf("Nume: "); scanf("%s", angajati[i].nume);
+		printf("Prenume: "); scanf("%s", angajati[i].prenume);
+		printf("Ocupatia: "); scanf("%s", angajati[i].ocupatie);
+		printf("Data nasterii: "); scanf("%s", angajati[i].data_nasterii);
+		printf("Sectie: "); scanf("%s", angajati[i].sectie);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		if (!strcmp("Inginer", angajati[i].ocupatie) || !strcmp("inginer", angajati[i].ocupatie))
+		{
+			printf("Angajatul %s %s e nascut pe data de %s are ocupatia de Inginer si lucreaza la sectia %s\n", angajati[i].nume, angajati[i].prenume, angajati[i].data_nasterii, angajati[i].sectie);
+		}
+	}
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Program care citeste date despre un numar n de angajati apoi ii afiseaza in ordinea datei angajarii
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+#define NR 20
+struct data
+{
+	int zi;
+	int luna;
+	int an;
+};
+struct Angajat {
+	char nume[DIM];
+	char prenume[DIM];
+	char CNP[DIM];
+	char data_nasterii[DIM];
+	data data_angajarii;
+};
+
+bool comparare(Angajat d1, Angajat d2);
+void sortare(Angajat a[NR], int n);
+
+int main()
+{
+	int n;
+	Angajat angajati[NR];
+	puts("Introduceti numarul angajatilor (un numar <20)");
+	scanf("%d", &n);
+	if (n > NR)
+	{
+		puts("Numar prea mare");
+		return 1;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Date despre angajatul %d\n", i + 1);
+		printf("Nume: "); scanf("%s", &angajati[i].nume);
+		printf("Prenume: "); scanf("%s", &angajati[i].prenume);
+		printf("Cod Numeric Personal: "); scanf("%s", &angajati[i].CNP);
+		printf("Data nasterii (ZZ LL AAAA): "); scanf("%s", &angajati[i].data_nasterii);
+		printf("Data angajarii: (ZZ LL AAAA)\n");
+		printf("Ziua:"); scanf("%d", &angajati[i].data_angajarii.zi);
+		printf("Luna:"); scanf("%d", &angajati[i].data_angajarii.luna);
+		printf("Anul:"); scanf("%d", &angajati[i].data_angajarii.an);
+	}
+
+	sortare(angajati, n);
+	printf("\n");
+	puts("Angajatii ordonati in funtie de data angajarii\n");
+	for (int i = 0; i < n; i++)
+	{	
+		printf("%s %s\nCNP:%s\nData nasterii: %s\n",angajati[i].nume, angajati[i].prenume, angajati[i].CNP, angajati[i].data_nasterii);
+		printf("Data angajarii: %d/%d/%d\n", angajati[i].data_angajarii.zi, angajati[i].data_angajarii.luna, angajati[i].data_angajarii.an);
+	}
+	return  0;
+}
+
+bool comparare(Angajat d1, Angajat d2)
+{
+	if (d1.data_angajarii.an < d2.data_angajarii.an)
+		return true;
+	if (d1.data_angajarii.an == d2.data_angajarii.an && d1.data_angajarii.luna < d2.data_angajarii.luna)
+		return true;
+	if (d1.data_angajarii.an == d2.data_angajarii.an && d1.data_angajarii.luna == d2.data_angajarii.luna && d1.data_angajarii.zi < d2.data_angajarii.zi)
+		return true;
+	return false;
+}
+
+void sortare(Angajat a[NR], int n){
+
+	data aux;
+	for (int i = 0; i < n - 1; i++)
+		for (int j = 0; j < n - i - 1; j++)
+	{
+		if (!comparare(a[j], a[j + 1]))
+		{
+			aux = a[i].data_angajarii;
+			a[i].data_angajarii = a[i + 1].data_angajarii;
+			a[i + 1].data_angajarii = aux;
+		}
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Program care stocheaza date despre studenti, folosind structura tip Student si afiseaza doar studentul cu media cea mai mare 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+	char nume[20];
+	char prenume[20];
+	double media;
+};
+
+Student ceaMaiMareMedie(Student* p, int n);
+
+int main()
+{
+	int n;
+	puts("Introduceti numarul de studenti");
+	scanf("%d", &n);
+	Student* stud = new Student[n];
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < n; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+		printf("Media: "); scanf("%lf", &stud[i].media);
+
+	}
+	Student MedieMax = ceaMaiMareMedie(stud, n);
+	printf("Studentul cu cea mai mare medie este %s %s cu media %g", MedieMax.nume, MedieMax.prenume, MedieMax.media);
+	delete[]stud;
+	return  0;
+}
+Student ceaMaiMareMedie(Student* p,int n)
+{
+	double medieMax = p->media;
+	int poz = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (medieMax < (p + i)->media)
+		{
+			medieMax = (p + i)->media;;
+			poz = i;
+		}
+	}
+	return p[poz];
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care aloca memorie pentru n structuri de tip student, in care se citeste numele, prenumele si genul studentului
+		apoi afiseaza numarul de studente citite
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Student {
+	char nume[20];
+	char prenume[20];
+	bool gen;// 1-baiat, 0-fata
+};
+
+int main()
+{
+	int n,cnt=0; 
+	char genn[20];
+	puts("Introduceti numarul de studenti");
+	scanf("%d", &n);
+	Student* stud = new Student[n];
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < n; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+
+		printf("Gen: "); scanf("%s", &genn);
+		if (!strcmp(genn, "baiat") || !strcmp(genn, "Baiat") || !strcmp(genn, "masculin"))
+			stud[i].gen = 1;
+		else if (!strcmp(genn, "fata") || !strcmp(genn, "Fata") || !strcmp(genn, "feminin") || !strcmp(genn, "domnisoara"))
+		{
+			stud[i].gen = 0;
+			cnt++;
+		}
+		else
+		{
+			printf("Gen invalid. Reincercati\n");
+			i--;
+		}
+	}
+	printf("Numarul de studente este %d\n", cnt);
+	delete[]stud;
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care foloseste structura O_struct, o initializeaza de doua ori, odata folosind pointeri si odata fara pointeri, apoi afiseaza toate datele introduse
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+struct O_struct {
+	int numar;
+	char ch;
+	char sirCh[256];
+};
+int main()
+{
+	static O_struct a;
+	puts("Introduceti un numar");
+	scanf("%d", &a.numar);
+	puts("Introduceti un caracter");
+	scanf(" %c", &a.ch);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &a.sirCh);
+	O_struct* po_struct;
+	po_struct = new O_struct;
+	puts("Introduceti un numar");
+	scanf("%d", &po_struct->numar);
+	puts("Introduceti un caracter");
+	scanf(" %c", &po_struct->ch);
+	puts("Introduceti un sir de caractere");
+	scanf("%s", &po_struct->sirCh);
+
+	printf("Primul numar intodus este: %d\nPrimul caracter introdus este: %c\nPrimul sir introdus este: %s\n", a.numar, a.ch, a.sirCh);
+	printf("Al doilea numar intodus este: %d\nAl doilea caracter introdus este: %c\nAl doilea sir introdus este: %s\n", po_struct->numar, po_struct->ch, po_struct->sirCh);
+	delete po_struct;
+	return  0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care aloca dinamic memorie pentru n structuri de tip produs, apoi afiseaza produsul cu cantitatea cea mai mare
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 50
+struct Produs {
+	char denumire[DIM];
+	double pret;
+	double cantitate;
+};
+int main()
+{
+	int n, pozitieMaxim = 0;
+	double cantitateMaxima = 0;
+	puts("Introduceti numarul de produse");
+	scanf("%d", &n);
+	Produs* produse = new Produs[n];
+	for (int i = 0; i < n; i++)
+	{
+		printf("Introduceti denumirea produsului %d\n", i + 1);
+		scanf("%s", &(produse + i)->denumire);
+		puts("Introduceti pretul produsului");
+		scanf("%lf", &(produse + i)->pret);
+		puts("Introduceti cantitatea produsului");
+		scanf("%lf", &(produse + i)->cantitate);
+		if (cantitateMaxima < (produse + i)->cantitate)
+		{
+			cantitateMaxima = (produse + i)->cantitate;
+			pozitieMaxim = i;
+		}
+	}
+	printf("Produsul cu cantitatea cea mai mare este %s la pretul de %g lei\n", (produse + pozitieMaxim)->denumire, (produse + pozitieMaxim)->pret);
+
+	delete[n]produse;
+	return  0;
+}
+

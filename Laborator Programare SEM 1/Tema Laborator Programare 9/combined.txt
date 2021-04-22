@@ -1,0 +1,387 @@
+/*Tema Laborator 9 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema 1 - Program care citeste doua siruri de numere si apoi afiseaza produsul lor scalar
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+#define DIM 50
+void citire(int v[], int n);
+int produsScalar(int* p1, int n1, int* p2, int n2);
+int main()
+{
+	int n, m;
+	int a[DIM], b[DIM];
+	puts("Introduceti numarul elementelor primului tablou:");
+	scanf("%d", &n);
+	citire(a,n);
+	puts("Introduceti numarul elementelor celui de-al doilea tablou:");
+	scanf("%d", &m);
+	citire(b,m);
+	printf("Produsul scalar a vectorilor introdusi este: %d", produsScalar(a, n, b, m));
+	return  0;
+}
+void citire(int *p, int n) {
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", p+i);
+	}
+}
+int produsScalar(int* p1, int n1, int* p2, int n2)
+{
+	int produs = 0;
+	for (int i = 0; i < (n1 < n2 ? n1 : n2); i++)
+	{
+		produs += (*(p1 + i)) * (*(p2 + i));
+	}
+
+	return produs;
+}
+
+
+<---------------------------------------------------------------------->
+
+/*
+                Bindea  Gheorghe  Cristian
+                Problema    2  -  Genereaza  un  tablou  aleator  cu  numere  mai  mici  decat  50,  apoi  printr-o  functie  elimina  numerele  impare  din  tablou
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include  <stdlib.h>
+#include  <time.h>
+
+#define  DIM  100
+#define  MARIME  20
+
+int*  getRandom(int  n);
+int  eliminare(int*  p);
+int  main()
+{
+        int*  p;
+        int  m;
+
+        p  =  getRandom(MARIME);
+        printf("\n");
+        puts("Tabloul  initial  generat  aleatoriu  cu  numere  mai  mici  decat  50:");
+        for  (int  i  =  0;  i  <  MARIME;  i++)
+                printf("%d  ",  *(p  +  i));
+
+        printf("\n\n");
+        m  =  eliminare(p);
+
+        puts("Tabloul  dupa  apelarea  funtiei  de  eliminare:");
+        for  (int  i  =  0;  i  <  m;  i++)
+                printf("%d  ",  *(p  +  i));
+        printf("\n\n");
+
+        return    0;
+}
+
+int*  getRandom(int  n)  {
+        static  int  v[DIM];
+        srand((unsigned)time(NULL));
+        for  (int  i  =  0;  i  <  n;  ++i)
+                v[i]  =  rand()  %  50;
+
+        return  v;
+}
+
+int  eliminare(int*  p)
+{
+        int  m  =  MARIME;
+        for  (int  i  =  0;  i  <=  m;  i++)
+        {
+                if  (*(p  +  i)  %  2  ==  1)
+                        for  (int  k  =  i;  k  <  m;  k++)
+                        {
+                                *(p  +  k)  =  *(p  +  k  +  1);
+                        }
+                m--;
+        }
+        return  m;
+}
+
+
+
+<---------------------------------------------------------------------->
+
+/*
+				Bindea  Gheorghe  Cristian
+				Problema    3  -  Citeste  un  sir  de  numere  si  copiaza  in  altul  doar  valorile  mai  mari  decat  media  numerelelor  citite
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#define DIM  100
+
+struct arr copiere(struct arr* ptr, int m);
+
+struct arr {
+	int dimensiune;
+	int v[DIM];
+};
+
+int  main()
+{
+	struct arr array1;
+	double medie = 0.0;
+	puts("Introduceti marimea tabloului:");
+	scanf("%d", &array1.dimensiune);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < array1.dimensiune; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", array1.v + i);
+		medie += (double)*(array1.v + i);
+	}
+	medie /= (double)array1.dimensiune;
+
+	struct  arr  array2 = copiere(&array1, medie);
+
+	puts("Elementele tabloului sunt:");  printf("\t");
+	for (int i = 0; i < array1.dimensiune; i++)
+		printf("%d ", array1.v[i]);
+	printf("\n");
+	if (array2.dimensiune == 0)
+	{
+		puts("Tabloul nu contine elemente strict mai mari decat media valorilor introduse");
+	}
+	else
+	{
+		puts("Elementele mai mici decat media tabloului citit sunt:"); printf("\t");
+		for (int i = 0; i < array2.dimensiune; i++)
+			printf("%d  ", array2.v[i]);
+	}
+	printf("\n");
+	return 0;
+}
+
+struct arr copiere(struct arr* ptr, int m)
+{
+	struct arr array;
+
+	array.dimensiune = 0;
+	for (int i = 0; i < ptr->dimensiune; i++)
+		if (ptr->v[i] > m)
+			array.v[array.dimensiune++] = ptr->v[i];
+	return array;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema  4 - Fuctie care elimina caracterele care se repeta dintr-un sir de caractere
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define DIM 100
+
+void eliminare(char s[]);
+int main()
+{
+	char s[DIM];
+
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s);
+
+	eliminare(s);
+	puts("Sirul rezultat prin eliminarea caracterelor care se repeta este:");
+	printf("%s\n", s);
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	lungime = strlen(s);
+	char aux[DIM];
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i < lungime; i++)
+			if (*(s + k) == *(s + i) && *(s + k) != ' ' && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i) && *(s + k) != ' ')
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema  5 - Program care citeste doua siruri de caractere si apoi afiseaza numarul de caractere prin care ele difera
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+int nrCaractere(char* p1, char* p2);
+void eliminare(char s[]);
+int main()
+{
+	char s1[DIM], s2[DIM];
+
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s1);
+	puts("Introduceti un alt sir de caractere");
+	scanf(" %[^\n]s", s2);
+
+	eliminare(s1);
+	eliminare(s2);
+
+	printf("\nNumarul de elementele din primul sir care nu sunt in al doilea sir este: %d\n", nrCaractere(s1, s2));
+	printf("Numarul de elementele din al doilea sir care nu sunt in primul sir este: %d\n", nrCaractere(s2, s1));
+	printf("In total numarul de elemente prin care difera cele doua siruri este : %d\n", (nrCaractere(s1, s2) + nrCaractere(s2, s1)));
+
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	char aux[DIM];
+	lungime = strlen(s);
+
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i <= lungime; i++)
+			if (*(s + k) == *(s + i) && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i))
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}
+
+int nrCaractere(char* p1, char* p2)
+{
+	int cnt = 0;
+	bool ok;
+	int lungime1 = strlen(p1);
+	int lungime2 = strlen(p2);
+
+	for (int k = 0; k < lungime1; k++)
+	{
+		ok = false;
+		for (int i = 0; i <= lungime2; i++)
+		{
+			if (p1[k] == ' ')
+			{
+				break;
+				ok = true;
+			}
+			if (p2[i] == ' ')
+				continue;
+			if (p1[k] == p2[i])
+				ok = true;
+		}
+		if (ok == false)
+			cnt++;
+	}
+	return cnt;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+		Bindea Gheorghe Cristian
+		Problema  6 - Se citeste un sir de caractere apoi se afiseaza afiseaza caracterele din care se compune sirul citit si numarul de aparitii a lor
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+
+void eliminare(char s[]);
+void nrAparitii(char* p);
+int main()
+{
+	char s[DIM];
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s); printf("\n");
+
+	nrAparitii(s);
+
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	char aux[DIM];
+	lungime = strlen(s);
+
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i <= lungime; i++)
+			if (*(s + k) == *(s + i) && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i))
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}
+void nrAparitii(char* p)
+{
+	int fr[150];
+	for (char i = 'A'; i <= 'z'; i++)
+		fr[i] = 0;
+	int lungime = strlen(p);
+
+	for (int i = 0; i < lungime; i++)
+		if (*(p+i) > 'A' && *(p+i) < 'z')
+			fr[*(p+i)]++;
+
+	eliminare(p);
+	printf("Caracterele care compun sirul sunt: %s\n", p);
+
+	for (char i = 'A'; i <= 'z'; i++)
+		if (fr[i] > 0)
+		{
+			if (fr[i] == 1)
+				printf("Caracterul \"%c\" a aparut odata\n", i);
+			else if (fr[i] == 2)
+				printf("Caracterul \"%c\" a aparut de doua ori\n", i);
+			else
+				printf("Caracterul \"%c\" a aparut de %d ori\n", i, fr[i]);
+		}
+}
+
+

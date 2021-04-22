@@ -1,0 +1,57 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 15 - Ordonarea crescatoare a unui vector folosind functia qsort
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+int compareINT(const void* a, const void* b);
+int compareFLOAT(const void* a, const void* b);
+
+int main()
+{
+	int n,v[DIM];
+	puts("Introduceti dimensiunea unui tablu de numere intregi");
+	scanf("%d", &n);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%d", &v[i]);
+	}
+	qsort(v, n, sizeof(int), compareINT);
+	puts("Sirul de numere intregi ordonat este:");
+	for (int i = 0; i < n; i++)
+		printf("%d ", v[i]);
+	printf("\n\n");
+
+
+	int n2;
+	float v2[DIM];
+	puts("Introduceti dimensiunea unui tablu de numere reale");
+	scanf("%d", &n2);
+	puts("Introduceti elementele tabloului:");
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%f", &v2[i]);
+	}
+	qsort(v2, n2, sizeof(float), compareFLOAT);
+	puts("Sirul de numere reale ordonat este:");
+	for (int i = 0; i < n; i++)
+		printf("%g ", v2[i]);
+	printf("\n\n");
+
+	return  0;
+}
+
+int compareINT(const void* a, const void* b)
+{
+	return (*(int*)a - *(int*)b);
+}
+int compareFLOAT(const void* a, const void* b)
+{
+	return (*(float*)a - *(float*)b);
+}

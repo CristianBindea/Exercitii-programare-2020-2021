@@ -1,0 +1,23 @@
+/*
+        Bindea  Gheorghe Cristian
+        Problema   1 -  valoarea polinomului de grad 3 intr-un un x citit de la tastatura
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int  main()
+{
+    double a, b, c, d, x;
+    printf("Introduceti coeficientii, a, b, c si d ai ecuatiei de gradul 3:  a*x*x%c + b*x%c + c*x + d = 0\n", 253, 253);
+    
+    printf("a = "); scanf("%lf", &a);
+    printf("b = "); scanf(" %lf", &b);
+    printf("c = "); scanf(" %lf", &c);
+    printf("d = "); scanf(" %lf", &d);
+    printf("Introduceti valoarea lui x pentru care trebuie calculat polinomul %g*x*x%c + %g*x%c + %g*x + %g = 0\n x = ", a, 253, b, 253, c, d);
+    scanf(" %lf", &x);
+
+    printf("Valoarea polinomului este %g", (a * x * x * x + b * x * x + c * x + d));
+   
+    return  0;
+}

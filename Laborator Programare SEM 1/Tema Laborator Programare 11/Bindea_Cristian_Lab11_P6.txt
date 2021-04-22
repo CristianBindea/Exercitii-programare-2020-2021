@@ -1,0 +1,92 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care aloca dinamic o matrice, iar daca este patratica afiseaza determinantul ei
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 6
+int** submatrice(int** matrice, int p, int q, int n);
+int determinant(int** matrice, int n);
+void eliberare(int** v, int n);
+int main()
+{
+	int** matrice;
+	int n, m;
+	puts("Introduceti dimensiunile matricii, numere intregi cuprinse in intervalul [1,6]");
+	printf("Nr. coloane: "); scanf("%d", &m);
+	printf("Nr. linii: "); scanf("%d", &n);
+	if (m * n >= 49 || m * n <= 0)
+	{
+		puts("Dimensiuni invalide");
+		return 1;
+	}
+	matrice = (int**)calloc(m, sizeof(int));
+	if (matrice == NULL)
+	{
+		puts("Alocare nereusita 1");
+		return 2;
+	}
+	puts("Introduceti elementele matricii");
+	for (int i = 0; i < m; i++)
+	{
+		matrice[i] = (int*)calloc(n, sizeof(int));
+		for (int j = 0; j < n; j++)
+			scanf("%d", &matrice[i][j]);
+	}
+	if (m == n)
+		printf("Determinantul matricii introduse este %d\n", determinant(matrice, n));
+	else
+		puts("Matricea nu este patratica");
+
+	eliberare(matrice, n);
+	return 0;
+}
+int** submatrice(int **matrice, int p, int q, int n)
+{
+	int i = 0, j = 0;
+	int **aux = (int**)calloc(n, sizeof(int));
+	if (aux == NULL)
+		return NULL;
+	for (int i = 0; i < n; i++)
+	{
+		aux[i] = (int*)calloc(n, sizeof(int));
+		if (aux[i] == NULL)
+			return NULL;
+	}
+
+	for (int row = 0; row < n; row++)
+	for (int col = 0; col < n; col++)
+		if (row != p && col != q)
+		{
+			aux[i][j++] = matrice[row][col];
+			if (j == n - 1)
+			{
+				j = 0;
+				i++;
+			}
+		}
+	return aux;
+}
+int determinant(int **matrice, int n)
+{
+	int rezultat = 0;
+	if (n == 1)
+		return matrice[0][0];
+	int **temp;
+	int semn = 1;
+	for (int i = 0; i < n; i++)
+	{
+		temp = submatrice(matrice, 0, i, n);
+		rezultat += (semn * matrice[0][i]* determinant(temp, n - 1));
+		semn = -semn;
+	}
+	return rezultat;
+}
+void eliberare(int** v, int n)
+{
+	for (int i = 0; i < n; i++)
+		delete v[i];
+	delete v;
+}

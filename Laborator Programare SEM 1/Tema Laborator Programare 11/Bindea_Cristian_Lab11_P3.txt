@@ -1,0 +1,111 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 3 - Program care afiseaza doua matrici si suma lor, toate alocate dinamic
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+int** alocareMatrice(int m, int n);
+int** adunare(int m, int n, int** a, int** b);
+void afisare(int m, int n, int** c);
+void eliberare(int** a, int m);
+int main() {
+	int** a, ** b, ** c;
+	int n, m;
+
+	puts("Introduceti dimensiunile matricilor");
+	printf("Nr. coloane: "); scanf("%d", &n);
+	printf("Nr. liniilor: "); scanf("%d", &m);
+
+	a = alocareMatrice(m, n);
+	if (a == NULL)
+	{
+		puts("Alocarea lui A nu a reusit");
+		return 1;
+	}
+	b = alocareMatrice(m, n);
+	if (n == NULL)
+	{
+		puts("Alocarea lui B nu a reusit");
+		return 1;
+	}
+
+	puts("Introduceti elementele A");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tA[%d][%d] = ", i, j);
+			scanf("%d", &a[i][j]);
+		}
+	puts("Introduceti elementele B");
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+		{
+			printf("\tB[%d][%d] = ", i, j);
+			scanf("%d", &b[i][j]);
+		}
+
+	c = adunare(m, n, a, b);
+	if (c == NULL)
+	{
+		puts("Alocarea sumei nu a reusit");
+		return 1;
+	}
+	
+	printf("Matricea A este:\n");
+	afisare(n, m, a);
+	printf("Matricea B este:\n");
+	afisare(n, m, b);
+	printf("Suma matricilor A si B este:\n");
+	afisare(n, m, c);
+
+	eliberare(a, m);
+	eliberare(b, m);
+	eliberare(c, m);
+	return 0;
+}
+
+
+int** alocareMatrice(int m, int n)
+{
+	int** a;
+	a = (int**)calloc(m, sizeof(int*));
+	if (a == NULL)
+		return NULL;
+	for (int i = 0; i < m; i++) {
+		a[i] = (int*)malloc(sizeof(int) * n);
+		if (a[i] == NULL) {
+			return NULL;
+		}
+	}
+	return a;
+}
+
+int** adunare(int m, int n, int** a, int** b)
+{
+	int** c;
+	c = alocareMatrice(m, n);
+	if (c == NULL)
+		return NULL;
+	for (int i = 0; i < m; i++)
+		for (int j = 0; j < n; j++)
+			c[i][j] = a[i][j] + b[i][j];
+	return c;
+}
+
+void afisare(int m, int n, int** c)
+{
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++)
+			printf("%d ", c[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
+void eliberare(int** a, int m) 
+{
+	for (int i = 0; i < m; i++)
+		free(a[i]);
+	free(a);
+}

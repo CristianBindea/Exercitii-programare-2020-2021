@@ -1,0 +1,58 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 8 - Media valorilor dintr-un tablou si elementele mai mare decat medie
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+#define DIM 100
+
+double medie(double v[], int n);
+void afisareNumere(double v[], int n , double media);
+int  main()
+{
+    double v[DIM], media;
+    int n;
+    puts("Introduceti un numar intreg, numarul de elemente a sirului");
+    scanf("%d", &n);
+
+    puts("Introduceti elementele tabloului:");
+    for (int i = 0; i < n; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%lf", &v[i]);
+    }
+
+    media = medie(v,n);
+    printf("Media elementelor din tabel este %g\n", media);
+
+    afisareNumere(v, n, media);
+    printf("\n");
+        
+    return 0;
+}
+
+double medie(double v[], int n) 
+{
+    double medie = 0.;
+    for (int i = 0; i < n; i++)
+    {
+        medie += v[i];
+    }
+    medie /= (double)n;
+    return medie;
+}
+
+void afisareNumere(double v[], int n, double media)
+{
+    bool ok = true;
+    printf("Elementele mai mari decat media sirului sunt: ");
+    for (int i = 0; i < n; i++)
+        if (v[i] > media)
+        {
+            printf("%g ", v[i]);
+            ok = false;
+        }
+    if (ok)
+        printf("\33[2K\rSirul nu contine elemente strict mai mari decat media lor, toate elementele sunt egale");
+}

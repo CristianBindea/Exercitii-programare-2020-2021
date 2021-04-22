@@ -1,0 +1,37 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Rezistente si capacitati in serie si paralel
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int echivalenta1(int a, int b);
+double echivalenta2(int a, int b);
+
+int main()
+{
+	int c1, c2, cap_paralel;
+	int r1, r2, rez_serie;
+	double cap_serie;
+	double rez_paralel;
+
+	printf("Introduceti doua numere intregi pentru valorile capacitatilor: ");
+	scanf("%d %d", &c1, &c2);
+	printf("\nIntroduceti doua numere intregi pentru valorile rezistentelor: ");
+	scanf("%d %d", &r1, &r2);
+	cap_serie = echivalenta2(c1, c2);
+	cap_paralel = echivalenta1(c1, c2);
+	rez_serie = echivalenta1(r1, r2);
+	rez_paralel = echivalenta2(r1, r2);
+	printf("\nCapacitatea echivalenta serie capacitati: %-.4lf\nCapacitatea echivalenta paralel capacitati: %d\n", cap_serie, cap_paralel);
+	printf("\nRezistenta echivalenta serie rezistente: %d\nRezistenta echivalenta paralel rezistente: %.3lf\n", rez_serie, rez_paralel);
+	return 0;
+}
+int echivalenta1(int a, int b) {
+
+	return a + b;
+}
+double echivalenta2(int a, int b) {
+
+	return (double)a * b / ((double)a + b);
+}

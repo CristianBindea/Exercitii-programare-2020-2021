@@ -1,0 +1,62 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 12 - Program care initializeaza o structura de tip enum care contine culori, afiseaza cateva combinatii de culori, si apoi traduce toate culorile in limba engleza
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+enum Lumina_Alba {
+	rosu = 1, galben, portocaliu, albastru, violet, verde, indigo, sfarsit
+};
+
+void nume(Lumina_Alba culoare);
+void traducere(Lumina_Alba culoare);
+int main()
+{
+	Lumina_Alba lumina1 = albastru;
+	Lumina_Alba lumina2 = rosu;
+	int lumina3;
+	lumina3 = lumina1 + lumina2;
+	printf("Lumina mov %d = lumina albastra %d + lumina rosie %d\n", lumina3, lumina1, lumina2);
+	printf("Lumina magenta %d = lumina violet %d + lumina rosie %d\n", (violet + rosu), violet, rosu);
+	printf("Lumina cyan %d = lumina albastra %d + lumina verde %d\n\n", (albastru + verde), albastru, verde);
+
+	for (int i = Lumina_Alba::rosu; i != Lumina_Alba::sfarsit; i++)
+	{
+		printf("Numele initial: "); nume(static_cast<Lumina_Alba>(i)); printf(";");
+		printf(" Noul nume: "); traducere(static_cast<Lumina_Alba>(i)); printf(";");
+		printf(" Valoarea asociata: %d;\n\n", static_cast<Lumina_Alba>(i));
+	}
+
+	return  0;
+}
+void nume(Lumina_Alba culoare)
+{
+	switch (culoare) {
+	case rosu: printf("rosu"); break;
+	case portocaliu: printf("portocaliu"); break;
+	case galben: printf("galben"); break;
+	case indigo: printf("indigo"); break;
+	case violet:printf("violet"); break;
+	case verde: printf("verde"); break;
+	case albastru: printf("albastru"); break;
+	default: printf("");
+	}
+}
+
+
+void traducere(Lumina_Alba culoare)
+{
+	switch (culoare) {
+	case rosu: printf("red"); break;
+	case portocaliu: printf("orange"); break;
+	case galben: printf("yellow"); break;
+	case indigo: printf("indigo"); break;
+	case violet:printf("purple"); break;
+	case verde: printf("green"); break;
+	case albastru: printf("blue"); break;
+	default: printf("");
+	}
+}

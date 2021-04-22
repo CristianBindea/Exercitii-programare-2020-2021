@@ -1,0 +1,20 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 3 - Determinarea ipotenuzei si perimetrului unui triunghi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b;
+	double c;
+	printf("Introduceti doua numere intregi pentru catetele triunghiului:\n");
+	scanf("%d %d", &a, &b);
+
+	c = sqrt(a * a + b * b);
+	printf("\nIpotenuza triunghiului: %lf\nPerimetrul triunghiului: %lf\n", c, ((double)a + (double)b + c));
+
+	return 0;
+}

@@ -1,0 +1,64 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care citeste un fisier text caracter cu caracter si converteste in majuscula primul caracter al fiecarui cuvant 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
+#define DIM 200
+int main()
+{
+	FILE* f;
+	errno_t err;
+	
+	err = fopen_s(&f,"fisier.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	char c;
+
+	char s[DIM]="";
+	int k = 0;
+	c = fgetc(f);
+	if (c >= 'a' && c <= 'z')
+	{
+		c=toupper(c);
+		s[k++] = c;
+	}
+
+	while (1)
+	{
+		c = fgetc(f);
+		if (c == ' ')
+		{
+			while (c == ' ')
+			{
+				s[k++] = c;
+				c = fgetc(f);
+			}
+			c = toupper(c);
+			s[k++] = c;
+		}
+		else
+		{
+			s[k++] = c;
+		}
+		if (feof(f))
+			break;
+	}
+
+	fclose(f);
+
+	err = fopen_s(&f, "fisier.txt", "w");
+	if (err != NULL)
+	{
+		puts("Eroare la modificarea fisierului");
+		exit(1);
+	}
+	fprintf(f, "%s",s);
+	fclose(f);
+	return 0;
+}

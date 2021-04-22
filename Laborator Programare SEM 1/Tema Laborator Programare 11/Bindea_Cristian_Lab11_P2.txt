@@ -1,0 +1,75 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 2 - Program care creaza 5 pointeri float care arata spre 3 date de tip float
+					 - functie prin care se citesc date in cei 5 pointeri
+					 - fuctie care permite determinarea totalului din fiecare dintre cei 5 pointeri
+					 - functie care elibereaza memoria utilizata
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+float** alocare();
+void introducereDate(float** a);
+float totalVanzari(float* a);
+void eliberare(float** a);
+int main()
+{
+	float** v;
+	float medie = 0;
+	v = alocare();
+	if (v == NULL)
+	{
+		puts("Alocare nereusita");
+		return 1;
+	}
+	introducereDate(v);
+	for (int i = 0; i < 5; i++)
+		medie += totalVanzari(v[i]);
+	medie /= 5;
+	printf("Media vanzarilor este: %f\n", medie);
+	eliberare(v);
+	return  0;
+}
+float** alocare()
+{
+	float** a;
+	a = (float**)calloc(5, sizeof(float));
+	if (a == NULL)
+		return NULL;
+	for (int i = 0; i < 5; i++)
+	{
+		a[i] = (float*)calloc(3, sizeof(float));
+		if (a[i] == NULL)
+			return NULL;
+	}
+	return a;
+}
+
+void introducereDate(float** a)
+{
+	for (int i = 0; i < 5; i++) 
+	{
+		printf("Introduceti datele pentru orasul %d\n", (i + 1));
+		for (int j = 0; j < 3; j++)
+		{
+			printf("Magazinul %d: ",(j + 1));
+			scanf("%f", &a[i][j]);
+		}
+
+	}
+}
+
+float totalVanzari(float* a)
+{
+	float sum = 0;
+	for (int i = 0; i < 3; i++)
+		sum += a[i];
+	return sum;
+}
+void eliberare(float** a)
+{
+	for (int i = 0; i < 5; i++)
+		free(a[i]);
+	free(a);
+}

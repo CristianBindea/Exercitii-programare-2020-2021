@@ -1,0 +1,19 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 9 - Timpul dupa care se intalnesc doua masini
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	double v1, v2, t;
+	printf("Introduceti vitezele celor doua masini (km/h)\n");
+	scanf("%lf %lf", &v1, &v2);
+
+	t = (100 / (v1 + v2)) * 60;
+
+	printf("Timpul dupa care s-au intalnit cele doua masini este de %.0lf minute\n", t);
+
+	return 0;
+}

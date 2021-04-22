@@ -1,0 +1,25 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 4 - Rezolvare ecuatie de gradul 1
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b;
+	printf("Introduceti doua numere intregi, coeficientii ecuatiei\n");
+	scanf("%d %d", &a, &b);
+	if (a != 0 && b != 0)
+	{
+		printf("\nSolutia ecuatiei %d*x +  %d = 0 este %g\n", a, b, (-(double)b / a));
+	}
+	else if (a == 0 && b==0)
+		printf("ecuatia %d*x +  %d = 0 are soutie nedeterminata\n", a, b);
+	else if (a == 0)
+		 printf("ecuatia %d*x +  %d = 0 nu are solutie\n", a, b);
+	else
+		printf("ecuatia %d*x +  %d = 0 are soutia 0\n", a, b);
+
+	return 0;
+}

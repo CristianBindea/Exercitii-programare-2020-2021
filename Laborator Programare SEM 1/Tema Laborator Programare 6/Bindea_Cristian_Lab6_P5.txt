@@ -1,0 +1,24 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Numarul de zerouri din reprezentarea in binar a unui nr. intreg
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, cnt = 0;
+	printf("Introduceti un numar intreg");
+	scanf("%d", &a);
+
+	while (a)
+	{
+		if (!(a % 2))
+			cnt++;
+		a /= 2;
+	}
+	printf("Numarul de zerouri din scrierea intregului introdus, %d este %d", a, cnt);
+
+	return 0;
+
+}

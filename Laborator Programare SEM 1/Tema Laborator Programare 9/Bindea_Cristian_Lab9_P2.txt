@@ -1,0 +1,60 @@
+
+/*
+                Bindea  Gheorghe  Cristian
+                Problema    2  -  Genereaza  un  tablou  aleator  cu  numere  mai  mici  decat  50,  apoi  printr-o  functie  elimina  numerele  impare  din  tablou
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+#include  <stdlib.h>
+#include  <time.h>
+
+#define  DIM  100
+#define  MARIME  20
+
+int*  getRandom(int  n);
+int  eliminare(int*  p);
+int  main()
+{
+        int*  p;
+        int  m;
+
+        p  =  getRandom(MARIME);
+        printf("\n");
+        puts("Tabloul  initial  generat  aleatoriu  cu  numere  mai  mici  decat  50:");
+        for  (int  i  =  0;  i  <  MARIME;  i++)
+                printf("%d  ",  *(p  +  i));
+
+        printf("\n\n");
+        m  =  eliminare(p);
+
+        puts("Tabloul  dupa  apelarea  funtiei  de  eliminare:");
+        for  (int  i  =  0;  i  <  m;  i++)
+                printf("%d  ",  *(p  +  i));
+        printf("\n\n");
+
+        return    0;
+}
+
+int*  getRandom(int  n)  {
+        static  int  v[DIM];
+        srand((unsigned)time(NULL));
+        for  (int  i  =  0;  i  <  n;  ++i)
+                v[i]  =  rand()  %  50;
+
+        return  v;
+}
+
+int  eliminare(int*  p)
+{
+        int  m  =  MARIME;
+        for  (int  i  =  0;  i  <=  m;  i++)
+        {
+                if  (*(p  +  i)  %  2  ==  1)
+                        for  (int  k  =  i;  k  <  m;  k++)
+                        {
+                                *(p  +  k)  =  *(p  +  k  +  1);
+                        }
+                m--;
+        }
+        return  m;
+}

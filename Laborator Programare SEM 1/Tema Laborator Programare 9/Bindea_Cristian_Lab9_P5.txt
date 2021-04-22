@@ -1,0 +1,83 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema  5 - Program care citeste doua siruri de caractere si apoi afiseaza numarul de caractere prin care ele difera
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+#define DIM 100
+int nrCaractere(char* p1, char* p2);
+void eliminare(char s[]);
+int main()
+{
+	char s1[DIM], s2[DIM];
+
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s1);
+	puts("Introduceti un alt sir de caractere");
+	scanf(" %[^\n]s", s2);
+
+	eliminare(s1);
+	eliminare(s2);
+
+	printf("\nNumarul de elementele din primul sir care nu sunt in al doilea sir este: %d\n", nrCaractere(s1, s2));
+	printf("Numarul de elementele din al doilea sir care nu sunt in primul sir este: %d\n", nrCaractere(s2, s1));
+	printf("In total numarul de elemente prin care difera cele doua siruri este : %d\n", (nrCaractere(s1, s2) + nrCaractere(s2, s1)));
+
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	char aux[DIM];
+	lungime = strlen(s);
+
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i <= lungime; i++)
+			if (*(s + k) == *(s + i) && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i))
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}
+
+int nrCaractere(char* p1, char* p2)
+{
+	int cnt = 0;
+	bool ok;
+	int lungime1 = strlen(p1);
+	int lungime2 = strlen(p2);
+
+	for (int k = 0; k < lungime1; k++)
+	{
+		ok = false;
+		for (int i = 0; i <= lungime2; i++)
+		{
+			if (p1[k] == ' ')
+			{
+				break;
+				ok = true;
+			}
+			if (p2[i] == ' ')
+				continue;
+			if (p1[k] == p2[i])
+				ok = true;
+		}
+		if (ok == false)
+			cnt++;
+	}
+	return cnt;
+}

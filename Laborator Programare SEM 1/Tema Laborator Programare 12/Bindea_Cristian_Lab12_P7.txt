@@ -1,0 +1,46 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 7 - Program care aloca memorie pentru n structuri de tip student, in care se citeste numele, prenumele si genul studentului
+		apoi afiseaza numarul de studente citite
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+struct Student {
+	char nume[20];
+	char prenume[20];
+	bool gen;// 1-baiat, 0-fata
+};
+
+int main()
+{
+	int n,cnt=0; 
+	char genn[20];
+	puts("Introduceti numarul de studenti");
+	scanf("%d", &n);
+	Student* stud = new Student[n];
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < n; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+
+		printf("Gen: "); scanf("%s", &genn);
+		if (!strcmp(genn, "baiat") || !strcmp(genn, "Baiat") || !strcmp(genn, "masculin"))
+			stud[i].gen = 1;
+		else if (!strcmp(genn, "fata") || !strcmp(genn, "Fata") || !strcmp(genn, "feminin") || !strcmp(genn, "domnisoara"))
+		{
+			stud[i].gen = 0;
+			cnt++;
+		}
+		else
+		{
+			printf("Gen invalid. Reincercati\n");
+			i--;
+		}
+	}
+	printf("Numarul de studente este %d\n", cnt);
+	delete[]stud;
+	return  0;
+}

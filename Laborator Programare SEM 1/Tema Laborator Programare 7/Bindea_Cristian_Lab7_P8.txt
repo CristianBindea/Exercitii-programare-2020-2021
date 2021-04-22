@@ -1,0 +1,36 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Produsul a doua numere folosind adunari succesive
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+int inmultire(int a, int b);
+int  main()
+{
+	int a, b;
+	puts("Intorduceti doua numere intregi");
+	scanf("%d %d", &a, &b);
+
+	printf("Rezultatul operatiei %d * %d = %d \n", a, b, inmultire(a, b));
+	return 0;
+}
+int inmultire(int a, int b)
+{
+	int rez = 0;
+	bool ok_a = false, ok_b = false;
+	a < 0 ? ok_a = true : ok_a = false;
+	b < 0 ? ok_b = true : ok_b = false;
+	a < 0 ? a = -a : a = a;
+	b < 0 ? b = -b : b = b;
+
+	if (a == 0 || b == 0)
+		return 0;
+	else
+		for (int i = 1; i <= b; i++)
+			rez += a;
+
+	if ((ok_a || ok_b) && ok_a != ok_b)
+		return -rez;
+	else
+		return rez;
+}

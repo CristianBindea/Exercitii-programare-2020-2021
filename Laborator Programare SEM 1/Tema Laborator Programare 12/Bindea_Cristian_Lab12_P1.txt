@@ -1,0 +1,47 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema  1 - Se citesc datele unui student in structura Student apoi afiseaza numarul de studenti straini, adica cei care nu au "Romania" sau "romania" la tara de origine 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define MAX 100
+
+struct Student {
+	char nume[20];
+	char prenume[20];
+	char grupa[10];
+	char tara_de_origine[30];
+	int anul_nasterii;
+};
+int main()
+{
+	Student stud[MAX];
+	int cnt = 0;
+	puts("Introduceti datele studentilor");
+	for (int i = 0; i < MAX; i++)
+	{
+		printf("Nume: "); scanf("%s", &stud[i].nume);
+
+		if (!strcmp(stud[i].nume, "AAA"))
+		{
+			break;
+		}
+		printf("Prenume: "); scanf("%s", &stud[i].prenume);
+		printf("Grupa: "); scanf("%d", &stud[i].grupa);
+		printf("Anul nasterii: "); scanf("%d", &stud[i].anul_nasterii);
+		printf("Tara de origine: "); scanf("%s", &stud[i].tara_de_origine);
+
+		if (!strcmp(stud[i].tara_de_origine,"Romania") || !strcmp(stud[i].tara_de_origine, "romania"))
+			continue;
+		else
+			cnt++;
+
+	}
+	if (cnt == 0)
+		printf("Nu sunt studeti straini");
+	else
+		printf("Numarul studentilor straini este: %d",cnt);
+		
+	return  0;
+}

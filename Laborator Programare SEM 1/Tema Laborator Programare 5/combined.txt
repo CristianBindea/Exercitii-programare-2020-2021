@@ -1,0 +1,273 @@
+/*Tema laborator 5 Programare*/
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 1 - Rezistente echivalente serie si paralel
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int rez_echiv_serie(int a, int b);
+double rez_echiv_paralel(int a, int b);
+
+int main()
+{
+	int r1, r2, rez_serie;
+	double rez_paralel;
+	
+	printf("Introduceti doua numere intregi pentru valorile rezistentelor: ");
+	scanf("%d %d", &r1, &r2);
+	rez_serie = rez_echiv_serie(r1, r2);
+	rez_paralel = rez_echiv_paralel(r1, r2);
+	printf("\nRezistenta echivalenta serie: %d\nRezistenta echivalenta paralel: %.3lf\n", rez_serie, rez_paralel);
+	return 0;
+
+}
+int rez_echiv_serie(int a, int b) {
+
+	return a + b;
+}
+double rez_echiv_paralel(int a, int b) {
+
+	return (double)a * b / ((double)a + b);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 2 - Capacitatea echivalenta serie si paralel
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int cap_echiv_paralel(int a, int b);
+double cap_echiv_serie(int a, int b);
+
+int main()
+{
+	int c1, c2, cap_paralel;
+	double cap_serie;
+
+	printf("Introduceti doua numere intregi pentru valorile capacitatilor: ");
+	scanf("%d %d", &c1, &c2);
+	cap_serie = cap_echiv_serie(c1, c2);
+	cap_paralel = cap_echiv_paralel(c1, c2);
+	printf("\nCapacitatea echivalenta serie: %-.4lf\nCapacitatea echivalenta paralel: %d\n", cap_serie, cap_paralel);
+	return 0;
+
+}
+int cap_echiv_paralel(int a, int b) {
+
+	return a + b;
+}
+double cap_echiv_serie(int a, int b) {
+
+	return (double)a * b / ((double)a+b);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 3 - Determinarea ipotenuzei si perimetrului unui triunghi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b;
+	double c;
+	printf("Introduceti doua numere intregi pentru catetele triunghiului:\n");
+	scanf("%d %d", &a, &b);
+
+	c = sqrt(a * a + b * b);
+	printf("\nIpotenuza triunghiului: %lf\nPerimetrul triunghiului: %lf\n", c, ((double)a + (double)b + c));
+
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 4 - Rezolvare ecuatie de gradul 1
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b;
+	printf("Introduceti doua numere intregi, coeficientii ecuatiei\n");
+	scanf("%d %d", &a, &b);
+	if (a != 0 && b != 0)
+	{
+		printf("\nSolutia ecuatiei %d*x +  %d = 0 este %g\n", a, b, (-(double)b / a));
+	}
+	else if (a == 0 && b==0)
+		printf("ecuatia %d*x +  %d = 0 are soutie nedeterminata\n", a, b);
+	else if (a == 0)
+		 printf("ecuatia %d*x +  %d = 0 nu are solutie\n", a, b);
+	else
+		printf("ecuatia %d*x +  %d = 0 are soutia 0\n", a, b);
+
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Rezistente si capacitati in serie si paralel
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int echivalenta1(int a, int b);
+double echivalenta2(int a, int b);
+
+int main()
+{
+	int c1, c2, cap_paralel;
+	int r1, r2, rez_serie;
+	double cap_serie;
+	double rez_paralel;
+
+	printf("Introduceti doua numere intregi pentru valorile capacitatilor: ");
+	scanf("%d %d", &c1, &c2);
+	printf("\nIntroduceti doua numere intregi pentru valorile rezistentelor: ");
+	scanf("%d %d", &r1, &r2);
+	cap_serie = echivalenta2(c1, c2);
+	cap_paralel = echivalenta1(c1, c2);
+	rez_serie = echivalenta1(r1, r2);
+	rez_paralel = echivalenta2(r1, r2);
+	printf("\nCapacitatea echivalenta serie capacitati: %-.4lf\nCapacitatea echivalenta paralel capacitati: %d\n", cap_serie, cap_paralel);
+	printf("\nRezistenta echivalenta serie rezistente: %d\nRezistenta echivalenta paralel rezistente: %.3lf\n", rez_serie, rez_paralel);
+	return 0;
+}
+int echivalenta1(int a, int b) {
+
+	return a + b;
+}
+double echivalenta2(int a, int b) {
+
+	return (double)a * b / ((double)a + b);
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 6 - Numele a doi studenti si media notelor lor
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	char s1[100], s2[100];
+	double nota_s1, nota_s2;
+
+	printf("Introduceti numele studentilor si notele studentilor\n");
+	printf("Numele primului student : ");
+	scanf("%[^\n]s", &s1);
+	printf("Nota primului student : ");
+	scanf(" %lf", &nota_s1);
+	printf("Numele celui de-al doilea student : ");
+	scanf(" %[^\n]s", &s2);
+	printf("Nota celui de-al doilea student : ");
+	scanf(" %lf", &nota_s2);
+	printf("\n");
+	printf("Primul student: %20s \nAl doilea student: %-20s\nMedia notelor: %.2lf\n", s1, s2, (nota_s1 + nota_s2) / 2);
+
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Lungimea si aria cercului de raza data
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int r;
+	const double pi = 3.14159265359;
+	printf("Introduceti un numar intreg pentru raza cercului\n");
+	scanf("%d", &r);
+	printf("Lungimea cercului este %.3lf si aria cercului este %.3lf\n", (2 * pi * r), (pi * r * r));
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 8 - Durata calatoriei de la Cluj la Brasov
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int ora1, ora2, minut1, minut2;
+	int durata_ore, durata_minute;
+	printf("Introduceti ora plecarii (ora minut) \n");
+	scanf("%d %d", &ora1, &minut1);
+	printf("Introduceti ora sosirii (ora minut) \n");
+	scanf("%d %d", &ora2, &minut2);
+
+	if (ora2 < ora1)
+		durata_ore = 24 + ora2 - ora1;
+	else
+		durata_ore = ora2 - ora1;
+	if (minut2 < minut1)
+	{
+		durata_minute = 60 + minut2 - minut1;
+		durata_ore--;
+	}
+	else
+		durata_minute = minut2 - minut1;
+
+	printf("Durata calatoriei este de %d ore si %d minute\n", durata_ore, durata_minute);
+	return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 9 - Timpul dupa care se intalnesc doua masini
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	double v1, v2, t;
+	printf("Introduceti vitezele celor doua masini (km/h)\n");
+	scanf("%lf %lf", &v1, &v2);
+
+	t = (100 / (v1 + v2)) * 60;
+
+	printf("Timpul dupa care s-au intalnit cele doua masini este de %.0lf minute\n", t);
+
+	return 0;
+}
+
+

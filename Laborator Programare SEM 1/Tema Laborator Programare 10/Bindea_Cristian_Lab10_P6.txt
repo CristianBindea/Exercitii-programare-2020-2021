@@ -1,0 +1,19 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Se initializeaza un tablou de pointeri cu diferite siruri de caractere apoi se afiseaza
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	const char* p[] = { "Primul element din tabloul de caractere", "Al doilea element din tablou", "Al treilea","Si al patrulea" };
+	
+	puts("Sirurile de caractere sunt: \n");
+	for (const char* x : p)
+	{
+		printf("%s\n", x);
+	}
+
+	return  0;
+}

@@ -1,0 +1,38 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 5 - Se introduc valori cu ajutorul indicatiilor primite pana la introducerea numarului generat aleatoriu
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int nrAleator();
+int main()
+{
+	const char* p[] = { "Valoare prea mica", "Valoare prea mare", "Valoare corecta" };
+	int nr = nrAleator();
+	int nrIntrodus;
+	puts("Introduceti numere intregi pozitive pana la introducerea numarului corect");
+	puts("Primul numar introdus:");
+		scanf("%d", &nrIntrodus);
+	while (nrIntrodus != nr)
+	{
+		if (nrIntrodus > nr)
+			printf("%s", p[1]);
+		else if(nrIntrodus<nr)
+			printf("%s", p[0]);
+
+		printf(". Mai incercati:\n");
+		scanf("%d", &nrIntrodus);
+	}
+	printf("Felicitari, %s\n", p[2]);
+	return  0;
+}
+
+int nrAleator() {
+	int a;
+	srand((unsigned)time(NULL));
+	a = rand()%100;
+	return a;
+}

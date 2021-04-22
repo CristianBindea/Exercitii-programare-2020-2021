@@ -1,0 +1,49 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 4 - Program care utilizeaza o structura de tip Angajat si afiseaza datele despre toti angajatii cu ocupatia de inginer
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define DIM 100
+#define NR 20
+struct Angajat {
+	char nume[DIM];
+	char prenume[DIM];
+	char ocupatie[DIM];
+	char data_nasterii[DIM];
+	char sectie[DIM];	
+};
+
+int main()
+{
+	int n;
+	Angajat angajati[NR];
+	puts("Introduceti numarul angajatilor (un numar <20)");
+	scanf("%d", &n);
+	if (n > NR)
+	{
+		puts("Numar prea mare");
+		return 1;
+	}
+
+	for (int i = 0; i < n; i++)
+	{
+		printf("Date despre angajatul %d\n", i + 1);
+		printf("Nume: "); scanf("%s", angajati[i].nume);
+		printf("Prenume: "); scanf("%s", angajati[i].prenume);
+		printf("Ocupatia: "); scanf("%s", angajati[i].ocupatie);
+		printf("Data nasterii: "); scanf("%s", angajati[i].data_nasterii);
+		printf("Sectie: "); scanf("%s", angajati[i].sectie);
+	}
+	for (int i = 0; i < n; i++)
+	{
+		if (!strcmp("Inginer", angajati[i].ocupatie) || !strcmp("inginer", angajati[i].ocupatie))
+		{
+			printf("Angajatul %s %s e nascut pe data de %s are ocupatia de Inginer si lucreaza la sectia %s\n", angajati[i].nume, angajati[i].prenume, angajati[i].data_nasterii, angajati[i].sectie);
+		}
+	}
+	return  0;
+}

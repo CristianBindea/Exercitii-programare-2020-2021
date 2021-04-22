@@ -1,0 +1,47 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema  4 - Fuctie care elimina caracterele care se repeta dintr-un sir de caractere
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#define DIM 100
+
+void eliminare(char s[]);
+int main()
+{
+	char s[DIM];
+
+	puts("Introduceti un sir de caractere");
+	scanf("%[^\n]s", s);
+
+	eliminare(s);
+	puts("Sirul rezultat prin eliminarea caracterelor care se repeta este:");
+	printf("%s\n", s);
+	return  0;
+}
+
+void eliminare(char s[])
+{
+	int k = 0, lungime;
+	lungime = strlen(s);
+	char aux[DIM];
+	bool ok = false;
+	while (k < lungime)
+	{
+		for (int i = 0; i < lungime; i++)
+			if (*(s + k) == *(s + i) && *(s + k) != ' ' && ok == false)
+			{
+				ok = true;
+			}
+			else if (*(s + k) == *(s + i) && *(s + k) != ' ')
+			{
+				strcpy(aux, s + i + 1);
+				strcpy(s + i, aux);
+				lungime--;
+				i--;
+			}
+		k++;
+		ok = false;
+	}
+}

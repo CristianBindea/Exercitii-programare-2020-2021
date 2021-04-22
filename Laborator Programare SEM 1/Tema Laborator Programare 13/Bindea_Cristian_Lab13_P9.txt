@@ -1,0 +1,81 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 9 - Program care citeste intr-un vector alocat dinamic, n numere reale si le pune intr-un fisier binar,
+		apoi din fisier, afiseaza numerele din 3 in 3
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+#define DIM 100
+void citire(double* v, int n);
+
+int main()
+{
+	FILE* f;
+	errno_t err;
+	int n;
+	char numeFisier[30];
+
+	puts("Introduceti un numar intreg n");
+	scanf("%d", &n);
+	if (n <= 0)
+	{
+		puts("Valoare invalida");
+		exit(1);
+	}
+	double* v = new double[n];
+	if (v == NULL)
+	{
+		puts("Alocarea nu a reusit");
+		exit(1);
+	}
+	citire(v, n);
+	puts("Introduceti numele fisierului");
+	scanf("%s", &numeFisier);
+
+	err = fopen_s(&f, numeFisier, "wb");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	fwrite(v, sizeof(double), n, f);
+	delete[]v;
+	fclose(f);
+
+	err = fopen_s(&f, numeFisier, "rb");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+	double* ptr = new double[n];
+
+	fseek(f, 0L, SEEK_SET);
+	double nr;
+	int a=0;
+	
+	printf("Numerele din fisier din 3 in 3 sunt: ");
+	while (fread(&nr, sizeof(double), 1, f))
+	{
+		if(a%3==0)
+			printf("%g ", nr);
+		a++;
+	}
+	printf("\n");
+
+	delete[]ptr;
+	fclose(f);
+	return 0;
+}
+void citire(double* v, int n)
+{
+	printf("Introduceti %d valori\n", n);
+	for (int i = 0; i < n; i++)
+	{
+		printf("\tv[%d] = ", i);
+		scanf("%lf", &v[i]);
+	}
+}

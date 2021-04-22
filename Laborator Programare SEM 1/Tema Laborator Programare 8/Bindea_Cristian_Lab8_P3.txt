@@ -1,0 +1,35 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 3 - ordonarea unui sir de 10 elemente
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+void ordonare(int v[], int x);
+int  main()
+{
+    int v[10];
+    const int dim = 10;
+    puts("Introduceti 10 elemente pentru tablou");
+    for (int i = 0; i < dim; i++)
+    {
+        printf("\tv[%d] = ", i);
+        scanf("%d", &v[i]);
+    }
+    ordonare(v, dim);
+    return 0;
+}
+void ordonare(int v[], int x) 
+{
+    int aux;
+        for (int i = 0; i < x - 1; i++)
+        for (int j = 0; j < x - i - 1; j++)
+            if (v[j] > v[j + 1])
+            {
+                aux = v[j];
+                v[j] = v[j + 1];
+                v[j + 1] = aux;
+            }
+        puts("Sirul ordonat crescator este:");
+    for (int i = 0; i < x; i++)
+        printf("v[%d] = %d\n", i, v[i]);
+}

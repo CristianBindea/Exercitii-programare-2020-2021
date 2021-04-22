@@ -1,0 +1,80 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 6 - Program care scrie n numere intr-un fisier cu nume introdus din linia de comanda 
+		apoi afiseaza numerele mai mari decat un numar introdus 
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char* argv[])
+{
+	if (argc == 1) {
+		printf("\nNu a fost introdus numele fisierului\n");
+		exit(1);
+	}
+
+	FILE* f;
+	errno_t err;
+	err = fopen_s(&f, argv[1], "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	int n;
+	float nr;
+	puts("Introduceti numarul de numere");
+	scanf("%d", &n);
+	printf("Introduceti %d numere\n", n);
+	for (int i = 1; i <= n; i++)
+	{
+		if (i == 1)
+		{
+			printf("Primul numar : ");
+			scanf("%f", &nr);
+			fprintf(f, "%f\n", nr);
+		}
+		else
+		{
+			printf("Al %d-lea numar : ", i);
+			scanf("%f", &nr);
+			fprintf(f, "%f\n", nr);
+		}
+	}
+	fclose(f);
+	
+
+	err = fopen_s(&f, argv[1], "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	float numar;
+	bool ok = true;
+	puts("Introduceti un numar");
+	scanf("%f", &numar);
+	printf("Numerele din fisier mai mari decat numarul introdus sunt: ");
+	for (int i = 0; i < n; i++)
+	{
+		fscanf(f, "%f ", &nr);
+		if (nr > numar)
+		{
+			ok = false;
+			printf("%g ", nr);
+		}
+	}
+	if (ok)
+	{
+		printf("\33[2K\rFisierul nu contine numere mai mari decat cel introdus\n");
+	}
+	else {
+		printf("\n");
+	}
+
+	fclose(f);
+	return 0;
+}

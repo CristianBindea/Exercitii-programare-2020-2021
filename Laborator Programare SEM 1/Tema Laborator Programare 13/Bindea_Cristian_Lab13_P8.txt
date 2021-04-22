@@ -1,0 +1,41 @@
+/*
+		Bindea Gheorghe Cristian
+		Problema 8 - Program care citeste valori reale dintr-un fisier si scrie in alt fisier partea intreaga
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#define DIM 100
+int main()
+{
+	FILE* f;
+	FILE* f2;
+	errno_t err;
+	err = fopen_s(&f, "fisier.txt", "r");
+	if (err != NULL)
+	{
+		puts("Eroare la citirea fisierului");
+		exit(1);
+	}
+
+	err = fopen_s(&f2, "fisier2.txt", "w");
+	if (err != NULL)
+	{
+		puts("Eroare la crearea fisierului");
+		exit(1);
+	}
+
+	double nr;
+	int k = 0;
+	while (1)
+	{
+		fscanf(f, "%lf ", &nr);
+		fprintf(f2, "%d ", (int)nr);
+		if (feof(f))
+			break;
+	}
+	fclose(f);
+	fclose(f2);
+	printf("Copiere reusita\n");
+	return 0;
+}

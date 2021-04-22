@@ -1,0 +1,23 @@
+/*
+        Bindea Gheorghe Cristian
+        Problema 13 - Cel mai mic multiplu comun a doi intregi
+*/
+#define  _CRT_SECURE_NO_WARNINGS
+#include  <stdio.h>
+
+int cmmdc(int a, int b);
+int  main()
+{
+    int a, b;
+    puts("Introduceti doua numere intregi pozitive");
+    scanf("%d %d", &a, &b);
+
+    printf("Cel mai mic multiplu comun a numerelelor %d si %d este: %d\n", a, b, (a*b)/cmmdc(a, b));
+    return 0;
+}
+
+int cmmdc(int a, int b) {
+    while (a != b)
+        a > b ? a -= b : b -= a;
+    return a;
+}
