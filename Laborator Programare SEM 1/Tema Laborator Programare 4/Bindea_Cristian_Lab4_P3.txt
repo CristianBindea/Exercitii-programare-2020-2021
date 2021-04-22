@@ -1,0 +1,13 @@
+/*
+	Bindea Gheorghe Cristian 
+	Problema 3 - Afisare variabila initializata cu valori constante
+	utilizand "cout" si "<<"
+*/
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a=4;
+    cout<<a<<endl;
+    return 0;
+}

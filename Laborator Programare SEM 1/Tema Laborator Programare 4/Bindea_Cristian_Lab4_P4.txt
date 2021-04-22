@@ -1,0 +1,13 @@
+/*
+	Bindea Gheorghe Cristian 
+	Problema 4 - Afisare sir de caractere 
+*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+ char s[]={"\n\tTema Laborator 3\b4\n\0"};
+ cout<<s;
+ return 0;
+}

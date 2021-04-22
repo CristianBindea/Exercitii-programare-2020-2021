@@ -1,0 +1,17 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 6 - Definire si afisare de constante simbolice
+*/
+#include <iostream>
+using namespace std;
+int main()
+{
+   const int i=35;
+   const double r=47.61;
+   const char s[]="Un sir de caractere constant";
+   cout<< "Numar intreg: "<<i<<endl;
+   cout<<"Numar real: "<<r<<endl;
+   cout<<"Sir de caractere: "<<s<<endl;
+
+    return 0;
+}

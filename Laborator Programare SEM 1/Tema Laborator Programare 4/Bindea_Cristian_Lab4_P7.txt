@@ -1,0 +1,22 @@
+﻿/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Rezultatul operatiei 1/a+1/b+1/c cu numere reale si cu numere intregi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+
+int main()
+{
+	double a, b, c;
+	int a2, b2, c2;
+	printf("Introduceti 3 numere reale:\n");
+	scanf("%lf %lf %lf", &a, &b, &c);
+	printf("1 / %lf + 1 / %lf + 1 / %lf = %lf\n", a, b, c, (1 / a + 1 / b + 1 / c));
+
+	printf("Introduceti 3 numere intregi:\n");
+	scanf("%d %d %d", &a2, &b2, &c2);
+	printf("1 / %d + 1 / %d + 1 / %d = %d\n", a2, b2, c2, (1 / a2 + 1 / b2 + 1 / c2));
+
+	return 0;
+}

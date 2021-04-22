@@ -1,0 +1,27 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Media ponderata cu ponderi subunitare de suma egala cu 1
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b, c;
+	float p1, p2, p3;
+
+	printf("Introduceti 3 numere intregi\n");
+	scanf("%d %d %d", &a, &b, &c);
+	printf("Introduceti 3 ponderi subunitare, cu suma egala cu 1, ale acelor numere\n");
+	scanf("%f %f %f", &p1, &p2, &p3);
+
+	if(p1+p2+p3>1)
+	{	
+		printf("Suma ponderilor este mai mare decat 1\n");
+		return 1;
+	}
+
+	printf("Suma ponderata: %f\n", ((float)a * p1 + (float)b * p2 + (float)c * p3));
+
+	return 0;
+}

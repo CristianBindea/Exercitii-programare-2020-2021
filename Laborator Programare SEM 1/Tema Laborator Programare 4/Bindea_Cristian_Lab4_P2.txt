@@ -1,0 +1,20 @@
+/*
+	Bindea Gheorghe Cristian
+	Problema 2 - Media geometrica a doua numere intregi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b;
+	double medie_geometrica;
+	printf("Introduceti doua numere intregi\n");
+	scanf("%d %d", &a, &b);
+	medie_geometrica = sqrt(a * b);
+	printf("Media geometrica: %.4f\n", medie_geometrica);
+
+	return 0;
+
+}

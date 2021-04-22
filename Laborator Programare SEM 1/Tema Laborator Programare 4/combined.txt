@@ -1,0 +1,154 @@
+/*Tema Laborator 4 Programare*/
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 1 - Media aritmetica a 3 numere intregi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	double a, b, c, medie;
+
+	printf("Introduceti trei numere neintregi\n");
+	scanf("%lf %lf %lf", &a, &b, &c);
+	medie = (a + b + c) / 3;
+	printf("Media numerelor: %lf\n", medie);
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 2 - Media geometrica a doua numere intregi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <cmath>
+
+int main()
+{
+	int a, b;
+	double medie_geometrica;
+	printf("Introduceti doua numere intregi\n");
+	scanf("%d %d", &a, &b);
+	medie_geometrica = sqrt(a * b);
+	printf("Media geometrica: %.4f\n", medie_geometrica);
+
+	return 0;
+
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian 
+	Problema 3 - Afisare variabila initializata cu valori constante
+	utilizand "cout" si "<<"
+*/
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a=4;
+    cout<<a<<endl;
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian 
+	Problema 4 - Afisare sir de caractere 
+*/
+#include <iostream>
+using namespace std;
+
+int main()
+{
+ char s[]={"\n\tTema Laborator 3\b4\n\0"};
+ cout<<s;
+ return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 5 - Media ponderata cu ponderi subunitare de suma egala cu 1
+*/
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+int main()
+{
+	int a, b, c;
+	float p1, p2, p3;
+
+	printf("Introduceti 3 numere intregi\n");
+	scanf("%d %d %d", &a, &b, &c);
+	printf("Introduceti 3 ponderi subunitare, cu suma egala cu 1, ale acelor numere\n");
+	scanf("%f %f %f", &p1, &p2, &p3);
+
+	if(p1+p2+p3>1)
+	{	
+		printf("Suma ponderilor este mai mare decat 1\n");
+		return 1;
+	}
+
+	printf("Suma ponderata: %f\n", ((float)a * p1 + (float)b * p2 + (float)c * p3));
+
+	return 0;
+}
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 6 - Definire si afisare de constante simbolice
+*/
+#include <iostream>
+using namespace std;
+int main()
+{
+   const int i=35;
+   const double r=47.61;
+   const char s[]="Un sir de caractere constant";
+   cout<< "Numar intreg: "<<i<<endl;
+   cout<<"Numar real: "<<r<<endl;
+   cout<<"Sir de caractere: "<<s<<endl;
+
+    return 0;
+}
+
+
+
+<---------------------------------------------------------------------->
+/*
+	Bindea Gheorghe Cristian
+	Problema 7 - Rezultatul operatiei 1/a+1/b+1/c cu numere reale si cu numere intregi
+*/
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <stdio.h>
+
+int main()
+{
+	double a, b, c;
+	int a2, b2, c2;
+	printf("Introduceti 3 numere reale:\n");
+	scanf("%lf %lf %lf", &a, &b, &c);
+	printf("1 / %lf + 1 / %lf + 1 / %lf = %lf\n", a, b, c, (1 / a + 1 / b + 1 / c));
+
+	printf("Introduceti 3 numere intregi:\n");
+	scanf("%d %d %d", &a2, &b2, &c2);
+	printf("1 / %d + 1 / %d + 1 / %d = %d\n", a2, b2, c2, (1 / a2 + 1 / b2 + 1 / c2));
+
+	return 0;
+}
+
+
