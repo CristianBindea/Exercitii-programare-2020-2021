@@ -1,0 +1,78 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Cerinta exemplu 3, laborator 11
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Vehicul {
+   int roti;
+   float greutate;
+public:
+   void mesaj() {
+      cout << "Mesaj din clasa Vehicul\n";
+   }
+};
+class Automobil : public Vehicul {
+   int incarcatura_pasageri;
+public:
+   void mesaj() {
+      cout << "Mesaj din clasa Automobil\n";
+   }
+};
+class Camion : public Vehicul {
+   int incarcatura_pasageri;
+   float incarcatura_utila;
+public:
+   int pasageri() {
+      return incarcatura_pasageri;
+   }
+};
+class Barca : public Vehicul {
+   int incarcatura_pasageri;
+public:
+   int pasageri() {
+      return incarcatura_pasageri;
+   }
+   void mesaj() {
+      cout << "Mesaj din clasa Barca\n";
+   }
+};
+
+int main()
+{
+   Vehicul vehicul;
+   Automobil automobil;
+   Camion camion;
+   Barca barca;
+
+   Vehicul* pvehicul = new Vehicul;
+   Automobil* pautomobil = new Automobil;
+   Camion* psemi = new Camion;
+   Barca* pbarca = new Barca;
+
+   pvehicul = &automobil;
+   pvehicul->mesaj();
+
+   pvehicul = &camion;
+   pvehicul->mesaj();
+
+   pvehicul = &barca;
+   pvehicul->mesaj();
+
+   /*
+      Mesaje afisate cand functia din clasa de baza e virtuala
+         Mesaj din clasa Automobil
+         Mesaj din clasa Vehicul
+         Mesaj din clasa Barca
+
+      Mesaje afisate cand functia din clasa de baza nu este virtuala
+         Mesaj din clasa Vehicul
+         Mesaj din clasa Vehicul
+         Mesaj din clasa Vehicul
+   */
+   return 0;
+}

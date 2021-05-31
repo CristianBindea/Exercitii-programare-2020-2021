@@ -1,0 +1,58 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care defineste o clasa MiscareAccelerata in care supraincarca operatorii de insertie si extractie pentru a afisa si a citi date din clasa
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class MiscareAccelerata
+{
+private:
+   double dc; //distanta curenta
+   double vc; //viteza curenta
+   double a;  //acceleratia
+public:
+   MiscareAccelerata() : dc(0), vc(0), a(0) {}
+   MiscareAccelerata(double dc, double vc, double a) : dc(dc), vc(vc), a(a) {}
+   double get_dc() const { return dc; }
+   double get_vc() const { return vc; }
+   double get_a() const { return a; }
+   void set_dc(const double dc) { this->dc = dc; }
+   void set_vc(const double vc) { this->vc = vc; }
+   void set_a(const double a) { this->a = a; }
+   friend ostream& operator<< (ostream& stream, MiscareAccelerata ob);
+   friend istream& operator>> (istream& stream, MiscareAccelerata& ob);
+   void determinaMiscarea(int t) {
+      //x=x0+v0t+(at^2)/2
+      dc = dc + vc * t + a * t * t / 2;
+   }
+};
+
+ostream& operator<< (ostream& stream, MiscareAccelerata ob) {
+   stream << "Distanta: " << ob.dc << "m\nViteza: " << ob.vc << "m/s\nAcceleratia: " << ob.a << "m/s^2";
+   return stream;
+}
+istream& operator>> (istream& stream, MiscareAccelerata& ob) {
+   cout << "Introduceti distanta curenta: "; stream >> ob.dc;
+   cout << "Introduceti viteza: "; stream >> ob.vc;
+   cout << "Acceleratia: "; stream >> ob.a;
+   return stream;
+}
+
+int main()
+{
+   MiscareAccelerata m;
+   int t;
+   cin >> m;
+   cout << "-------\n";
+   cout << m << endl;
+   cout << "\nIntroduceti un numar de secunde: "; cin >> t;
+   m.determinaMiscarea(t);
+   cout << "Distanta dupa " << t << " secunde este: " << m.get_dc() << "m\n";
+
+   return 0;
+}

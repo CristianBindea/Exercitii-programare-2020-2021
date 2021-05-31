@@ -1,0 +1,65 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care defineste o clasa Militar cu o functie pur virtuala pentru afisarea numelui clasei, aceasta clasa este mostenita de Soldat, Ofiter, Locotenent, Capitan si General,
+   iar fiecare implementeaza functia de afisare
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Militar
+{
+public:
+   virtual void sunt_militar() = 0;
+};
+
+class Soldat : public Militar
+{
+public:
+   void sunt_militar() override { cout << "Sunt Soldat\n"; }
+};
+class Ofiter : public Militar
+{
+public:
+   void sunt_militar() override { cout << "Sunt Ofiter\n"; }
+};
+class Colonel : public Ofiter
+{
+public:
+   void sunt_militar() override { cout << "Sunt Colonel\n"; }
+};
+class Locotenent : public Ofiter
+{
+public:
+   void sunt_militar() override { cout << "Sunt Locotenent\n"; }
+};
+class Capitan : public Ofiter
+{
+public:
+   void sunt_militar() override { cout << "Sunt Capitan\n"; }
+};
+class General : public Ofiter
+{
+public:
+   void sunt_militar() override { cout << "Sunt General\n"; }
+};
+
+int main()
+{
+   Soldat soldat;
+   soldat.sunt_militar();
+   Ofiter ofiter;
+   ofiter.sunt_militar();
+   Colonel colonel;
+   colonel.sunt_militar();
+   Locotenent locotenent;
+   locotenent.sunt_militar();
+   Capitan capitan;
+   capitan.sunt_militar();
+   General general;
+   general.sunt_militar();
+
+   return 0;
+}

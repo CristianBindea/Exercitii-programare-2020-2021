@@ -1,0 +1,150 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 4 - Program care implementeaza o clasa Student cu atribute pentru nume, prenume, note, grupa si metode pentru calcularea mediei
+    Urmand ca apoi folosind metoda pentru medie sa ordoneaze studentii in ordinea mediei, si sa se afiseze primii 3 apoi cei cu restante
+ 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+const int DIM = 100;
+
+class Student {
+   char nume[32];
+   int nr_note;
+   char prenume[32];
+   int note[DIM];
+public:
+   Student()
+   {
+      strcpy(nume, "Nume");
+      strcpy(prenume, "Prenume");
+      nr_note = 1;
+      for (int i = 0; i < nr_note; i++)
+         note[i] = 0;
+   }
+   Student(char* Nume, char* Prenume, int* Note, int Nr_note)
+   {
+      if (strlen(Nume) < 32)
+         strcpy(nume, Nume);
+      else {
+         cout << "\nNume prea lung\n";
+         strcpy(nume, "\0");
+      }
+
+      if (strlen(Prenume) < 32)
+         strcpy(prenume, Prenume);
+      else {
+         cout << "\nPrenume prea lung\n";
+         strcpy(prenume, "\0");
+      }
+      nr_note = Nr_note;
+      for (int i = 0; i < nr_note; i++)
+         note[i] = Note[i];
+
+
+   }
+   void setNume(char c[]);
+   void setPrenume(char c[]);
+   void setNote(int* v);
+   void setNr_Note(int n) { nr_note = n; }
+   char* getNume(void) { return nume; }
+   char* getPreume(void) { return prenume; }
+   int* getNote(void) { return note; }
+   int getNr_Note(void) { return nr_note; }
+   double getMedie();
+};
+void Student::setNume(char c[]) {
+   if (strlen(c) < 32)
+      strcpy(nume, c);
+   else
+   {
+      cout << "\nNume prea lung!\n";
+      strcpy(nume, "\0");
+   }
+}
+void Student::setPrenume(char c[]) {
+   if (strlen(c) < 32)
+      strcpy(prenume, c);
+   else
+   {
+      cout << "\nPrenume prea lung!\n";
+      strcpy(prenume, "\0");
+   }
+}
+void Student::setNote(int* v) {
+   for (int i = 0; i < nr_note; i++)
+      note[i] = v[i];
+}
+double Student::getMedie() {
+   double medie = 0.0;
+   for (int i = 0; i < nr_note; i++)
+      medie += note[i];
+   medie /= nr_note;
+   return medie;
+}
+
+void citire(Student* stud, int n);
+void afisare(Student s);
+int comparare(const void* a, const void* b);
+
+int main()
+{
+   int n;
+   cout << "Introduceti numarul de studenti:"; cin >> n;
+   Student* stud = new Student[n];
+   citire(stud, n);
+   for (int i = 0; i < n; i++)
+      afisare(stud[i]);
+
+   cout << "\nStudentii care au restanta sunt:\n";
+   for (int i = 0; i < n; i++)
+   {
+      if(stud[i].getMedie())
+         afisare(stud[i]);
+   }
+   cout << "\nPrimii 3 studenti sunt:\n";
+   qsort(stud, n, sizeof(Student), comparare);
+   for (int i = 0; i < 3; i++)
+      afisare(stud[i]);
+   delete[]stud;
+   return 0;
+}
+
+int comparare(const void* a, const void* b)
+{
+   Student arg1 = *static_cast<const Student*>(a);
+   Student arg2 = *static_cast<const Student*>(b);
+
+   if (arg1.getMedie() < arg2.getMedie()) return 1;
+   if (arg1.getMedie() > arg2.getMedie()) return -1;
+   return 0;
+}
+void citire(Student* stud, int n)
+{
+   cout << "Introduceti date despre studenti:\n";
+   for (int i = 0; i < n; i++)
+   {
+      char c[32];
+      int v[DIM];
+      int num;
+      cout << "\nStudentul " << i+1 << endl;
+      cout << "Nume: "; cin >> c;
+      stud[i].setNume(c);
+      cout << "Prenume: "; cin >> c;
+      stud[i].setPrenume(c);
+      cout << "Numar note: "; cin >> num;
+      stud[i].setNr_Note(num);
+      for (int j = 0; j < stud[i].getNr_Note(); j++) {
+         cout << "\tNota " << j+1 << " : "; cin >> v[j];
+      }
+      stud[i].setNote(v);
+   }
+}
+void afisare(Student s)
+{
+   cout << "Studentul " << s.getNume() << " " << s.getPreume() << " are media " << s.getMedie() << "\n";
+}

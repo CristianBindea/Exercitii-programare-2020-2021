@@ -1,0 +1,205 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care implementeaza o clasa Fractie cu functii prietene care supraincarca oeperatorii +,-,*,/ si afiseaza rezultatele in consola si in fisier
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+class Fractie {
+   int a;//numarator
+   int b;//numitor
+   int cmmdc() {
+      int a1 = a;
+      int b1 = b;
+      bool negative = false;
+      if (a1 < 0 && b1 < 0) {
+         a1 = -a1;
+         b1 = -b1;
+      }
+      else if (a1 < 0) {
+         negative = true;
+         a1 = -a1;
+      }
+      else if (b1 < 0) {
+         negative = true;
+         b1 = -b1;
+      }
+      while (a1 != b1)
+         a1 > b1 ? a1 -= b1 : b1 -= a1;
+      if (negative)
+         return -a1;
+      return a1;
+   }
+public:
+   Fractie() { a = 0; b = 1; }
+   Fractie(int x, int y) {
+      a = x; b = y;
+   }
+   Fractie(const Fractie& f) {
+      a = f.a; b = f.b;
+   }
+   void setNumarator(int numarator) { a = numarator; }
+   void setNumitor(int numitor) { b = numitor; }
+   int getNumarator(void) { return a; }
+   int getNumitor(void) { return b; }
+   Fractie simplificare(void) {
+      if (this->a == 0)
+      {
+         Fractie rez(0, this->b);
+         return rez;
+      }
+      int d = cmmdc();
+      Fractie rez(this->a / d, this->b / d);
+
+      return rez;
+   }
+   friend Fractie operator+(Fractie f1, Fractie f2);
+   friend Fractie operator-(Fractie f1, Fractie f2);
+   friend Fractie operator*(Fractie f1, Fractie f2);
+   friend Fractie operator/(Fractie f1, Fractie f2);
+   friend ostream& operator<<(ostream& stream, Fractie& f);
+   friend istream& operator>>(istream& stream, Fractie& f);
+};
+
+Fractie operator+(Fractie f1, Fractie f2) {
+   int x, y;
+   if (f1.b == f2.b) {
+      x = f1.a + f2.a;
+      y = f1.b;
+      Fractie rez(x, y);
+      return rez;
+   }
+
+   x = f1.a * f2.a + f1.a * f2.a;
+   y = f1.b * f2.b;
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator-(Fractie f1, Fractie f2) {
+   int x, y;
+   if (f1.b == f2.b) {
+      x = f1.a - f2.a;
+      y = f1.b;
+      Fractie rez(x, y);
+      rez = rez.simplificare();
+      return rez;
+   }
+
+   x = f1.a * f2.b - f1.b * f2.a;
+   y = f1.b * f2.b;
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator*(Fractie f1, Fractie f2) {
+   int x, y;
+   x = f1.a * f2.a;
+   y = f1.b * f2.b;
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator/(Fractie f1, Fractie f2) {
+   int x, y;
+   x = f1.a * f2.b;
+   y = f1.b * f2.a;
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+ostream& operator<<(ostream& stream, Fractie& f)
+{
+   int x = f.a;
+   int y = f.b;
+   bool negative = false;
+   if (x < 0 && y < 0) {
+      x = -x;
+      y = -y;
+   }
+   else if (x < 0) {
+      x = -x;
+      negative = true;
+   }
+   else if (y < 0) {
+      y = -y;
+      negative = true;
+   }
+
+   if (negative)
+      stream << "-";
+
+   if (x == 0)
+      stream << 0 << endl;
+   else if (y == 1)
+      stream << x << endl;
+   else
+      stream << x << "/" << y << endl;
+   return stream;
+}
+istream& operator>>(istream& stream, Fractie& f)
+{
+   int num;
+   cout << "Numarator fractie: "; stream >> f.a;
+   cout << "Numitor fractie: "; stream >> num;
+   if (num != 0)
+      f.b = num;
+   else
+   {
+      cout << "Numitorul nu poate fi 0\n";
+      f.b = 1;
+   }
+   return stream;
+}
+
+int main()
+{
+   Fractie f1, f2, f3, f4;
+   cout << "Valori initiale fractie 1:\n "; cout << f1;
+   cout << "Valori initiale fractie 2:\n "; cout << f2;
+
+   cout << "\nIntroduceti 4 fractii:\n";
+   cout << "Fractie 1\n";
+   cin >> f1;
+   cout << "Fractie 2\n";
+   cin >> f2;
+   cout << "Fractie 3\n";
+   cin >> f3;
+   cout << "Fractie 4\n";
+   cin >> f4;
+
+   cout << "Fractie 1: "; cout << f1;
+   cout << "Fractie 2: "; cout << f2;
+   cout << "Fractie 3: "; cout << f3;
+   cout << "Fractie 4: "; cout << f4;
+
+   Fractie f_rez1 = f1 + f2;
+   cout << "Suma celor primelor doua fractii este: "; cout << f_rez1;
+
+   Fractie f_rez2 = f1 - f2;
+   cout << "Diferenta primelor doua fractii este: "; cout << f_rez2;
+
+   Fractie f_rez3 = f3 * f4;
+   cout << "Produsul ultimelor doua fractii este: "; cout << f_rez3;
+
+   Fractie f_rez4 = f3 / f4;
+   cout << "Catul ultimelor doua fractii este: "; cout << f_rez4;
+   cout << "\n";
+
+   ofstream fout("test.txt", ios::out);
+   fout << "Fractie 1: "; fout << f1;
+   fout << "Fractie 2: "; fout << f2;
+   fout << "Fractie 3: "; fout << f3;
+   fout << "Fractie 4: "; fout << f4;
+   fout << "Suma celor primelor doua fractii este: "; fout << f_rez1;
+   fout << "Diferenta primelor doua fractii este: "; fout << f_rez2;
+   fout << "Produsul ultimelor doua fractii este: "; fout << f_rez3;
+   fout << "Catul ultimelor doua fractii este: "; fout << f_rez4;
+
+   fout.close();
+
+   return 0;
+}

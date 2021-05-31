@@ -1,0 +1,82 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 9 - Program care geereaza maxim 200 de numere, afiseaza valoare minima, 
+   mediana si maxima din sir si apoi face media elementelor din sir si afiseaza un mesaj daca media elementelor se gaseste in sir 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define MAX_ALEATORIU 100
+#define MIN_ALEATORIU 0
+
+int nrAletoriu();
+void sortare(int* p, int n);
+int comparare(const void* a, const void* b);
+void afisare(int* v, int n);
+
+int main()
+{
+
+   int n, medie = 0;
+   srand((unsigned)time(NULL));
+   puts("Introduceti marimea tabloului <200");
+   scanf("%d", &n);
+   int* v = new int[n];
+   for (int i = 0; i < n; i++)
+   {
+      v[i] = nrAletoriu();
+      medie += v[i];
+   }
+   medie = medie / n;
+   
+   sortare(v, n);
+   puts("Sirul sortat este:");
+   afisare(v, n);
+   printf("Valoarea minima = %d\nValoarea mediana = %d\nValoarea maxima = %d\n", v[0], v[n / 2], v[n - 1]);
+   printf("Media valorilor din sir este %d\n", medie);
+   int* rezultat = (int*)bsearch(&medie, v, n, sizeof(int), comparare);
+   if (rezultat)
+      printf("Media valorilor se afla in sir la pozitia %d", rezultat-v);
+   else
+      printf("Media valorilor nu se afla in sir");
+
+   delete[]v;
+   return 0;
+}
+int nrAletoriu()
+{
+   return (MIN_ALEATORIU + (rand() % (int)(MAX_ALEATORIU - MIN_ALEATORIU + 1)));
+}
+void sortare(int* p, int n)
+{
+   int i, j, aux, ok;
+   for (i = 0; i < n; i++)
+   {
+      ok = 0;
+      for (j = 1; j < n - i; j++)
+      {
+         if (p[j - 1] > p[j])
+         {
+            aux = p[j];
+            p[j] = p[j - 1];
+            p[j - 1] = aux;
+            ok = 1;
+         }
+      }
+      if (ok == 0)
+         break;
+   }
+}
+int comparare(const void* a, const void* b)
+{
+   return (*(int*)a - *(int*)b);
+}
+void afisare(int* v, int n)
+{
+   for (int i = 0; i < n; i++)
+      printf("%d ", v[i]);
+   printf("\n");
+}

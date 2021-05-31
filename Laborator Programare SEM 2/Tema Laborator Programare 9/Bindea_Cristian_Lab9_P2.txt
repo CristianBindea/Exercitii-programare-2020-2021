@@ -1,0 +1,170 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care foloseste implementarea clasei Matrix din exemplul 5
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<algorithm>
+using namespace std;
+
+//5. Implementarea clasei Matrix pt. efectuarea unor operatii cu matrici
+// prin supraincarcarea unor operatori (=, +, -, *, () )
+const int linii = 2;
+const int coloane = 3;
+class Matrix {
+   int rows;
+   int cols;
+   int* elems;
+public:
+   Matrix();
+   Matrix(int rows, int cols);
+   Matrix(const Matrix&);
+   ~Matrix(void) { delete[] elems; }
+   int& operator () (int row, int col);
+   Matrix& operator=(const Matrix&);
+   friend Matrix operator+(Matrix&, Matrix&);
+   friend Matrix operator-(Matrix&, Matrix&);
+   friend Matrix operator*(Matrix&, Matrix&);
+   int getRows(void) { return rows; }
+   int getCols(void) { return cols; }
+   void init(int r, int c);
+   void citire();
+   void afisare();
+   void afisareDiagPrincipala();
+   void afisareDiagSecundara();
+};
+Matrix::Matrix() : rows(linii), cols(coloane)
+{
+   elems = new int[rows * cols];
+}
+Matrix::Matrix(int r, int c) : rows(r), cols(c)
+{
+   elems = new int[rows * cols];
+}
+Matrix::Matrix(const Matrix& m) : rows(m.rows), cols(m.cols)
+{
+   int n = m.rows * m.cols;
+   elems = new int[n];
+   for (int i = 0; i < n; i++)
+      elems[i] = m.elems[i];
+}
+Matrix& Matrix:: operator=(const Matrix& m) {
+   if (this != &m) {
+      delete[] elems;// this-> ~Matrix();
+      rows = m.rows; cols = m.cols;
+      int n = rows * cols;
+      elems = new int[n];
+      for (int i = 0; i < n; i++)
+         elems[i] = m.elems[i];
+   }
+   return *this;
+}
+void Matrix::init(int r, int c) {
+   rows = r;
+   cols = c;
+   elems = new int[rows * cols];
+}
+int& Matrix:: operator()(int row, int col)
+{
+   return elems[row * cols + col];
+}
+Matrix operator+(Matrix& p, Matrix& q) {
+   Matrix m(p.rows, p.cols);
+   for (int r = 0; r < p.rows; ++r)
+      for (int c = 0; c < p.cols; ++c)
+         m(r, c) = p(r, c) + q(r, c);
+   return m;
+}
+Matrix operator-(Matrix& p, Matrix& q) {
+   Matrix m(p.rows, p.cols);
+   for (int r = 0; r < p.rows; ++r)
+      for (int c = 0; c < p.cols; ++c)
+         m(r, c) = p(r, c) - q(r, c);
+   return m;
+}//op-
+Matrix operator*(Matrix& p, Matrix& q) {
+   Matrix m(p.rows, q.cols);
+   for (int r = 0; r < p.rows; ++r)
+      for (int c = 0; c < q.cols; ++c) {
+         m(r, c) = 0;
+         for (int i = 0; i < p.cols; ++i)
+            m(r, c) += p(r, i) * q(i, c);
+      }
+   return m;
+}//op*
+void Matrix::citire() {
+   for (int i = 0; i < rows; i++)
+      for (int j = 0; j < cols; j++) {
+         cout << "Dati elem. [" << i << "][" << j << "] ";
+         cin >> elems[cols * i + j];
+      }
+}//citire
+void Matrix::afisare() {
+   for (int i = 0; i < rows; i++)
+   {
+      for (int j = 0; j < cols; j++)
+         cout << elems[cols * i + j] << "\t";
+      cout << endl;
+   }
+}//afisare
+void Matrix::afisareDiagPrincipala()
+{
+   for (int i = 0; i < rows; i++) {
+      cout << elems[cols * i + i] << " ";
+   }
+   cout << "\n";
+}
+void Matrix::afisareDiagSecundara()
+{
+   for (int i = 0; i < rows; i++) {
+      cout << elems[cols * i + rows-i+1] << " ";
+   }
+   cout << "\n";
+}
+int main() {
+   int nrColoane, nrLinii;
+   cout << "Introduceti doua matrici\n";
+   cout << "Matricea 1\n";
+   cout << "Introduceti numarul de linii: "; cin >> nrLinii;
+   cout << "Introduceti numarul de coloane: "; cin >> nrColoane;
+   Matrix matrice1(nrLinii, nrColoane);
+   matrice1.citire();
+   cout << "Matricea 2"<<" ( "<<nrLinii<<" x "<<nrColoane<<" )\n";
+   Matrix matrice2(nrLinii, nrColoane);
+   matrice2.citire();
+
+   cout << "Operatorul ()\n";
+   cout << "Elementul din centrul matricii 1 este: " << matrice1(matrice1.getRows() / 2, matrice2.getCols() / 2) << endl;
+
+   cout << "Operatorul =\n";
+   Matrix matrice3(nrLinii,nrColoane);
+   matrice3 = matrice1;
+   cout << "Matricii 3, copie a matricii 1\n";
+   matrice3.afisare();
+
+   cout << "Operatorul +\n";
+   matrice3 = matrice1 + matrice2;
+   cout << "Suma matricelor 1 si 2\n";
+   matrice3.afisare();
+
+   cout << "Operatorul -\n";
+   matrice3 = matrice1 - matrice2;
+   cout << "Diferenta matricelor 1 si 2\n";
+   matrice3.afisare();
+
+   cout << "Operatorul *\n";
+   matrice3 = matrice1 * matrice2;
+   cout << "Produsul matricelor 1 si 2\n";
+   matrice3.afisare();
+
+   if (nrColoane == nrLinii)
+   {
+      cout << "Elementele de pe diagonala principala a matricii 1 sunt\n";
+      matrice1.afisareDiagPrincipala();
+      cout << "Elementele de pe diagonala secundara a matricii 1 sunt\n";
+      matrice1.afisareDiagSecundara();
+   }
+   else cout << "Matricea nu este patratica, deci nu se pot afisa diagonalele";
+   return 0;
+}

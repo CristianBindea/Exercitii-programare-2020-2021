@@ -1,0 +1,73 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 3 - Program care foloseste qsort pentru a ordona un sir de inregistrari  
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+
+void afisareAngajati(Angajat* a, int n);
+
+struct Data {
+	int zi;
+	int luna;
+	int an;
+};
+struct Angajat {
+	char nume[40];
+	char prenume[40];
+	char cnp[13];
+	Data data_Angajarii;
+};
+
+int main() {
+	int n;
+	puts("Introduceti numarul de angajati");
+	scanf("%d", &n);
+
+	Angajat* angajati = new Angajat[n];
+	if (angajati == NULL)
+	{
+		puts("Alocarea nu a reusit");
+		exit(1);
+	}
+
+	puts("Introduceti date despre angajati");
+	for (int i = 0; i < n; i++)
+	{
+		printf("Angajatul numarul %d\n", i + 1);
+		printf("Nume: "); scanf("%s", &angajati[i].nume);
+		printf("Preume: "); scanf("%s", &angajati[i].prenume);
+		printf("CNP: "); scanf("%s", &angajati[i].cnp);
+		printf("Data angajarii\n");
+		printf("\tZi:"); scanf("%d", &angajati[i].data_Angajarii.zi);
+		printf("\tLuna:"); scanf("%d", &angajati[i].data_Angajarii.luna);
+		printf("\tAn:"); scanf("%d", &angajati[i].data_Angajarii.an);
+	}
+
+	afisareAngajati(angajati, n);
+	delete[]angajati;
+
+	return 0;
+}
+
+
+int comparare(const Data& d1, const Data& d2)
+{
+	if (d1.an < d2.an)
+		return 1;
+	if (d1.an == d2.an && d1.luna < d2.luna)
+		return 1;
+	if (d1.an == d2.an && d1.luna == d2.luna && d1.zi < d2.zi)
+		return 1;
+	return -1;
+}
+
+void afisareAngajati(Angajat *a, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d.  %s %s CNP:%s Angajat la data:%d/%d/%d", i, a[i].nume, a[i].prenume, a[i].cnp, a[i].data_Angajarii.zi, a[i].data_Angajarii.luna, a[i].data_Angajarii.an);
+	}
+}

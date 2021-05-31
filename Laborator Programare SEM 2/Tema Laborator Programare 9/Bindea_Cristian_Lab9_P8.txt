@@ -1,0 +1,80 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 8 - Program care defineste o clasa Complex cu metode de supraincarcare a operatorilor pentru +,-,*,/
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Complex
+{
+   double real;
+   double imaginar;
+public:
+   Complex(void)
+   {
+      real = 0.0; imaginar = 0.0;
+   }
+   Complex(double real, double imaginar)
+   {
+      this->real = real;
+      this->imaginar = imaginar;
+   }
+   void afisare(void)
+   {
+      if (imaginar >= 0)
+         cout << real << " + " << imaginar << "* i\n";
+      else
+         cout << real << " - " << -imaginar << " * i\n";
+   }
+   Complex operator+(const Complex& c)
+   {
+      Complex rez(this->real + c.real, this->imaginar + imaginar);
+      return rez;
+   }
+   Complex operator-(const Complex& c)
+   {
+      Complex rez(this->real - c.real, this->imaginar - imaginar);
+      return rez;
+   }
+   friend Complex operator*(const Complex& c, const Complex& c2);
+   friend Complex operator/(const Complex& c, const Complex& c2);
+};
+
+Complex operator*(const Complex& c, const Complex& c2)
+{
+   Complex rez((c2.real * c.real + c2.imaginar * c.imaginar), (c2.real * c.imaginar + c2.imaginar * c.real));
+   return rez;
+}
+Complex operator/(const Complex& c, const Complex& c2)
+{
+   double i = c.real, j = c.imaginar, k = c2.real, l = c2.imaginar;
+   Complex rez((i * k + j * l) / (k * k + l * l), (j * k - i * l) / (k * k + l * l));
+   return rez;
+}
+
+int main() {
+   Complex a(4, 5);
+   Complex b(7, 3);
+   cout << "Nr complexe: \n";
+   cout << "z1: "; a.afisare(); cout << "z2: "; b.afisare();
+   Complex c;
+   cout << "z1 + z2: ";
+   c = a + b;
+   c.afisare();
+
+   cout << "z1 - z2: ";
+   c = a - b;
+   c.afisare();
+
+   cout << "z1 * z2: ";
+   c = a * b;
+   c.afisare();
+
+   cout << "z1 / z2: ";
+   c = a / b;
+   c.afisare();
+   return 0;
+}

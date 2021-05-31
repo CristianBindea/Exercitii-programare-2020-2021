@@ -1,0 +1,38 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care scrie intr-un fisier, cu numele introdus de la tastatura,
+   folosind metoda write() apoi afiseaza in consola sirul de caractere din fisier folosind metoda read()
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+const int maxDim = 50;
+
+int main()
+{
+   char nume[maxDim], sirIN[maxDim], sirOUT[maxDim];
+   cout << "Introduceti numele fisierului\n";
+   cin >> nume;
+
+   ofstream fout(nume);
+   ifstream fin(nume);
+
+   if (!fin || !fout)
+   {
+      cout << "Eroare la deschiderea fisierului\n";
+      exit(1);
+   }
+
+   cout << "Introduceti un sir de caractere:\n";
+   cin >> sirIN;
+   fout.write(sirIN, strlen(sirIN));
+   fout.close();
+
+   fin.get(sirOUT, maxDim);
+   cout << sirOUT;
+   fin.close();
+   return 0;
+}

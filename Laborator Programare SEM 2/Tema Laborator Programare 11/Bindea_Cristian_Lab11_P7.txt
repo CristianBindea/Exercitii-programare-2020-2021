@@ -1,0 +1,98 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care defineste o clasa punct si o clasa PatrulaterAbstract si PatrulaterConcret cu 4 puncte
+   si metode pentru determinarea tipului poligonului, a ariei si a perimetrului
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+const int nrPuncte = 4;
+class Punct
+{
+private:
+   int x;
+   int y;
+public:
+   Punct() : x(0), y(0) {}
+   Punct(int x, int y) : x(x), y(y) {}
+   void set_x(int x) { this->x = x; }
+   void set_y(int y) { this->y = y; }
+   int get_x() const { return x; }
+   int get_y() const { return y; }
+   friend double distanta(Punct a, Punct b);
+   friend double produsScalar(Punct a, Punct b, Punct c, Punct d);
+};
+
+double distanta(Punct a, Punct b) {
+   return sqrt(
+      pow(a.x - b.x, 2)
+      +
+      pow(a.y - b.y, 2));
+}
+
+double produsScalar(Punct a, Punct b, Punct c, Punct d)
+{
+   return (b.x - a.x) * (d.x - c.x) + (b.y - a.y) * (d.y - c.y);
+}
+
+double calculUnghi(Punct a, Punct b, Punct c, Punct d)
+{
+   return produsScalar(a, b, c, d) / (distanta(a, b) * distanta(b, c));
+}
+
+class PatrulaterAbstract
+{
+protected:
+   Punct puncte[nrPuncte];
+
+public:
+   virtual double calculArie() = 0;
+   virtual double calculPerimetru() = 0;
+};
+
+class PatrulaterConcret : public PatrulaterAbstract
+{
+public:
+   double calculPerimetru() override
+   {
+      return distanta(puncte[0], puncte[1]) + distanta(puncte[2], puncte[3]) + distanta(puncte[0], puncte[2]) + distanta(puncte[1], puncte[3]);
+   }
+   double calculArie() override {
+      int tip = checkFigura();
+      double semi = calculPerimetru() / 2;
+      double a = distanta(puncte[0], puncte[1]), b = distanta(puncte[2], puncte[3]),
+         c = distanta(puncte[0], puncte[2]), d = distanta(puncte[1], puncte[3]), p = distanta(puncte[1], puncte[2]), q = distanta(puncte[0], puncte[3]);
+      if (tip != 4)
+         return sqrt((semi - a) * (semi - b) * (semi - c) * (semi - d) - 1 / 4 * (a * c + b * d + p * q) * (a * c + b * d - p * q));
+   }
+   // 1 - patrat, 2 - dreptunghi, 3 - patrulater oarecare convex, 4 - patrulater oarecare concav
+
+   int checkFigura() {
+      if (distanta(puncte[0], puncte[1]) == distanta(puncte[2], puncte[3])
+         && distanta(puncte[0], puncte[2]) == distanta(puncte[1], puncte[3])) {
+         return 1;
+      }
+      if (distanta(puncte[0], puncte[1]) == distanta(puncte[2], puncte[3])
+         || distanta(puncte[0], puncte[2]) == distanta(puncte[1], puncte[3])) {
+         return 2;
+      }
+      for (int i = 0; i < nrPuncte / 2; i++)
+         for (int j = 2; j < nrPuncte; j++)
+         {
+            if (calculUnghi(puncte[i], puncte[nrPuncte - i - 1], puncte[j], puncte[nrPuncte - j - 1]) < -1)
+            {
+               return 4;
+            }
+         }
+      return 3;
+   }
+};
+
+int main()
+{
+   return 0;
+}

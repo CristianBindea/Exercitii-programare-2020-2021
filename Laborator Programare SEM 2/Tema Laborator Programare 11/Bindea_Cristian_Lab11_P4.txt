@@ -1,0 +1,62 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 4 - Program care defineste clasa Animal si derivatele ei, Caine si Peste cu metoda pur virtuala respira si metodele virtuale mananca si doarme
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Animal
+{
+public:
+   virtual void respira() = 0;
+   //virtual void respira() { cout << "Animalul respira\n"; }
+   virtual void mananca() { cout << "Animalul mananca\n"; }
+   virtual void doarme() { cout << "Animalul doarme"; }
+};
+
+class Caine : public Animal
+{
+public:
+   void respira() override { cout << "Cainele respira\n"; }
+   void mananca() override { cout << "Cainele mananca\n"; }
+};
+class Peste : public Animal
+{
+public:
+   void respira() override { cout << "Pestele respira\n"; }
+   void doarme() override { cout << "Pestele doarme\n"; }
+};
+
+int main()
+{
+   Caine caine;
+   caine.respira();
+   caine.mananca();
+   Peste peste;
+   peste.respira();
+   peste.doarme();
+   cout << "-----------------\n";
+   //pentru a defini un tablou de tip Animal
+  //putem face functia pur virtuala, o functie virtuala
+   //sau putem defini un tablou de pointeri, de tip Animal, spre clasele derivate
+
+   Animal* animale[4];
+   animale[0] = new Caine;
+   cout << "Animale[0]: ";
+   animale[0]->respira();
+
+   animale[1] = new Caine;
+   cout << "Animale[1]: ";
+   animale[1]->respira();
+
+   animale[2] = new Peste;
+   cout << "Animale[2]: ";
+   animale[2]->respira();
+
+   animale[3] = new Peste;
+   cout << "Animale[3]: ";
+   animale[3]->respira();
+   return 0;
+}

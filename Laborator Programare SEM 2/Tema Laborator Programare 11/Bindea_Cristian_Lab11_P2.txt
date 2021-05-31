@@ -1,0 +1,70 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Extindere a exemplului 3 din laboratorul 11
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Vehicul {
+   float greutate;
+public:
+   Vehicul() :greutate(0) {}
+   Vehicul(float greutate) : greutate(greutate) {}
+   virtual void mesaj() {
+      cout << "Mesaj din clasa Vehicul\n";
+   }
+   float getGreutate() { return greutate; }
+   void setGreutate(float greutate) { this->greutate = greutate; }
+   virtual void afiseazaGreutate() { cout << "Greutate vehicul: " << greutate << endl; }
+};
+class Automobil : public Vehicul {
+public:
+   Automobil() :Vehicul(0) {}
+   Automobil(float greutate) : Vehicul(greutate) {}
+   int incarcatura_pasageri;
+   void mesaj() {
+      cout << "Mesaj din clasa Automobil\n";
+   }
+   void afiseazaGreutate() override { cout << "Greutate automobil: " << this->getGreutate() << endl; }
+};
+class Camion : public Vehicul {
+public:
+   Camion() :Vehicul(0) {}
+   Camion(float greutate) : Vehicul(greutate) {}
+
+   void afiseazaGreutate() override { cout << "Greutate camion: " << this->getGreutate() << endl; }
+};
+class Barca : public Vehicul {
+public:
+   Barca() :Vehicul(0) {}
+   Barca(float greutate) : Vehicul(greutate) {}
+   void mesaj() {
+      cout << "Mesaj din clasa Barca\n";
+   }
+   void afiseazaGreutate() override { cout << "Greutate barca: " << this->getGreutate() << endl; }
+};
+
+void afisareGreutate(Vehicul vehicul);
+
+int main()
+{
+   Vehicul vehicul;
+   Automobil automobil(1000);
+   Camion camion(5000);
+   Barca barca(2500);
+
+   afisareGreutate((vehicul));
+   afisareGreutate((automobil));
+   afisareGreutate((camion));
+   afisareGreutate((barca));
+   cout << endl;
+
+   return 0;
+}
+
+void afisareGreutate(Vehicul vehicul) {
+   vehicul.afiseazaGreutate();
+}

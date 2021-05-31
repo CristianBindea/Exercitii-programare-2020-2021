@@ -1,0 +1,135 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care defineste o structura Calculator si apoi ordoneaza un tablou de structuri in functie de fiecare atribut
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <algorithm>
+
+struct Calculator {
+   char nume[40];
+   char procesor[40];
+   long int frecventa;
+   int ram;
+   double pret;
+};
+
+bool comparareNume(Calculator a, Calculator b);
+bool comparareProcesor(Calculator a, Calculator b);
+bool comparareFrecventa(Calculator a, Calculator b);
+bool comparareRam(Calculator a, Calculator b);
+bool compararePret(Calculator a, Calculator b);
+
+int main()
+{
+   FILE* f;
+   errno_t err;
+   err = fopen_s(&f, "test.txt", "r");
+   if (err != NULL)
+   {
+      puts("Eroare la deschiderea fisierului");
+      exit(1);
+   }
+
+   //puts("Introduceti numarul de calculatoare");
+   int n;
+   fscanf(f, "%d", &n);
+   Calculator* calculatoare = new Calculator[n];
+
+   // puts("Introduceti date despre calculatoare");
+   for (int i = 0; i < n; i++)
+   {
+      //printf("Calculatorul %d\n", i);
+      // printf("Nume: ");
+      fscanf(f, "%s", calculatoare[i].nume);
+      // printf("Procesor: ");
+      fscanf(f, "%s", calculatoare[i].procesor);
+      //printf("Frecventa: ");
+      fscanf(f, "%li", &calculatoare[i].frecventa);
+      //printf("Ram: ");
+      fscanf(f, "%d", &calculatoare[i].ram);
+      //printf("Pret: ");
+      fscanf(f, "%lf", &calculatoare[i].pret);
+   }
+
+   fclose(f);
+
+   for (int i = 0; i < n; i++)
+   {
+      printf("Calculatorul %d\n", i);
+      printf("Nume: %s\n", calculatoare[i].nume);
+      printf("Procesor: %s\n", calculatoare[i].procesor);
+      printf("Frecventa: %li\n", calculatoare[i].frecventa);
+      printf("Ram: %d\n", calculatoare[i].ram);
+      printf("Pret: %lf\n", calculatoare[i].pret);
+   }
+   printf("\n\n\n Introduceti tipul de sortare\n\t1 - Nume\n\t2 - Procesor\n\t3 - Frecventa\n\t4 - Ram\n\t5 - Pret\n");
+   int nr;
+   scanf("%d", &nr);
+
+   switch (nr)
+   {
+   case 1:
+      std::sort(calculatoare, calculatoare + n, comparareNume);
+      break;
+   case 2:
+      std::sort(calculatoare, calculatoare + n, comparareProcesor);
+      break;
+   case 3:
+      std::sort(calculatoare, calculatoare + n, comparareFrecventa);
+      break;
+   case 4:
+      std::sort(calculatoare, calculatoare + n, comparareRam);
+      break;
+   case 5:
+      std::sort(calculatoare, calculatoare + n, compararePret);
+      break;
+   default:
+      puts("Tip de sortare neselectat\n"); return 1;
+   }
+
+   for (int i = 0; i < n; i++)
+   {
+      printf("Calculatorul %d\n", i);
+      printf("Nume: %s\n", calculatoare[i].nume);
+      printf("Procesor: %s\n", calculatoare[i].procesor);
+      printf("Frecventa: %li\n", calculatoare[i].frecventa);
+      printf("Ram: %d\n", calculatoare[i].ram);
+      printf("Pret: %lf\n", calculatoare[i].pret);
+   }
+   return 0;
+}
+
+bool comparareNume(Calculator a, Calculator b)
+{
+   if (strcmp(a.nume, b.nume) > 0)
+      return false;
+   return true;
+}
+bool comparareProcesor(Calculator a, Calculator b)
+{
+   if (strcmp(a.procesor, b.procesor) > 0)
+      return false;
+   return true;
+}
+bool comparareFrecventa(Calculator a, Calculator b)
+{
+   if (a.frecventa > b.frecventa)
+      return false;
+   return true;
+}
+bool comparareRam(Calculator a, Calculator b)
+{
+   if (a.ram > b.ram)
+      return false;
+   return true;
+}
+bool compararePret(Calculator a, Calculator b)
+{
+   if (a.pret > b.pret)
+      return false;
+   return true;
+}

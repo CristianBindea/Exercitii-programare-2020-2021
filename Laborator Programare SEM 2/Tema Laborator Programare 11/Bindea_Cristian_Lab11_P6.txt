@@ -1,0 +1,123 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 6 - Program care defineste o clasa Recod, cu atribute pentru artist, titlu si durata,
+   o clasa Playlist cu metode pur virtuale de ordonare afisare si citire a melodiilor, si o clasa PlaylistImplementation in care se implementeaza metodele pur virtuale
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <algorithm>
+using namespace std;
+const int maxDim = 50;
+
+class Record;
+
+bool comparareTitlu(const Record& record1, const Record& record2);
+bool comparareArtist(const Record& record1, const Record& record2);
+bool comparareDurata(const Record& record1, const Record& record2);
+
+class Record
+{
+public:
+   char artist[maxDim];
+   char titlu[maxDim];
+   double durata;
+   char* getArtist() { return artist; }
+   char* getTitlu() { return titlu; }
+   double getDurata() { return durata; }
+   void setArtist(char artist[]) { strcpy(this->artist, artist); }
+   void setTitlu(char titlu[]) { strcpy(this->titlu, titlu); }
+   void setDurata(double durata) { this->durata = durata; }
+   Record() : durata(0) {
+      strcpy(this->artist, "artist");
+      strcpy(this->titlu, "titlu");
+   }
+   Record(char* artist, char* titlu, double durata) : durata(durata) {
+      strcpy(this->artist, artist);
+      strcpy(this->titlu, titlu);
+   }
+};
+class Playlist
+{
+public:
+   Record* records;
+   int numar;
+   Playlist(int numar) :numar(numar) {
+      records = new Record[numar];
+   }
+   virtual void ordonare(int tip) = 0;
+   virtual void citire() = 0;
+   virtual void afisare() = 0;
+   virtual ~Playlist()
+   {
+      delete[]records;
+   }
+};
+
+class PlaylistImplementation : public Playlist
+{
+public:
+   PlaylistImplementation(int numar) :Playlist(numar) {}
+   void ordonare(int tip) override {
+      // 1 - titlu  2 - artist 3 - durata
+      if (tip == 1) {
+         cout << "Sortare dupa titlu\n";
+         sort(records, records + numar, comparareTitlu);
+      }
+      else if (tip == 2) {
+         cout << "Sortare dupa artist\n";
+         sort(records, records + numar, comparareArtist);
+      }
+      else if (tip == 3) {
+         cout << "Sortare dupa durata\n";
+         sort(records, records + numar, comparareDurata);
+      }
+      else
+         cout << "Tipul de sortare introdus e invalid";
+   }
+   void citire() override {
+      for (int i = 0; i < numar; i++) {
+         char sir[maxDim];
+         double nr;
+         cout << "Introduceti date pentru melodia " << i << endl;
+         cout << "Titlu: "; cin >> sir; strcpy(records[i].titlu, sir);
+         cout << "Artist: "; cin >> sir; strcpy(records[i].artist, sir);
+         cout << "Durata: "; cin >> nr; records[i].durata = nr;
+      }
+   }
+   void afisare() override {
+      cout << "\n";
+      for (int i = 0; i < numar; i++) {
+         cout << i << ". " << records[i].titlu << " " << records[i].artist << " " << records[i].durata << endl;
+      }
+   }
+};
+
+int main()
+{
+   int tip;
+   int numar;
+   cout<<"\nIntroduceti numarul de melodii: \n";
+   cin>>numar;
+   PlaylistImplementation playlist(numar);
+   playlist.citire();
+   cout << "Introduceti tipul de sortare\n\t1 - dupa titlu\n\t2 - dupa artist\n\t3 - dupa durata\n";
+   cin >> tip;
+   playlist.ordonare(tip);
+   playlist.afisare();
+   return 0;
+}
+
+bool comparareTitlu(const Record& record1, const Record& record2) {
+   if (strcmp(record1.titlu, record2.titlu) == 1)
+      return false;
+   return true;
+}
+bool comparareArtist(const Record& record1, const Record& record2) {
+   if (strcmp(record1.artist, record2.artist) == 1)
+      return false;
+   return true;
+}
+bool comparareDurata(const Record& record1, const Record& record2) {
+   return record1.durata < record2.durata;
+}

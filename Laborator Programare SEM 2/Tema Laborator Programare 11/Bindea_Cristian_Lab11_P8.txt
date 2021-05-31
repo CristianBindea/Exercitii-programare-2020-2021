@@ -1,0 +1,288 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 8 - Program care implementeaza o clasa Fractie cu functii care supraincarca oeperatorii +,-,*,/,++,--,+=,-=,*= si /=
+   Si care are doua metode pentru simplificarea fractiilor
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Fractie;
+void afisare(Fractie f);
+
+class Fractie {
+   int a;//numarator
+   int b;//numitor
+   int cmmdc() {
+      int a1 = a;
+      int b1 = b;
+      bool negative = false;
+      if (a1 < 0 && b1 < 0) {
+         a1 = -a1;
+         b1 = -b1;
+      }
+      else if (a1 < 0) {
+         negative = true;
+         a1 = -a1;
+      }
+      else if (b1 < 0) {
+         negative = true;
+         b1 = -b1;
+      }
+      while (a1 != b1)
+         a1 > b1 ? a1 -= b1 : b1 -= a1;
+      if (negative)
+         return -a1;
+      else
+         return a1;
+   }
+public:
+   Fractie() : a(0), b(1) {};
+   Fractie(int x, int y) : a(x), b(y) {}
+   Fractie(const Fractie& f) :a(f.a), b(f.b) {}
+   void setNumarator(int numarator) { a = numarator; }
+   void setNumitor(int numitor) { b = numitor; }
+   int getNumarator(void) { return a; }
+   int getNumitor(void) { return b; }
+   Fractie simplificare(void) {
+      cout << " ( Simplificare cu - ) ";
+      int d = cmmdc();
+      Fractie rez(a / d, b / d);
+      return rez;
+   }
+   friend Fractie operator+(Fractie f1, Fractie f2);
+   friend Fractie operator-(Fractie f1, Fractie f2);
+   friend Fractie operator*(Fractie f1, Fractie f2);
+   friend Fractie operator/(Fractie f1, Fractie f2);
+
+   void operator+=(Fractie& f)
+   {
+      this->a = this->a * f.b + this->b * f.a;
+      this->b = this->b * f.b;
+      *this = this->simplificare();
+   }
+   void operator-=(Fractie& f)
+   {
+      this->a = this->a * f.b - this->b * f.a;
+      this->b = this->b * f.b;
+      afisare(*this);
+      *this = this->simplificare();
+      afisare(*this);
+   }
+   void operator*=(Fractie& f)
+   {
+      this->a = this->a * f.a;
+      this->b = this->b * f.b;
+      *this = this->simplificare();
+   }
+   void operator/=(Fractie& f)
+   {
+      this->a = this->a * f.b;
+      this->b = this->b * f.a;
+      *this = this->simplificare();
+   }
+};
+
+class Fractie_ext : public Fractie {
+private:
+   int cmmdc() {
+      int a1 = this->getNumarator();
+      int b1 = this->getNumitor();
+      int r;
+      bool negative = false;
+      if (a1 < 0 && b1 < 0) {
+         a1 = -a1;
+         b1 = -b1;
+      }
+      else if (a1 < 0) {
+         negative = true;
+         a1 = -a1;
+      }
+      else if (b1 < 0) {
+         negative = true;
+         b1 = -b1;
+      }
+      while (b1 != 0)
+      {
+         r = a1 % b1;
+         a1 = b1;
+         b1 = r;
+      }
+      if (negative)
+         return -a1;
+      return a1;
+   }
+public:
+   Fractie_ext() : Fractie() {}
+   Fractie_ext(int x, int y) : Fractie(x, y) {}
+   Fractie_ext operator ++ (int) {
+      Fractie_ext f(this->getNumarator() + 1, this->getNumitor());
+      return f;
+   }
+   Fractie_ext operator -- (int) {
+      Fractie_ext f(this->getNumarator() - 1, this->getNumitor());
+      return f;
+   }
+   Fractie_ext operator -- () {
+      Fractie_ext f(this->getNumarator() - 1, this->getNumitor());
+      return f;
+   }
+   Fractie_ext operator ++ () {
+      Fractie_ext f(this->getNumarator() + 1, this->getNumitor());
+      return f;
+   }
+   Fractie_ext simplificare(void) {
+      cout << " ( Simplificare cu % ) ";
+      int d = cmmdc();
+      Fractie_ext rez(this->getNumarator() / d, this->getNumitor() / d);
+      return rez;
+   }
+};
+
+Fractie operator+(Fractie f1, Fractie f2) {
+   int x, y;
+   if (f1.getNumitor() == f2.getNumitor()) {
+      x = f1.getNumarator() + f2.getNumitor();
+      y = f1.getNumitor();
+      Fractie rez(x, y);
+      rez = rez.simplificare();
+      return rez;
+   }
+
+   x = f1.getNumarator() * f2.getNumitor() + f1.getNumitor() * f2.getNumarator();
+   y = f1.getNumitor() * f2.getNumitor();
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator-(Fractie f1, Fractie f2) {
+   int x, y;
+   if (f1.getNumitor() == f2.getNumitor()) {
+      x = f1.getNumarator() - f2.getNumitor();
+      y = f1.getNumitor();
+      Fractie rez(x, y);
+      rez = rez.simplificare();
+      return rez;
+   }
+
+   x = f1.getNumarator() * f2.getNumitor() - f1.getNumitor() * f2.getNumarator();
+   y = f1.getNumitor() * f2.getNumitor();
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator*(Fractie f1, Fractie f2) {
+   int x, y;
+   x = f1.getNumarator() * f2.getNumarator();
+   y = f1.getNumitor() * f2.getNumitor();
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+Fractie operator/(Fractie f1, Fractie f2) {
+   int x, y;
+   x = f1.getNumitor() * f2.getNumitor();
+   y = f1.getNumarator() * f2.getNumarator();
+   Fractie rez(x, y);
+   rez = rez.simplificare();
+   return rez;
+}
+
+int main()
+{
+   int num1, num2;
+   Fractie f1;
+   Fractie f2;
+   cout << "Valori initiale fractie 1: "; afisare(f1);
+   cout << "Valori initiale fractie 2: "; afisare(f2);
+
+   cout << "Introduceti doua seturi de numarator/numitor pentru cele doua fractii\n";
+   cout << "Numarator fractie 1: "; cin >> num1; f1.setNumarator(num1);
+   cout << "Numitor fractie 1: "; cin >> num1; f1.setNumitor(num1);
+   if (num1 == 0) { cout << "Numitorul nu poate fi 0\n"; return 1; }
+   cout << "Numarator fractie 2: "; cin >> num1; f2.setNumarator(num1);
+   cout << "Numitor fractie 2: "; cin >> num1; f2.setNumitor(num1);
+   if (num1 == 0) { cout << "Numitorul nu poate fi 0\n"; return 1; }
+   cout << "Fractie 1: "; afisare(f1);
+   cout << "Fractie 2: "; afisare(f2);
+   Fractie f3;
+   f3 = f1 + f2;
+   cout << "Suma celor doua fractii este: "; afisare(f3);
+   Fractie f4;
+   f4 = f1 - f2;
+   cout << "Diferenta celor doua fractii este: "; afisare(f4);
+   Fractie f5;
+   f5 = f1 * f2;
+   cout << "Produsul celor doua fractii este: "; afisare(f5);
+   Fractie f6;
+   f6 = f1 / f2;
+   cout << "Catul celor doua fractii este: "; afisare(f6);
+   
+      cout << "\n-------------\n Introduceti doua seturi de numarator/numitor pentru alte doua fractii\n";
+   cout << "Numarator fractie 1: "; cin >> num1;
+   cout << "Numitor fractie 1: "; cin >> num2;
+   if (num2 == 0) { cout << "Numitorul nu poate fi 0\n"; return 1; }
+   Fractie_ext fractie1(num1, num2);
+   cout << "Numarator fractie 2: "; cin >> num1;
+   cout << "Numitor fractie 2: "; cin >> num2;
+   if (num2 == 0) { cout << "Numitorul nu poate fi 0\n"; return 1; }
+   Fractie_ext fractie2(num1, num2);
+
+   cout << "Fractie 1: "; afisare(fractie1);
+   cout << "Fractie 2: "; afisare(fractie2);
+   Fractie_ext f1_copy = fractie1;
+   Fractie_ext f2_copy = fractie2;
+   Fractie_ext f1_rez, f2_rez, f3_rez, f4_rez;
+
+   f1_copy += f2_copy; f1_rez = f1_copy;
+   f1_copy = fractie1;
+   f1_copy -= f2_copy; f2_rez = f1_copy;
+   f1_copy = fractie1;
+   f1_copy *= f2_copy; f3_rez = f1_copy;
+   f1_copy = fractie1;
+   f1_copy /= f2_copy; f4_rez = f1_copy;
+
+   cout << "\n\n";
+   cout << "Incrementare postfixata a sumei: "; f1_rez = f1_rez++; afisare(f1_rez);
+   cout << "Simplificat: "; f1_rez = f1_rez.simplificare(); afisare(f1_rez);
+   cout << "Decrementarea postfixata a diferentei: "; f2_rez = f2_rez--; afisare(f2_rez);
+   cout << "Simplificat: "; f2_rez = f2_rez.simplificare(); afisare(f2_rez);
+   cout << "Incrementare prefixata a produsului: "; f3_rez = ++f3_rez; afisare(f3_rez);
+   cout << "Simplificat: "; f3_rez = f3_rez.simplificare(); afisare(f3_rez);
+   cout << "Decrementarea prefixata a catului: "; f4_rez = --f4_rez; afisare(f4_rez);
+   cout << "Simplificat: "; f4_rez = f4_rez.simplificare(); afisare(f4_rez);
+
+   cout << "\n";
+
+   return 0;
+}
+void afisare(Fractie f)
+{
+   int x = f.getNumarator();
+   int y = f.getNumitor();
+   bool negative = false;
+   if (x < 0 && y < 0) {
+      x = -x;
+      y = -y;
+   }
+   else if (x < 0) {
+      x = -x;
+      negative = true;
+   }
+   else if (y < 0) {
+      y = -y;
+      negative = true;
+   }
+
+   if (negative)
+      cout << "-";
+
+   if (x == 0)
+      cout << 0 << endl;
+   else if (y == 1)
+      cout << x << endl;
+   else
+      cout << x << "/" << y << endl;
+}

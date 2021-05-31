@@ -1,0 +1,28 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 4 - Program care implementeaza o clasa si afiseaza numarul de obiecte instantade ale clasei
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class MyClass {
+public:
+   static int var_static;
+   MyClass() {
+      var_static++;
+   }
+};
+
+int MyClass::var_static = 0;
+
+int main()
+{
+   MyClass obj1;
+   MyClass obj2;
+   MyClass obj3;
+   cout << MyClass::var_static;
+   return 0;
+}

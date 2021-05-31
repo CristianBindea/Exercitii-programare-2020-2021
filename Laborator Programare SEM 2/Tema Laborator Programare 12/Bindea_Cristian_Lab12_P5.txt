@@ -1,0 +1,76 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care defineste o clasa Complex si derivata ei, Punct,
+   in care citirea si afisarea datelor se face prin supraincarcarea operatorilor de extractie si insertie
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Complex
+{
+protected:
+   double real;
+   double imaginar;
+public:
+   Complex() : real(0), imaginar(0) {}
+   Complex(double real, double imaginar) : real(real), imaginar(imaginar) {}
+   friend istream& operator>>(istream& stream, Complex& c);
+   friend ostream& operator<<(ostream& stream, Complex c);
+};
+
+class Punct : public Complex
+{
+   char culoare[30];
+public:
+   Punct() : Complex(0, 0) { strcpy(culoare, "Necunoscut"); }
+   Punct(double x, double y, char* culoare) : Complex(x, y) { strcpy(this->culoare, culoare); }
+   friend istream& operator>>(istream& stream, Punct& p);
+   friend ostream& operator<<(ostream& stream, Punct p);
+};
+
+istream& operator>>(istream& stream, Complex& c) {
+   cout << "Real: "; cin >> c.real;
+   cout << "Imaginar: "; cin >> c.imaginar;
+   return stream;
+}
+ostream& operator<<(ostream& stream, Complex c) {
+   if (c.imaginar >= 0)
+      cout << c.real << " + " << c.imaginar << "* i";
+   else
+      cout << c.real << " - " << -c.imaginar << " * i";
+   return stream;
+}
+
+istream& operator>>(istream& stream, Punct& p) {
+   cout << "X: "; cin >> p.real;
+   cout << "y: "; cin >> p.imaginar;
+   cout << "Culoare: "; cin >> p.culoare;
+   return stream;
+}
+
+ostream& operator<<(ostream& stream, Punct p) {
+   cout << "( " << p.real << ", " << p.imaginar << " ), culoare: " << p.culoare;
+   return stream;
+}
+
+int main()
+{
+   Complex c1;
+   cin >> c1;
+   cout << "C1: " << c1 << endl;
+   cout << "-------------\n";
+   Punct p1;
+   cin >> p1;
+   cout << "P1 :" << p1 << endl;
+
+   cout << "-------------\nUpcasting:\n";
+   Punct p2(5, 2, (char*)"Rosu");
+   cout << "P2: " << p2 << endl;
+   Complex c2 = p2;
+   cout << "C2: " << c2 << endl;
+
+   return 0;
+}

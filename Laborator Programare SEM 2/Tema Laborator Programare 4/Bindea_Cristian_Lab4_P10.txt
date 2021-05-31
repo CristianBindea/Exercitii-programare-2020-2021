@@ -1,0 +1,30 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care genereaza aleatoriu numere reale, folosind un tablou pentru partea intreaga si unul pentru partea fractionara
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+   int valMedie = 0;
+   srand((unsigned)time(NULL));
+   int dim = rand() % 101;
+   int* intreg = new int[dim];
+   int* fractionar = new int[dim];
+   puts("Numerele reale:");
+   for (int i = 0; i < dim; i++)
+   {
+      intreg[i] = rand() % 101;
+      fractionar[i] = rand() % 21;
+      printf("%d.%d  ", intreg[i], fractionar[i]);
+   }
+   puts("\nPartea intreaga:");
+   for (int i = 0; i < dim; i++) printf("%d ", intreg[i]);
+   puts("\nPartea fractionara:");
+   for (int i = 0; i < dim; i++) printf("%d ", fractionar[i]);
+
+   return 0;
+}

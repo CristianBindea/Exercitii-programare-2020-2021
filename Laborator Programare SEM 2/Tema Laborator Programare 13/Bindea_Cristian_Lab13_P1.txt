@@ -1,0 +1,43 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Program care plaseaza cursorul de citire la mijlocul fisierului si citeste doar jumatate de fisier
+
+ */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+
+int main(int argc, char *argv[])
+{
+   if (argc != 2) {
+      cout<<"Specificati numele fisierului \n";
+      exit(1);
+   }
+ 
+
+   ifstream fin(argv[1]);
+
+
+   if (!fin)
+   {
+      cout<<"Eroare la deschiderea fisierului\n";
+      exit(1);
+   }
+
+
+   fin.seekg(0, ios::end);
+   int lungimeFisier = fin.tellg();
+   fin.seekg(lungimeFisier / 2, ios::beg);
+
+
+   char x;
+   while (fin>>x)
+   {
+      cout<<x;
+   }
+ fin.close();
+   return 0;
+}

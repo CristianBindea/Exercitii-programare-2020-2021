@@ -1,0 +1,93 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care instanteaza o clasa Student cu constructori cu parametrii, fara parametrii, de copiere,
+   cu metoda de supraincarcare a operatorului de asignare si metoda pentru afisarea atributelor
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+const int dim = 50;
+class Student {
+   char nume[dim]{};
+   int nr_note;
+   int* note;
+public:
+   Student() {
+      strcpy(nume, "Necunoscut");
+      nr_note = 0;
+      note = nullptr;
+   }
+   Student(char* nume, int nr_note, int* note) {
+      strcpy(this->nume, nume);
+      this->nr_note = nr_note;
+      this->note = new int[nr_note];
+      for (int i = 0; i < nr_note; i++)
+         this->note[i] = note[i];
+   }
+   Student(Student& s) {
+      strcpy(this->nume, s.nume);
+      this->nr_note = s.nr_note;
+      this->note = new int[s.nr_note];
+      for (int i = 0; i < s.nr_note; i++)
+         this->note[i] = s.note[i];
+   }
+   Student& operator=(const Student& s) {
+      strcpy(this->nume, s.nume);
+      this->nr_note = s.nr_note;
+      this->note = new int[s.nr_note];
+      for (int i = 0; i < s.nr_note; i++)
+         this->note[i] = s.note[i];
+      return *this;
+   }
+   ~Student()
+   {
+      delete[]note;
+   }
+   char* getNume() { return nume; }
+   int getNrNote() { return nr_note; }
+   int* getNote() { return note; }
+   void setNume(char nume[]) { strcpy(this->nume, nume); }
+   void setNrNote(int nr_note) { this->nr_note = nr_note; }
+   void setNote(int* note)
+   {
+      delete[]this->note;
+      this->note = new int[nr_note];
+      for (int i = 0; i < nr_note; i++)
+         this->note[i] = note[i];
+   }
+   void afisare()
+   {
+      cout << "Nume: " << nume << endl;
+      cout << "Note: ";
+      for (int i = 0; i < nr_note; i++)
+         cout << note[i] << " ";
+      cout << endl;
+   }
+};
+
+int main() {
+   int note1[] = { 4, 5, 10 };
+   int note2[] = { 8, 3, 5 , 4, 5 };
+   int note3[] = { 8, 3, 5 , 4, 5,6 };
+   const int nr_note1 = 3;
+   const int nr_note2 = 5;
+   const int nr_note3 = 6;
+
+   Student s1((char*)"Nume1", nr_note1, note1);
+   cout << "Obiect instantiat prin constructorul cu parametrii\n";
+   s1.afisare();
+
+   Student s2((char*)"Nume2", nr_note2, note2);
+   Student s3((char*)"Nume3", nr_note3, note3);
+   Student s4 = s2;
+   cout << "Obiect instantiat folosind copy-constructorul\n";
+   s4.afisare();
+
+   Student s5;
+   cout << "Obiect instantiat folosind supraincarcarea operatorului de asignare\n";
+   s5 = s3;
+   return 0;
+}

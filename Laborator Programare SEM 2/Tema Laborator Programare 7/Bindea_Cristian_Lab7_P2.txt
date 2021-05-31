@@ -1,0 +1,105 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care implementeaza o functie Tablou care modeleaza un tablou de intregi
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Tablou {
+   int* v;
+   int dim;
+public:
+   Tablou() {
+      dim = 10;
+      v = new int[dim]();
+   }
+   Tablou(int* a, int d) {
+      dim = d;
+      v = new int[dim];
+      for (int i = 0; i < dim; i++)
+         v[i] = a[i];
+   }
+   Tablou(const Tablou& t) {
+      dim = t.dim;
+      v = new int[dim];
+      for (int i = 0; i < dim; i++)
+         v[i] = t.v[i];
+   }
+   ~Tablou() {
+      delete[]v;
+   }
+   void setV(int* a, int d) {
+      dim = d;
+      delete[]v;
+      v = new int[dim];
+      for (int i = 0; i < dim; i++)
+         v[i] = a[i];
+   }
+   void setDim(int d) {
+      int* a = new int[dim];
+      for (int i = 0; i < dim; i++)
+         a[i] = v[i];
+
+      delete[]v;
+      v = new int[d]();
+      for (int i = 0; i < dim; i++)
+         v[i] = a[i];
+      dim = d;
+      delete[]a;
+   }
+   int getDim() { return dim; }
+   int* getV() { return v; }
+   int getElem(int i) { return v[i]; }
+   void afisare()
+   {
+      for (int i = 0; i < dim; i++)
+         cout << " v[" << i << "]= " << v[i] << endl;
+   }
+};
+
+Tablou citire();
+void afisare(Tablou t);
+
+int main()
+{
+   Tablou t1 = citire();
+   Tablou t2 = citire();
+   cout << "Tablou 1\n";
+   afisare(t1);
+   cout << "Tablou 2\n";
+   afisare(t2);
+
+   int lungime = t1.getDim() > t2.getDim() ? t2.getDim() : t1.getDim();
+   int* a = new int[lungime];
+   for (int i = 0; i < lungime; i++)
+   {
+      a[i] = t1.getElem(i) - t2.getElem(i);
+   }
+   Tablou t3(a, lungime);
+   cout << "Tablou 3\n";
+   afisare(t3);
+   delete[]a;
+   return 0;
+}
+
+Tablou citire()
+{
+   int n;
+   cout << "Introduceti date despre tablou\nDimensiunea: "; cin >> n;
+   cout << "Introduceti elementele tabloului\n";
+   int v[100]{};
+   for (int i = 0; i < n; i++)
+   {
+      cout << "v[" << i << "] = "; cin >> v[i];
+   }
+   Tablou t(v, n);
+   return t;
+}
+void afisare(Tablou t)
+{
+   cout << "Elemetele tabloului sunt: \n";
+   t.afisare();
+   cout << endl;
+}

@@ -1,0 +1,52 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 11 - Program care cauta o valoare cheie intr-un sir de intregi folosind _lfind( ) si bsearch()
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
+#include <stdio.h>
+
+void citire(int* v, int n);
+void afisare(int* v, int n);
+int comparare(int* x, int* y);
+
+int main()
+{
+   unsigned int n;
+   printf("Introduceti dimensiunea tabloului\n");
+   scanf("%d", &n);
+   int* v = new int[n];
+   printf("Introduceti elementele tabloului\n");
+   citire(v, n);
+   printf("Tabloul este: "); afisare(v, n);
+
+   int key;
+   printf("Introduceti o valoare cheie: "); scanf("%d", &key);
+ 
+   bool ok = true;
+   int rezultat=0;
+   rezultat = (int)_lfind(&key, v+rezultat, &n, sizeof(int), (int(*)(const void*, const void*))comparare);
+   int* rezultat = (int*)bsearch(&key, v, n, sizeof(int), (int(*)(const void*, const void*))comparare);
+   delete[]v;
+   return 0;
+}
+
+int comparare(int* x, int* y)
+{
+   return (*x - *y);
+}
+void citire(int* v, int n)
+{
+   for (int i = 0; i < n; i++)
+   {
+      printf("[%d] = ", i); scanf("%d", &v[i]);
+   }
+   printf("\n");
+}
+void afisare(int* v, int n)
+{
+   for (int i = 0; i < n; i++)
+      printf("%d ", v[i]);
+   printf("\n");
+}

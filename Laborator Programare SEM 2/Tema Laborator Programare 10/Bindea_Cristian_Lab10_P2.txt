@@ -1,0 +1,62 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care citeste un sir de caractere intr-o clasa de baza si scrie in fisier o codare a sirului introdus folosind o clasa derivata
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+class Baza {
+public:
+   char sir[30];
+   void codare(void) {
+      for (int i = 0; i < strlen(sir); i++) {
+         sir[i] += 2;
+      }
+   }
+   void decodare(void) {
+      for (int i = 0; i < strlen(sir); i++) {
+         sir[i] -= 2;
+      }
+   }
+   void afisare(void) {
+      cout << sir;
+   }
+};
+class Derivata : public Baza {
+public:
+   Derivata(char sir[])
+   {
+      strcpy(this->sir, sir);
+   }
+   void scriere(void)
+   {
+      fstream file;
+      file.open("test.txt", fstream::app);
+      file << sir;
+      codare();
+      file << " : " << sir << endl;
+      file.close();
+   }
+};
+
+int main() {
+   char sir[40];
+   int nr;
+   cout << "Introduceti un sir: ";
+   cin >> sir;
+   Derivata a(sir);
+   cout << "Apasati\n\t1 - pentru a scrie in fisier\n\t2 - pentru a afisa mesajul codat\n\t3 - pentru a iesi din program\n";
+   cin >> nr;
+   if (nr == 1)
+      a.scriere();
+   else if (nr == 2)
+   {
+      a.codare(); a.afisare();
+   }
+
+   cout << "\nOperatie efectuata cu succes\n";
+   return 0;
+}

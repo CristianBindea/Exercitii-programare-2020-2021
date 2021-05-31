@@ -1,0 +1,50 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care implementeaza o clasa Repository cu doua atribute private intregi si o clasa, prietena cu Repository, numita Mathemathics in care sunt operatii de baza
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Repository {
+   int a;
+   int b;
+public:
+   Repository() {
+      a = 0; b = 0;
+   }
+   Repository(int x, int y) {
+      a = x; b = y;
+   }
+   int getA() { return a; }
+   int getB() { return b; }
+   void getVar() { cout << "a = " << a << " b = " << b; }
+   friend class Mathemathics;
+};
+class Mathemathics {
+public:
+   int sum(Repository r) { return r.a + r.b; }
+   int difference(Repository r) { return r.a - r.b; }
+   int multiply(Repository r) { return r.a * r.b; }
+   double divide(Repository r) { return (double)r.a / r.b; }
+};
+
+int main()
+{
+   int a, b;
+   cout << "Introduceti doua numere intregi\n";
+   cin >> a >> b;
+   Repository obj(a, b);
+   Mathemathics operations;
+   cout<<"Suma: "<< operations.sum(obj)<<"\n";
+   cout<<"Diferenta: "<<operations.difference(obj) << "\n";
+   cout<<"Produs: "<<operations.multiply(obj) << "\n";
+   if (obj.getB())
+      cout << "Impartire: " << operations.divide(obj) << "\n";
+   else
+      cout << "Nu este posibila impartirea la 0";
+
+   return 0;
+}

@@ -1,0 +1,160 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care ordoneaza un sir aleatoriu folosind mai multi algoritmi de sortare si afiseaza timpul de lucru a fiecaruia
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <time.h>
+#include <iostream>
+using namespace std;
+void init(int numere[], int);
+void afis(int numere[], int);
+void bubble(int numere[], int);
+void quick(int numere[], int);
+void Shell_Sort(int* p, int max);
+void interclas(int* a, int i, int m, int j);
+void divimp(int* a, int i, int j);
+int comparare(const void* arg1, const void* arg2);
+int main() {
+   int dim, * numere;
+   cout << "\nIntrodu nr. elemente: ";
+   cin >> dim;
+   numere = new int[dim];
+   init(numere, dim);
+   bubble(numere, dim);
+
+   init(numere, dim);
+   quick(numere, dim);
+
+   init(numere, dim);
+   Shell_Sort(numere, dim);
+   clock_t start, end;
+   double dif;
+   start = clock();
+   divimp(numere, 0, dim - 1);
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nOrdonarea cu \"sortarea prin interclasare\" a numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+   delete[]numere;
+}
+void init(int numere[], int dim)
+{
+   clock_t start, end;
+   double dif;
+   start = clock();
+   srand((unsigned)time(NULL));
+   for (int i = 0; i < dim; i++) {
+      numere[i] = rand();
+   }
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nGenerarea numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+}
+void afis(int numere[], int dim)
+{
+   clock_t start, end;
+   double dif;
+   start = clock();
+   for (int i = 0; i < dim; i++)
+      cout << " " << numere[i];
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nAfisarea numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+}
+void bubble(int numere[], int dim)
+{
+   clock_t start, end;
+   double dif;
+   int aux, ok;
+   start = clock();
+   do {
+      ok = 1;
+      for (int i = 0; i < dim - 1; i++) {
+         if (numere[i] > numere[i + 1]) {
+            aux = numere[i];
+            numere[i] = numere[i + 1];
+            numere[i + 1] = aux;
+            ok = 0;
+         }
+      }
+   } while (ok == 0);
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nOrdonarea cu \"bubble sort\" a numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+}
+void quick(int numere[], int dim) {
+   clock_t start, end;
+   double dif;
+   start = clock();
+   qsort((int*)numere, dim, sizeof(int), comparare);
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nOrdonarea cu \"quick sort\" a numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+}
+
+void Shell_Sort(int* p, int max)
+{
+   clock_t start, end;
+   double dif;
+   start = clock();
+
+   int stop = 0, temp = 0, h = 0, j;
+   while (h <= max / 3)
+      h = 3 * h + 1;
+   while (h > 0)
+   {
+      for (int i = h; i < max; i++)
+      {
+         temp = p[i];
+         j = i;
+         while ((j >= h) && (p[j - h] > temp))
+         {
+            p[j] = p[j - h];
+            j = j - h;
+         }
+         p[j] = temp;
+      }
+      h = (h - 1) / 3;
+   }
+   end = clock();
+   dif = (double)(end - start);
+   cout << "\nOrdonarea cu \"shell sort\" a numerelor a durat (clicks) " << dif << " si (seconds) " << ((float)dif) / CLOCKS_PER_SEC << endl;
+}
+
+void divimp(int* a, int i, int j)
+{
+   if (i < j)
+   {
+      int m = (i + j) / 2;
+      divimp(a, i, m);
+      divimp(a, m + 1, j);
+      interclas(a, i, m, j);
+   }
+}
+void interclas(int* a, int i, int m, int j) {
+   int b[10000];
+   int x = i;
+   int k = 0;
+   int y = m + 1;
+   while (x <= m && y <= j)
+      if (a[x] < a[y])
+         b[k++] = a[x++];
+      else
+         b[k++] = a[y++];
+   while (x <= m)
+      b[k++] = a[x++];
+   while (y <= j)
+      b[k++] = a[y++];
+   int t = i;
+   for (k = 0; k < (j-i) + 1; k++)
+      a[t++] = b[k];
+}
+int comparare(const void* arg1, const void* arg2)
+{
+   if (*(int*)arg1 < *(int*)arg2)
+      return -1;
+   if (*(int*)arg1 == *(int*)arg2)
+      return 0;
+   if (*(int*)arg1 > *(int*)arg2)
+      return 1;
+}

@@ -1,0 +1,29 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care formateaza afisarea a diferitor tipuri de date introduse de la tastatura
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+   int numar;
+   char sir[50];
+
+   cout << "Introduceti un numar: "; cin >> numar;
+   cout << setw(15) << right << setfill('*') << uppercase << hex << showbase << numar << endl;
+   cout << setw(15) << right << setfill('*') << oct << showbase << numar << endl;
+
+   cout << "Introduceti un sir: "; cin >> sir;
+   cout << setfill('#') << setw(strlen(sir) + 3) << sir << endl << endl;
+
+   cout << "Introduceti un numar :"; cin >> numar;
+   cout.imbue(std::locale("en_US.UTF-8"));
+   cout << std::showbase << std::put_money(numar) << endl << endl;
+
+   return 0;
+}

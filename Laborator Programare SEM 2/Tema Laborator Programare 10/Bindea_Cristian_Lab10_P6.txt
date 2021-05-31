@@ -1,0 +1,149 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 6 - Program care instantiaza o clase pentru Patrat Dreptunghi si Cerc cu metode pentru arie si perimetru care mostenesc o clasa de baza Forme 
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+const int maxDim = 40;
+const double pi = 3.1415;
+class Forme
+{
+   char* nume;
+public:
+   char* getNume() const
+   {
+      return nume;
+   }
+   void setNume(char* nume)
+   {
+       strcpy(this->nume, nume);
+   }
+   Forme() { nume = new char[maxDim]; }
+   Forme(char nume[]) { this->nume = new char[strlen(nume) + 1]; strcpy(this->nume, nume); }
+   Forme(const Forme& f) { this->nume = new char[strlen(f.nume) + 1]; strcpy(this->nume, f.nume); }
+   Forme operator=(const Forme& f) { delete this->nume; this->nume = new char[strlen(f.nume) + 1]; strcpy(this->nume, f.nume); return *this; }
+   ~Forme()
+   {
+      delete[]nume;
+   }
+};
+
+class Cerc : public Forme
+{
+   int raza;
+public:
+   Cerc(){
+      this->setNume((char*)"Necunoscut");
+      raza = 0;
+   }
+   Cerc(int raza, char nume[]){
+      this->raza = raza;
+      this->setNume(nume);
+
+   }
+   int getRaza(void) {
+      return raza;
+   }
+   double getPerimetru(void) {
+      return 2 * pi * raza;
+   }
+   double getArie(void) {
+      return pi * raza * raza;
+   }
+};
+
+class Dreptunghi : public Forme
+{
+   int latura;
+   int latime;
+public:
+   Dreptunghi() {
+      this->setNume((char*)"Necunoscut");
+      latura = 0;
+      latime = 0;
+   }
+   Dreptunghi(int lungime,int latime, char nume[]) {
+      this->latura = lungime;
+      this->latime = latime;
+      this->setNume(nume);
+
+   }
+   int getLungime(void) {
+      return latura;
+   }
+   int getLatime(void) {
+      return latime;
+   }
+   double getPerimetru(void) {
+      return 2 * latura + 2 * latime;
+   }
+   double getArie(void) {
+      return latura * latime;
+   }
+};
+
+class Patrat : public Forme
+{
+   int latura;
+public:
+   Patrat() {
+      this->setNume((char*)"Necunoscut");
+      latura = 0;
+
+   }
+   Patrat(int latura, char nume[]) {
+      this->latura = latura;
+      this->setNume(nume);
+
+   }
+   int getLatura(void) {
+      return latura;
+   }
+
+   double getPerimetru(void) {
+      return 4 * latura;
+   }
+   double getArie(void) {
+      return latura * latura;
+   }
+};
+
+int main() {
+
+   int num,num2;
+
+   cout << "\nIntroduceti raza unui cerc\n"; 
+   cout << "Raza: "; cin >> num;
+   Cerc c(num, (char*)"C1");
+   cout << "Cercul " << c.getNume() << " are perimetrul: " << c.getPerimetru() << " si aria: " << c.getArie() << endl;
+
+   cout << "\nIntroduceti latura unui patrat\n";
+   cout << "Latura: "; cin >> num;
+   Patrat p(num, (char*)"P1");
+   cout << "Patratul " << p.getNume() << " are perimetrul: " << p.getPerimetru() << " si aria: " << p.getArie() << endl;
+
+   cout << "\nIntroduceti lungimea si latimea unui dreptunghi\n";
+   cout << "Lungime: "; cin >> num;
+   cout << "Latime: "; cin >> num2;
+   Dreptunghi d(num, num2, (char*)"D1");
+   cout << "Dreptunghiul " << d.getNume() << " are perimetrul: " << d.getPerimetru() << " si aria: " << d.getArie() << endl;
+
+
+   cout << endl;
+   Cerc c2(10, (char*)"C2");
+   Cerc c3 = c2;
+
+   cout << "Afisare a cercului 3, copie a cercului 2: " << "Nume: " << c3.getNume() << "; Raza: " << c3.getRaza() 
+      << "; Perimetru: " << c3.getPerimetru() << "; Arie: " << c3.getArie() << endl;
+
+   Patrat p2(5, (char*)"P2");
+   Patrat p3;
+   p3 = p2;
+   cout << "Afisare a patratului 3, copie a patratului 2: " << "Nume: " << p3.getNume() << "; Latura: " << p3.getLatura()
+      << "; Perimetru: " << p3.getPerimetru() << "; Arie: " << p3.getArie() << endl;
+   return 0;
+}

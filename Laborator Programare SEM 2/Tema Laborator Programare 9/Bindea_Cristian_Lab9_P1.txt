@@ -1,0 +1,184 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Continuare a exemplului 4b in care se citesc, cu confirmare, date despre persoane, iar apoi se ordoneaza si se afiseaza in functie de alegerea utilizatorului
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include<algorithm>
+using namespace std;
+
+//4.b varianta 2: Supraincarcare [ ] pentru acces bazat pe indexare – relatie de asociere
+
+const int MAX = 30;//nr. caractere
+const int dim = 5;//nr. obiecte implicit
+
+class Persoana {
+   char* nume{};
+   double greutate{};
+   int varsta{};
+public:
+   Persoana()
+   {
+      nume = new char[MAX];
+      strcpy(nume, "Necunoscut");
+      greutate = 0.0;
+      varsta = 0;
+   }
+   Persoana(char* nume, double greutate, const int varsta) {
+      this->nume = new char[strlen(nume) + 1];
+      strcpy(this->nume, nume);
+      this->greutate = greutate;
+      this->varsta = varsta;
+   }
+   Persoana(const Persoana& p) {
+      this->nume = new char[strlen(p.nume) + 1];
+      strcpy(this->nume, p.nume);
+      this->greutate = p.greutate;
+      this->varsta = p.varsta;
+   }
+   Persoana& operator=(const Persoana& p)
+   {
+      delete[]this->nume;
+      this->nume = new char[strlen(p.nume) + 1];
+      strcpy(this->nume, p.nume);
+      this->greutate = p.greutate;
+      this->varsta = p.varsta;
+      return *this;
+   }
+
+   void setNume(char Nume[]) { strcpy(this->nume, Nume); }
+   void setGreutate(double Greutate) { this->greutate = Greutate; }
+   void setVarsta(int Varsta) { this->varsta = Varsta; }
+
+   char* getNume() {
+      return nume;
+   }
+   double getGreutate() {
+      return greutate;
+   }
+   int getVarsta() {
+      return varsta;
+   }
+   void display() {
+      cout << "\nNume: " << nume;
+      cout << "\nGreutate: " << greutate;
+      cout << "\nVarsta: " << varsta;
+   }
+   ~Persoana()
+   {
+      delete[]nume;
+   }
+};
+
+bool compareGreutate(Persoana a, Persoana b);
+bool compareNume(Persoana a, Persoana b);
+bool compareVarsta(Persoana a, Persoana b);
+
+class Analize {
+   Persoana* p;
+   int n;
+public:
+   Analize() {
+      p = new Persoana[dim];
+      n = dim;
+   }
+   Analize(int j) {
+      p = new Persoana[j];
+      n = j;
+   }
+   void introduce() {
+      char nume[MAX];
+      double greutate;
+      int varsta;
+      for (int j = 0; j < n; j++) {
+         cout << "\nDatele pentru persoana: " << j + 1; cout << "\nNume: ";
+         cin >> nume;
+         while (strlen(nume) > MAX)
+         {
+            cout << "\nNume prea lung. Reincercati\n"; cin >> nume;
+         }
+         cout << "\nGreutate: ";
+         cin >> greutate;
+         cout << "\nVarsta: ";
+         cin >> varsta;
+         // p[j] = Persoana(nume, greutate, varsta);
+         p[j].setNume(nume);
+         p[j].setVarsta(varsta);
+         p[j].setGreutate(greutate);
+      }
+   }
+   void operator[ ](char* nume) {
+      for (int j = 0; j < n; j++)
+         if (strcmp(nume, p[j].getNume()) == 0) p[j].display();
+   }
+   void operator[ ](double greutate) {
+      for (int j = 0; j < n; j++)
+         if (greutate == p[j].getGreutate()) p[j].display();
+   }
+   void operator[ ](int varsta) {
+      for (int j = 0; j < n; j++)
+         if (varsta == p[j].getVarsta()) p[j].display();
+   }
+
+   void ordonare()
+   {
+      char c;
+      cout << "Ordonare dupa (v = varsta, g = greutate, n = nume) ";
+      cin >> c;
+      switch (toupper(c)) {
+      case 'V': { cout << "Ordonarea dupa varsta este:\n"; sort(p, p + n, compareVarsta); break; }
+      case 'G': {cout << "Ordonarea dupa greutate este:\n"; sort(p, p + n, compareGreutate); break; }
+      case 'N': {cout << "Ordonarea dupa nume este:\n"; sort(p, p + n, compareNume); break; }
+      default:;
+      }
+   }
+   void afisare()
+   {
+      for (int j = 0; j < n; j++) {
+         cout << "Nume: " << p[j].getNume() << " Greutate: " << p[j].getGreutate() << " Varsta: " << p[j].getVarsta() << endl;
+      }
+   }
+   ~Analize()
+   {
+      delete[]p;
+   }
+};
+
+int main()
+{
+   int n;
+
+   cout << "\nCate persoane? ";
+   cin >> n;
+   while (n >= dim) {
+      cout << "\nNumar prea mare de persoane. Reincercati\n"; cin >> n;
+   }
+
+   Analize a(n);
+   a.introduce();
+   a.ordonare();
+   a.afisare();
+
+   return 0;
+}
+
+bool compareVarsta(Persoana a, Persoana b)
+{
+   if (a.getVarsta() > b.getVarsta())
+      return false;
+   return true;
+}
+
+bool compareGreutate(Persoana a, Persoana b)
+{
+   if (a.getGreutate() > b.getGreutate())
+      return false;
+   return true;
+}
+bool compareNume(Persoana a, Persoana b)
+{
+   if (strcmp(a.getNume(), b.getNume()) > 0)
+      return false;
+   return true;
+}

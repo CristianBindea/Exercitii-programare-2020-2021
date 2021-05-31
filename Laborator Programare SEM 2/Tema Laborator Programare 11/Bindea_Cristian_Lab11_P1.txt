@@ -1,0 +1,147 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Continuare a exemplului 2 din laboratorul 11
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Pozitie {
+protected:
+   int x, y;
+public:
+   Pozitie(int = 0, int = 0);
+   Pozitie(const Pozitie&);//exista unul implicit standard, aici unul diferit
+   virtual ~Pozitie();
+   //void afisare();
+   //void deplasare(int, int);
+   virtual void afisare();
+   virtual void deplasare(int, int);
+};
+Pozitie::Pozitie(int abs, int ord) {
+   x = abs; y = ord;
+   cout << "Constructor CB \"Pozitie\", ";
+   afisare();
+}
+Pozitie::Pozitie(const Pozitie& p) {
+   x = p.x;
+   y = p.y;
+   cout << "Constructor de copiere CB \"Pozitie\", ";
+   afisare();
+}
+Pozitie::~Pozitie() {
+   cout << "Destructor CB \"Pozitie \", ";
+   afisare();
+}
+void Pozitie::afisare() {
+   cout << " CB afisare: coordonate: x = " << x << ", y = " << y << "\n";
+}
+void Pozitie::deplasare(int dx, int dy) {
+   cout << "CB: deplasare" << endl;
+   x += dx; y += dy;
+}
+
+class Punct : public Pozitie {
+   int vizibil;//ca un flag
+   char culoare;
+public:
+   Punct(int = 0, int = 0, char = 'A');
+   Punct(const Punct&);
+   ~Punct();
+   void arata() {
+      vizibil = 1;
+   }
+   void ascunde() {
+      vizibil = 0;
+   }
+   void coloreaza(char c) {
+      culoare = c;
+   }
+   void deplasare(int, int) override;
+   void afisare() override;
+};
+Punct::Punct(int abs, int ord, char c) :Pozitie(abs, ord) {
+   vizibil = 0;
+   culoare = c;
+   cout << "Constructor CD \"Punct\", ";
+   afisare();//CD
+}
+Punct::Punct(const Punct& p) :Pozitie(p.x, p.y) {
+   vizibil = p.vizibil;
+   culoare = p.culoare;
+   cout << "Constructor de copiere CD \"Punct\", ";
+   afisare();//CD
+}
+Punct::~Punct() {
+   cout << "Destructor CD \"Punct\", ";
+   afisare();//CD
+}
+// redefinire functie de deplasare in clasa derivata
+void Punct::deplasare(int dx, int dy) {
+   if (vizibil) {
+      cout << " CD: Deplasare afisare CD\n";
+      x += dx;
+      y += dy;
+      afisare();//CD
+   }
+   else {
+      x += dx;
+      y += dy;
+      cout << "Deplasare prin CD afisare din CB\n";
+      Pozitie::afisare();
+   }
+}
+// redefinire metoda de afisare in clasa derivata
+void Punct::afisare() {
+   cout << "Pozitie: x = " << x << ", y = " << y;
+   cout << ", culoare: " << culoare;
+   if (vizibil) cout << ", vizibil \n";
+   else cout << ", invizibil \n";
+}
+
+class Cerc : public Pozitie
+{
+public:
+   Cerc(int abs, int ord) :Pozitie(abs, ord) {
+      cout << "Constructor CD \"Cerc\", ";
+      afisare();//CD
+   }
+   ~Cerc() {
+      cout << "Destructor CD \"Cerc\", ";
+      afisare();//CD
+   }
+   void afisare() override {
+      cout << "Pozitie: x = " << x << ", y = " << y;
+   }
+   void deplasare(int dx, int dy) {
+      cout << " CD: Deplasare afisare CD\n";
+      x += dx;
+      y += dy;
+      afisare();//CD
+   }
+};
+
+int main() {
+   Pozitie* pozitie = new Pozitie(1, 1);
+   pozitie->afisare();
+   pozitie->deplasare(2, 2);
+   pozitie->afisare();
+   delete pozitie;
+   cout << "---------\n";
+
+   Punct* punct = new Punct(8, 9);
+   punct->afisare();
+   punct->deplasare(5, 6);
+   punct->ascunde();
+   punct->coloreaza('R');
+   delete punct;
+   cout << "---------\n";
+
+   Cerc* cerc = new Cerc(6, 3);
+   cerc->afisare();
+   cerc->deplasare(5, 23);
+   delete cerc;
+
+   return 0;
+}

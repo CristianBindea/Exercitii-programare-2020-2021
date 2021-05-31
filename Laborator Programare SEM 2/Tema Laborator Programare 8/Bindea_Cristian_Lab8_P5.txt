@@ -1,0 +1,30 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care implementeaza o clasa si afiseaza numarul de obiecte instantade ale clasei folosind o metoda statica
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class MyClass {
+   static int var_static;
+public:
+   MyClass() {
+      var_static++;
+   }
+   static int getVar_Static(void) { return var_static; }
+};
+
+int MyClass::var_static = 0;
+
+int main()
+{
+   MyClass obj1;
+   MyClass obj2;
+   MyClass obj3;
+   MyClass obj4;
+   cout << obj1.getVar_Static() << "\n";
+   return 0;
+}

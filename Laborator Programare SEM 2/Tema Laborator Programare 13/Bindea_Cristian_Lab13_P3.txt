@@ -1,0 +1,35 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care citeste un fisier text folosind metoda Read apoi il afiseaza
+
+ */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+   if (argc != 2) {
+      cout << "Specificati numele fisierului \n";
+      exit(1);
+   }
+
+   ifstream fin(argv[1]);
+
+   if (!fin)
+   {
+      cout << "Eroare la deschiderea fisierului\n";
+      exit(1);
+   }
+
+   fin.seekg(0, ios::end);
+   int lungimeFisier = fin.tellg();
+   fin.seekg((0, ios::beg));
+   char* sirIN = new char[lungimeFisier + 1]();
+   fin.read(sirIN, lungimeFisier);
+   cout << sirIN << endl;
+   delete[] sirIN;
+   return 0;
+}

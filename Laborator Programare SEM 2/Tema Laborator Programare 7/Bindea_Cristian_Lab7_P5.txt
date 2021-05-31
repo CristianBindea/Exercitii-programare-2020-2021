@@ -1,0 +1,73 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care citeste coordonatele a doua puncte si distantele pe cele 3 axe pentru translatia unuia dintre puncte, apoi afiseaza daca cele 3 puncte sunt coliniare sau nu
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Punct {
+   int x;
+   int y;
+   int z;
+public:
+   Punct(int a = 0, int b = 0, int c = 0) {
+      x = a; y = b; z = c;
+   }
+   void setX(int a) { x = a; }
+   void setY(int a) { y = a; }
+   void setZ(int a) { z = a; }
+   int getX(void) { return x; }
+   int getY(void) { return y; }
+   int getZ(void) { return z; }
+   Punct translatie(int a, int b, int c) {
+      Punct rez(a + this->x, b + this->y, c + this->z);
+      return rez;
+   }
+   bool coliniaritate(Punct a, Punct b)
+   {
+      if (((this->x - a.getX()) / (b.getX() - a.getX()) == (this->y - a.getY()) / (b.getY() - a.getY()))
+         && ((this->x - a.getX()) / (b.getX() - a.getX()) == (this->z - a.getZ()) / (b.getZ() - a.getZ())))
+         return true;
+      else 
+         return false;
+   }
+};
+
+void afisare(Punct a);
+
+int main()
+{
+   int a, b, c;
+   cout << "Introduceti coordonatele unui punct\n";
+   cout << "x = "; cin >> a;
+   cout << "y = "; cin >> b;
+   cout << "z = "; cin >> c;
+   Punct p1(a, b, c);
+   cout << "Punct 1: "; afisare(p1);
+
+   cout << "Introduceti o translatie pe cele 3 axe pentru punct\n";
+   cout << "Pe axa x = "; cin >> a;
+   cout << "Pe axa y = "; cin >> b;
+   cout << "Pe axa z = "; cin >> c;
+   Punct p2 = p1.translatie(a, b, c);
+   cout << "Punct 2: "; afisare(p2);
+
+   cout << "Introduceti un alt punct\n";
+   cout << "x = "; cin >> a;
+   cout << "y = "; cin >> b;
+   cout << "z = "; cin >> c;
+   Punct p3(a, b, c);
+   cout << "Punct 3: "; afisare(p3);
+
+   if (p3.coliniaritate(p1, p2))
+      cout << "Cele doua puncte introduse si punctul rezultat prin translatie sunt coliniare\n";
+   else
+      cout << "Cele doua puncte introduse si punctul rezultat prin translatie nu sunt coliniare\n";
+   return 0;
+}
+void afisare(Punct a)
+{
+   cout << "(" << a.getX() << "," << a.getY() << "," << a.getZ() << ")\n";
+}

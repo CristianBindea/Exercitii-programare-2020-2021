@@ -1,0 +1,53 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Program care salveaza si afiseaza intr-un obiect timpul local apoi folosind o functie prietena returneaza GMT time
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <time.h>
+using namespace std;
+
+class OraCurenta {
+private:
+   int ora;
+   int minut;
+   int secunda;
+public:
+   OraCurenta() {
+      time_t rawtime;
+      struct tm* timeinfo;
+      time(&rawtime);
+      timeinfo = localtime(&rawtime);
+      ora = timeinfo->tm_hour;
+      minut = timeinfo->tm_min;
+      secunda = timeinfo->tm_sec;
+   }
+   OraCurenta(const OraCurenta& a) {
+      this->ora = a.ora;
+      this->minut = a.minut;
+      this->secunda = a.secunda;
+   }
+   void setOra(int a) { ora = a; }
+   void setMinute(int a) { minut = a; }
+   void setSecunde(int a) { secunda = a; }
+   int getOra(void) { return ora; }
+   int getMinute(void) { return minut; }
+   int getSecunde(void) { return secunda; }
+   friend OraCurenta greenwichMeanTime();
+};
+
+OraCurenta greenwichMeanTime() {
+   OraCurenta b;
+   b.ora -= 3;
+   return b;
+}
+
+int main()
+{
+   OraCurenta a;
+   cout << "\nTimpul curent local este: " << a.getOra() << " " << a.getMinute() << " " << a.getSecunde() << endl;
+   OraCurenta b = greenwichMeanTime();
+   cout << "\nGreenwich Mean Time este: " << b.getOra() << " " << b.getMinute() << " " << b.getSecunde() << endl;
+   return 0;
+}

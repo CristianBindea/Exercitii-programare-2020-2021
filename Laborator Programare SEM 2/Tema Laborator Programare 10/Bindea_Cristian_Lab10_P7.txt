@@ -1,0 +1,93 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care instanteaza doua clase Patrat si Cerc apoi derivata lor CercPatrat
+   cu metode pentru afisarea perimetrului si pentru verificarea daca patratul poate fi inclus in cerc
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+const double pi = 3.1415;
+
+class Cerc
+{
+protected:
+   int raza;
+public:
+   Cerc() {
+      raza = 0;
+   }
+   Cerc(int raza) {
+      this->raza = raza;
+   }
+   int getRaza(void) {
+      return raza;
+   }
+   double getArie(void) {
+      return pi * raza * raza;
+   }
+};
+
+class Patrat
+{
+protected:
+   int latura;
+public:
+   Patrat() {
+      latura = 0;
+   }
+   Patrat(int latura) {
+      this->latura = latura;
+   }
+   int getLatura(void) {
+      return latura;
+   }
+   double getArie(void) {
+      return latura * latura;
+   }
+};
+
+class CercPatrat :public Cerc, public Patrat
+{
+public:
+   CercPatrat()
+   {
+      Cerc();
+      Patrat();
+   }
+   CercPatrat(int Raza, int Latura) {
+      // Cerc(Raza);
+      // Patrat(Latura);
+      this->raza = Raza;
+      this->latura = Latura;
+   }
+   bool verificare(void) {
+      return sqrt(2) / 2 * latura < raza;
+   }
+   double getPerimetruPatrat(void) {
+      return 4 * latura;
+   }
+   double getPerimetruCerc(void) {
+      return 2 * pi * raza;
+   }
+};
+
+int main() {
+   int r, l;
+   cout << "Introduceti o raza pentru un cerc si o latura pentru un patrat:\n";
+   cout << "Raza: "; cin >> r;
+   cout << "Latura: "; cin >> l;
+
+   CercPatrat obj(r, l);
+   cout << "Perimetrul cercului este: " << obj.getPerimetruCerc() << endl;
+   cout << "Perimetrul patratului este: " << obj.getPerimetruPatrat() << endl;
+
+   if (obj.verificare())
+      cout << "Patratul poate fi inclus in cerc\n";
+   else
+      cout << "Patratul nu poate fi inclus in cerc\n";
+   return 0;
+}

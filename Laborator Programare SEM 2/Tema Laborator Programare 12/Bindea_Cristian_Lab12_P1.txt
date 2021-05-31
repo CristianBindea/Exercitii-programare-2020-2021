@@ -1,0 +1,40 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 1 - Program care formateaza afisarea unui numar citit de la tastatura
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+   int num;
+
+   cout << "\nIntroduceti un numar: "; cin >> num;
+
+   cout << "Zecimal: (aliniat la dreapta) ";
+   cout.setf((ios::right));
+   cout.width(15);
+   cout.fill('*');
+   cout.precision(3);
+   cout << num << endl;
+
+   cout << "Octal: (aliniat la stanga) ";
+   cout.width(15);
+   cout.fill('*');
+   cout.precision(3);
+   cout.unsetf(ios::right);
+   cout.setf((ios::left));
+   cout << oct << num << endl;
+
+   cout << "Hexazecimal: (aliniat la dreapta) ";
+   cout.setf((ios::right));
+   cout.width(15);
+   cout.fill('*');
+   cout.precision(3);
+   cout << hex << num << endl;
+   return 0;
+}

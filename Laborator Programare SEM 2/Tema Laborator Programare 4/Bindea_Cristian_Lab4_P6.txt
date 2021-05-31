@@ -1,0 +1,109 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 6 - Program care defineste o sortare prin interclasare, impartind un sir in doua, ordonandu-le si apoi reunind cele doua siruri intr-un sir ordonat
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+
+using namespace std;
+
+void citire(int* v, int n);
+void sortare(int* p, int n);
+void afisare(int* v, int n);
+int* aranjare(int& n3, int* v1, int n1, int* v2, int n2);
+
+int main()
+{
+   int dimInitiala, dimPartiala;
+   printf("Dimensiunea sirului: "); scanf("%d", &dimInitiala);
+   int* sir_initial = new int[dimInitiala];
+   puts("Introduceti elementele siruui"); citire(sir_initial, dimInitiala);
+   printf("Introduceti o valoare mai mica decat %d, dimensiunea sirului initial\n", dimInitiala - 1); scanf("%d", &dimPartiala);
+   if (dimPartiala >= dimInitiala - 1)
+   {
+      printf("Dimensiune prea mare\n"); return 1;
+   }
+
+   int* sir_partial1 = new int[dimPartiala];
+   for (int i = 0; i < dimPartiala; i++) sir_partial1[i] = sir_initial[i];
+   puts("Primul subsir este:");
+   afisare(sir_partial1, dimPartiala);
+   printf("Sortat: "); sortare(sir_partial1, dimPartiala); afisare(sir_partial1, dimPartiala);
+
+   int* sir_partial2 = new int[dimInitiala - dimPartiala];
+   int k = 0;
+   for (int i = dimPartiala; i < dimInitiala; i++)  sir_partial2[k++] = sir_initial[i];
+
+   puts("Al doilea subsir este:");
+   afisare(sir_partial2, dimInitiala - dimPartiala);
+   printf("Sortat: "); sortare(sir_partial2, dimInitiala - dimPartiala); afisare(sir_partial2, dimInitiala - dimPartiala);
+
+   sir_initial = aranjare(dimInitiala, sir_partial1, dimPartiala, sir_partial2, dimInitiala - dimPartiala);
+   puts("Sirul initial ordonat este:");
+   afisare(sir_initial, dimInitiala);
+
+   delete[]sir_partial1;
+   delete[]sir_partial2;
+   delete[]sir_initial;
+   return 0;
+}
+
+void sortare(int* p, int n)
+{
+   for (int i = 0; i < n; i++)
+   {
+      int ok = 0;
+      for (int j = 1; j < n - i; j++)
+      {
+         if (p[j - 1] > p[j])
+         {
+            int aux = p[j];
+            p[j] = p[j - 1];
+            p[j - 1] = aux;
+            ok = 1;
+         }
+      }
+      if (ok == 0)
+         break;
+   }
+}
+int* aranjare(int& n3, int* v1, int n1, int* v2, int n2)
+{
+   n3 = 0;
+   int* v3 = new int[n1 + n2];
+   int i = 0, j = 0;
+   while ((i < n1) && (j < n2))
+   {
+      if (v1[i] < v2[j])
+      {
+         v3[n3++] = v1[i];
+         i++;
+      }
+      else
+      {
+         v3[n3++] = v2[i];
+         j++;
+      }
+   }
+
+   while (i < n1)
+      v3[n3++] = v1[i++];
+   while (j < n2)
+      v3[n3++] = v2[j++];
+   return v3;
+}
+void citire(int* v, int n)
+{
+   for (int i = 0; i < n; i++)
+   {
+      printf("[%d] = ", i); scanf("%d", &v[i]);
+   }
+   printf("\n");
+}
+void afisare(int* v, int n)
+{
+   for (int i = 0; i < n; i++)
+      printf("%d ", v[i]);
+   printf("\n");
+}

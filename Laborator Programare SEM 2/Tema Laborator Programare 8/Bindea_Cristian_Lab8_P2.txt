@@ -1,0 +1,45 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 2 - Program care foloseste o functie prietena membra a unei clase pentru a modifica date private din alta clasa
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Calculator;
+
+class Placa_de_baza
+{
+   char denumire_procesor[40];
+public:
+   Placa_de_baza(char s[]) { strcpy(denumire_procesor, s); }
+   char* getDenumireProcesor(void) { return denumire_procesor; }
+   void tehnician_service(Calculator p, int memorieRAM, char denumireProcesor[]);
+};
+class Calculator
+{
+public:
+   int memorie_RAM;
+   Calculator(int a) { memorie_RAM = a; }
+   int getMemorieRAM(void) { return memorie_RAM; }
+   friend void Placa_de_baza::tehnician_service(Calculator p, int memorieRAM, char denumireProcesor[]);
+
+};
+void Placa_de_baza::tehnician_service(Calculator p, int memorieRAM, char denumireProcesor[]) {
+   p.memorie_RAM = memorieRAM;
+   strcpy(denumire_procesor, denumireProcesor);
+}
+
+
+int main()
+{
+   Calculator c(8);
+   Placa_de_baza p((char*)"INTEL");
+   cout << "Calculator cu " << c.getMemorieRAM() << "GB RAM si procesor " << p.getDenumireProcesor() << endl;
+
+   p.tehnician_service(c, 16, (char*)"AMD");
+   cout << "Calculator cu " << c.getMemorieRAM() << "GB RAM si procesor " << p.getDenumireProcesor() << endl;
+
+   return 0;
+}

@@ -1,0 +1,128 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 7 - Program care modeleaza o clasa Publicatie cu nume, editura, pret, numar pagini si numar exemplare, calculeaza pretul cu TVA, pretul pe pagina si ordoneaza editurile dupa incasari
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+const int defaultDim = 30;
+
+class Publicatie {
+	char* nume;
+	char* editura;
+	int nrPagini;
+	int nrExemplare;
+	double pret;
+	static double valoareTVA;
+public:
+	Publicatie() {
+		nume = new char[defaultDim];
+		editura = new char[defaultDim];
+		nrPagini = 0;
+		nrExemplare = 0;
+		pret = 0.0;
+		valoareTVA = 19.0;
+	}
+	Publicatie(char* Nume, char* Editura, int NrPagini, int NrExemplare, double Pret, double ValoareTVA)
+	{
+		nume = new char[strlen(Nume) + 1]; strcpy(nume, Nume);
+		editura = new char[strlen(Editura) + 1]; strcpy(editura, Editura);
+		nrPagini = NrPagini;
+		nrExemplare = NrExemplare;
+		pret = Pret;
+		valoareTVA = ValoareTVA;
+	}
+	~Publicatie() {
+		delete[]nume;
+		delete[]editura;
+	}
+
+	void setNume(char* par) {
+		delete[]nume;
+		nume = new char[strlen(par) + 1];
+		strcpy(nume, par);
+	}
+	void setEditura(char* par) {
+		delete[]editura;
+		editura = new char[strlen(par) + 1];
+		strcpy(editura, par);
+	}
+	void setPret(double par) { pret = par; }
+	void setNrPagini(int par) { nrPagini = par; }
+	void setNrExemplare(int par) { nrExemplare = par; }
+	static void setTVA(double par) { valoareTVA = par; }
+
+	char* getNume(void) { return nume; }
+	char* getEditura(void) { return editura; }
+	double getPret(void) { return pret; }
+	int getNrPagini(void) { return nrPagini; }
+	int getExemplare(void) { return nrExemplare; }
+	static double getTVA(void) { return valoareTVA; }
+
+	double getPretCuTVA(void) { return pret + pret * valoareTVA; }
+	double getPretPerPagina(void) { return pret / nrPagini; }
+	double getIncasari(void) { return pret * nrExemplare; }
+};
+
+double Publicatie::valoareTVA;
+
+double sumaTotala(Publicatie* p, int n);
+void citirePublicatii(Publicatie* p, int n);
+int compare(const void* p, const void* q);
+
+int main()
+{
+	int n;
+	cout << "Introduceti numarul de publicatii "; cin >> n;
+	Publicatie* publicatii = new Publicatie[n];
+	citirePublicatii(publicatii, n);
+	cout << "Suma totala cu TVA 19% :" << sumaTotala(publicatii, n) << endl;
+	Publicatie::setTVA(10);
+	cout << "Suma totala cu TVA 10% :" << sumaTotala(publicatii, n) << endl;
+
+	qsort((void*)publicatii, n, sizeof(publicatii), compare);
+
+	for (int i = 0; i < n; i++)
+		cout << " " << i << ". " << publicatii[i].getEditura() << " incasari " << publicatii[i].getIncasari() << endl;
+
+	delete[]publicatii;
+	return 0;
+}
+
+int compare(const void* p, const void* q)
+{
+	Publicatie a = *(Publicatie*)p;
+	Publicatie b = *(Publicatie*)q;
+
+	if (a.getIncasari() < b.getIncasari())
+		return -1;
+	else if (a.getIncasari() > b.getIncasari())
+		return 1;
+	else
+		return 0;
+}
+
+void citirePublicatii(Publicatie* p, int n)
+{
+	char nume[50], editura[50];
+	int numarP, numarE;
+	double pret;
+	for (int i = 0; i < n; i++)
+	{
+		cout << "Introduceti date despre publicatia " << i << endl;
+		cout << "Numele publicatiei: "; cin >> nume; p[i].setNume(nume);
+		cout << "Editura: "; cin >> editura; p[i].setEditura(editura);
+		cout << "Pret: "; cin >> pret; p[i].setPret(pret);
+		cout << "Numar pagini: "; cin >> numarP; p[i].setNrPagini(numarP);
+		cout << "Numar exemplare :"; cin >> numarE; p[i].setNrExemplare(numarE);
+	}
+}
+double sumaTotala(Publicatie* p, int n) {
+	double total = 0.0;
+	for (int i = 0; i < n; i++) {
+		total += p[i].getPretCuTVA();
+	}
+	return total;
+}

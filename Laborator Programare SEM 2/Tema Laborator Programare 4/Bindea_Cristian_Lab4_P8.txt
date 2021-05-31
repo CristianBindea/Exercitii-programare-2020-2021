@@ -1,0 +1,104 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 8 - Program care generaza un tablou folosind elementele din alte doua tablouri si apoi ordoneaza tabloul generat si afiseaza numarul de elemente neunice
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void afisare(double* v, int n);
+void eliminare(double* a, int& n);
+void sortare(double* p, int n);
+
+int main()
+{
+   FILE* f;
+   errno_t err;
+   err = fopen_s(&f, "test.txt", "r");
+   if (err != NULL)
+   {
+      puts("Eroare la deschiderea fisierului");
+      exit(1);
+   }
+
+   double v1[100]{}, v2[100]{};
+   int n1, n2;
+   fscanf(f, "%d", &n1);
+   for (int i = 0; i < n1; i++)
+      fscanf(f, "%lf", &v1[i]);
+   fscanf(f, "%d", &n2);
+   for (int i = 0; i < n2; i++)
+      fscanf(f, "%lf", &v2[i]);
+   fclose(f);
+   puts("Primul sir este:");
+   afisare(v1, n1);
+   puts("Al doilea sir este:");
+   afisare(v2, n2);
+   int k = 0, n = n1 > n2 ? n1 : n2;
+   double v3[200]{};
+   for (int i = 0; i < n; i++)
+   {
+      v3[k++] = v1[i];
+      v3[k++] = v2[i];
+      if (i > n1 && i < n2)
+         v3[k++] = v2[i] / 2;
+      else if (i<n1 && i>n2)
+         v3[k++] = v1[i] / 2;
+      else
+         v3[k++] = (v1[i] + v2[i]) / 2;
+   }
+   puts("Sirul rezultat este:");
+   afisare(v3, k);
+   sortare(v3, k);
+   printf("Sortat: "); afisare(v3, k);
+   int k_aux = k;
+   eliminare(v3, k);
+   printf("Numarul de elemente neunice din sir este: %d\n", k_aux - k);
+   return 0;
+}
+void afisare(double* v, int n)
+{
+   for (int i = 0; i < n; i++)
+      printf("%g ", v[i]);
+   printf("\n");
+}
+void eliminare(double* a, int& n)
+{
+   double aux;
+   for (int i = 0; i < n - 1; i++)
+   {
+      if (a[i] == a[i + 1])
+      {
+         for (int j = i; j < n - 1; j++)
+         {
+            aux = a[j];
+            a[j] = a[j + 1];
+            a[j + 1] = aux;
+         }
+         n--;
+         i--;
+      }
+   }
+}
+void sortare(double* p, int n)
+{
+   int i, j, aux, ok;
+   for (i = 0; i < n; i++)
+   {
+      ok = 0;
+      for (j = 1; j < n - i; j++)
+      {
+         if (p[j - 1] > p[j])
+         {
+            aux = p[j];
+            p[j] = p[j - 1];
+            p[j - 1] = aux;
+            ok = 1;
+         }
+      }
+      if (ok == 0)
+         break;
+   }
+}

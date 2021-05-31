@@ -1,0 +1,66 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 4 - Program care citeste un numar de inregistrari din fisier, folosind supraincarcarea operatorului >>
+
+ */
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+const int maxDim = 50;
+
+class Agenda
+{
+   char nume[maxDim];
+   char localitate[maxDim];
+   char telefon[maxDim];
+public:
+   Agenda()
+   {
+      strcpy(nume, "Necunoscut");
+      strcpy(localitate, "Necunoscut");
+      strcpy(telefon, "Necunoscut");
+   }
+   friend istream& operator>>(istream& stream, Agenda& a);
+   friend ostream& operator<<(ostream& stream, Agenda a);
+};
+
+int main()
+{
+   ifstream fin("test.bin", std::ios_base::binary);
+   ofstream fout("test.bin", ios::app, std::ios_base::binary);
+
+   if (!fin)
+   {
+      cout << "Eroare la deschiderea fisierului\nIntroduceti un nume pentru fisier: ";
+
+      char nume[maxDim];
+      cin >> nume;
+      ofstream fout(nume, std::ios_base::binary);
+      exit(1);
+   }
+
+   int nr;
+   fin >> nr;
+   Agenda* a = new Agenda[nr];
+   for (int i = 0; i < nr; i++)
+   {
+      fin >> a[i];
+      fout << a[i] << "\n";
+   }
+
+   return 0;
+}
+
+istream& operator>>(istream& stream, Agenda& a)
+{
+   stream >> a.nume >> a.localitate >> a.telefon;
+   return stream;
+}
+ostream& operator<<(ostream& stream, Agenda a)
+{
+   stream << "\nNume: " << a.nume << " Localitate: " << a.localitate << " Nr. telefon: " << a.telefon;
+   return stream;
+}

@@ -1,0 +1,57 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 6 - Program care citeste doua puncte si afiseaza aria si perimetrul a doua figuri geometrice formate din cele doua puncte
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+using namespace std;
+const double pi = 3.1415;
+class Punct {
+   int x, y;
+public:
+   Punct() {
+      x = 0; y = 0;
+   }
+   Punct(int x, int y) {
+      this->x = x; this->y = y;
+   }
+   friend double distanta(Punct P1, Punct P2);
+   friend void calcul(Punct P1, Punct P2, int figura);
+};
+
+double distanta(Punct p1, Punct p2) {
+   return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
+}
+void calcul(Punct p1, Punct p2, int figura)
+{
+   if (figura == 1)//cerc
+   {
+      cout << "Aria cercului: " << pi * distanta(p1, p2) * distanta(p1, p2) / 4 << endl;
+      cout << "Perimetrul cercului: " << 2 * pi * distanta(p1, p2) / 2 << endl;
+   }
+   else if (figura == 2) //triunghi
+   {
+      cout << "Aria triunghiului este: " << distanta(p1, p2) * distanta(p1, p2) / 4 << endl;
+      cout << "Perimetrul triunghiului este: " << 2 * sqrt(distanta(p1, p2) * distanta(p1, p2) / 2) + distanta(p1, p2);
+   }
+}
+
+int main()
+{
+   int a, b, fig;
+   cout << "Introduceti doua puncte\n";
+   cout << "Punctul 1\n";
+   cout << "X = "; cin >> a;
+   cout << "Y = "; cin >> b;
+   Punct p1(a, b);
+   cout << "Punctul 2\n";
+   cout << "X = "; cin >> a;
+   cout << "Y = "; cin >> b;
+   Punct p2(a, b);
+   cout << "Introduceti figura (cerc - 1, triunghi - 2)\n";
+   cin >> fig;
+   calcul(p1, p2, fig);
+   return 0;
+}

@@ -1,0 +1,76 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 6 - Program care implementeaza clasa Calculator apoi supraincarca metoda calcul
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Calculator {
+public:
+   int calcul(int x) {
+      return x * x;
+   }
+   int calcul(int x, int y) {
+      return x * y;
+   }
+   double calcul(int x, int y, int z) {
+      return (double)(x - y) * (x + z) / 2;
+   }
+
+   /*
+   static int calcul(int x) {
+       return x * x;
+    }
+    static int calcul(int x, int y) {
+       return x * y;
+    }
+    static double calcul(int x, int y, int z) {
+       return (double)(x - y) * (x + z) / 2;
+    }
+    */
+    //nu e posibil sa avem si metode statice si non-statice
+};
+
+class Calculator2 {
+   int x, y, z;
+public:
+
+   void setX(int x) { this->x = x; }
+   void setY(int y) { this->y = y; }
+   void setZ(int z) { this->z = z; }
+
+   int calcul1() {
+      return x * x;
+   }
+   int calcul2() {
+      return x * y;
+   }
+   double calcul3() {
+      return (double)(x - y) * (x + z) / 2;
+   }
+};
+// pentru a folosi cele 3 atribute ale clasei trebuie modificate numele metodelor pentru a putea face distinctia dintre ele
+
+int main(int argc, char* argv[]) {
+   int a, b, c;
+
+   a = atoi(argv[1]);
+   b = atoi(argv[2]);
+   c = atoi(argv[3]);
+
+   if (argc < 3)
+   {
+      cout << "Nu au fost introdusi destui parametrii\n";
+      return 1;
+   }
+
+   Calculator cal;
+   cout << "Functie cu un parametru: " << cal.calcul(a) << endl;
+   cout << "Functie cu doi parametrii: " << cal.calcul(a, b) << endl;
+   cout << "Functie cu trei parametrii: " << cal.calcul(a, b, c) << endl;
+
+   return 0;
+}

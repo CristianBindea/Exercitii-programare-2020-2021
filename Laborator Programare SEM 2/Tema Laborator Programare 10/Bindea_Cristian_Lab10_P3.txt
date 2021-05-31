@@ -1,0 +1,76 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care implementeaza o clasa baza cu doua numere intregi si o clasa derivata cu metode pentru +, -, *, /, radical si ridicare la putere
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Baza
+{
+protected:
+   int a;
+   int b;
+
+public:
+   int get_a() const
+   {
+      return a;
+   }
+   void set_a(int a)
+   {
+      this->a = a;
+   }
+   int get_b() const
+   {
+      return b;
+   }
+   void set_b(int b)
+   {
+      this->b = b;
+   }
+};
+
+class Derivata : public Baza
+{
+public:
+   int adunare() { return a + b; }
+   int scadere() { return a - b; }
+   int inmultire() { return a * b; }
+   double imparitre() { return a / b; }
+};
+
+class Derivata2 : public Derivata
+{
+public:
+   double radacina() {
+      return sqrt(this->inmultire());
+   }
+   double putere() {
+      return pow(this->adunare(), this->scadere());
+
+   }
+};
+
+int main() {
+
+   int a, b;
+   Derivata2 deriv;
+   cout << "Introduceti doua numere\n";
+   cout << "A = "; cin >> a;
+   cout << "B = "; cin >> b;
+   deriv.set_a(a);
+   deriv.set_b(b);
+   cout << "Numerele: " << deriv.get_a() << "  " << deriv.get_b() << "\n";
+   cout << "Adunare: " << deriv.adunare() << "\n";
+   cout << "Scadere: " << deriv.scadere() << "\n";
+   cout << "Inmultire: " << deriv.inmultire() << "\n";
+   if (b != 0)
+      cout << "Impartire: " << deriv.imparitre() << "\n";
+   else cout << "Imartirea nu se poate efectua\n";
+   cout << "Ridicare la putere: " << deriv.putere() << "\n";
+   cout << "Radical: " << deriv.radacina() << "\n";
+   return 0;
+}

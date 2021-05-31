@@ -1,0 +1,60 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - program care declara o clasa abstracta cu 3 metode pur virtuale pentru concatenare, interschimbare si inversare, pe care le implementeaza intr-o clasa derivata
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+const int maxDim = 40;
+
+class Baza
+{
+   virtual char* concatenare(char* sir1, char* sir2) = 0;
+   virtual void interschimbare(char* sir1, char* sir2) = 0;
+   virtual char* inversare(char* sir) = 0;
+public:
+   static void afisare(char* sir) { cout << sir << "\n"; }
+};
+class Derivata : public Baza
+{
+public:
+   char* concatenare(char* sir1, char* sir2) override {
+      strcat(sir1, sir2);
+      return sir1;
+   }
+   void interschimbare(char* sir1, char* sir2) override {
+      swap(sir1, sir2);
+   }
+   char* inversare(char* sir) override {
+      _strrev((sir));
+      return sir;
+   }
+};
+int main()
+{
+   char s1[maxDim] = "Sir1";
+   char s2[maxDim] = "Sir2";
+   char s3[maxDim];
+
+   cout << "Sirul 1: "; Baza::afisare(s1);
+   cout << "Sirul 2: "; Baza::afisare(s2);
+   Derivata d;
+
+   cout << "Interschimarea celor doua siruri:\n";
+   d.interschimbare(s1, s2);
+   cout << "Sirul 1: "; Baza::afisare(s1);
+   cout << "Sirul 2: "; Baza::afisare(s2);
+   d.interschimbare(s1, s2);
+   cout << "------------\n";
+   d.inversare(s1);
+   cout << "Inversul primului sir: "; Baza::afisare(s1);
+   d.inversare(s1);
+   cout << "------------\n";
+   strcpy(s3, d.concatenare(s1, s2));
+   cout << "Concatenarea celor doua siruri: "; Baza::afisare(s1);
+   cout << "\n";
+
+   return 0;
+}

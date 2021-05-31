@@ -1,0 +1,68 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 9 - Program care defineste o clasa Number si o clasa Mathematics care are supraincarcare de operatori pentru +,-,*,/
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+class Number
+{
+   double a;
+public:
+   Number(void) { a = 0.0; }
+   Number(double a) { this->a = a; }
+   double getA(void) { return a; }
+   void setA(double a) { this->a = a; }
+};
+class Mathematics
+{
+   Number num;
+public:
+   Mathematics() {
+      this->num.setA(0);
+   }
+   Mathematics(double a) {
+      this->num.setA(a);
+   }
+   double getNum() { return this->num.getA(); }
+   Mathematics operator+ (Mathematics& n) {
+      Mathematics rez(this->num.getA() + n.getNum());
+      return rez;
+   }
+   Mathematics operator- (Mathematics& n) {
+      Mathematics rez(this->num.getA() - n.getNum());
+      return rez;
+   }
+   Mathematics operator* (Mathematics& n) {
+      Mathematics rez(this->num.getA() * n.getNum());
+      return rez;
+   }
+   Mathematics operator/ (Mathematics& n) {
+      Mathematics rez(this->num.getA() / n.getNum());
+      return rez;
+   }
+   void afisare() {
+      cout << this->num.getA() << endl;
+   }
+};
+int main() {
+   Mathematics m1(3);
+   Mathematics m2(5);
+   Mathematics m3;
+   cout << "Numerele initiale:\n";
+   cout << "m1: "; m1.afisare();
+   cout << "m2: "; m2.afisare();
+   m3 = m1 + m2;
+   cout << "m1 + m2 = "; m3.afisare();
+   m3 = m1 - m2;
+   cout << "m1 - m2 = "; m3.afisare();
+   m3 = m1 * m2;
+   cout << "m1 * m2 = "; m3.afisare();
+   m3 = m1 / m2;
+   cout << "m1 / m2 = "; m3.afisare();
+   cout << "\n";
+
+   return 0;
+}

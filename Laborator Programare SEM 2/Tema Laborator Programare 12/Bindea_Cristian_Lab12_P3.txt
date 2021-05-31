@@ -1,0 +1,39 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 3 - Program care citeste 10 date de la tastatura apoi le afiseaza doar partea intreaga,
+   si daca media lor e mai mare decat un numar dat, afiseaza datele cu precizie de 8
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <iomanip>
+#include <iostream>
+using namespace std;
+
+const int nrDate = 10;
+
+int main() {
+
+
+   double date[nrDate];
+   double media = 0.0, numar;
+   cout << "Introduceti 10 date (nr. reale):\n";
+   for (int i = 0; i < nrDate; i++) {
+      cout << i + 1 << ": "; cin >> date[i];
+      media += date[i];
+   }
+   media /= nrDate;
+
+   cout << "Introduceti un numar: "; cin >> numar;
+   cout << "Datele introduse: \n";
+   for (int i = 0; i < nrDate; i++)
+      cout << std::setprecision(0) << fixed << date[i] << " ";
+   if (media > numar)
+   {
+      cout << "\nDatele in format detaliat\n";
+      for (int i = 0; i < nrDate; i++)
+         cout << setprecision(9) << fixed << date[i] << "\n";
+   }
+
+   return 0;
+}

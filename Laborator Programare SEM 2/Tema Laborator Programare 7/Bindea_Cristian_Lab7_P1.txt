@@ -1,0 +1,85 @@
+/*
+	Bindea Gheorghe Cristian  Grupa 2115
+	Problema 1 - Modificare a exemplului 3 care permite obtinerea distantei dintre un punct si origine si suma a doua puncte
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+using namespace std;
+
+const int dim_sir = 20;
+class CPunctText {
+   int x;
+   int y;
+   char* sNume;
+public:
+
+   CPunctText(); //constructor explicit vid
+   CPunctText(int ix, int iy, const char* sText = "Punct"); //constructor cu parametri
+   CPunctText(const CPunctText& pct); //constructor de copiere
+   ~CPunctText(); //destructor
+   int getX(void) { return x; }
+   int getY(void) { return y; }
+   char* getNume(void) { return sNume; }
+   void setX(int a) { this->x = a; }
+   void setY(int a) { this->y = a; }
+   void setNume(char* a) { this->sNume = a; }
+   CPunctText sum(CPunctText a);
+   int distanta();
+};
+CPunctText::CPunctText() {
+   x = 0; y = 0;
+   char* sText = (char*)"Punct";
+   sNume = new char[strlen(sText) + 1];
+}
+CPunctText::CPunctText(int ix, int iy, const char* sText) {
+   sNume = new char[strlen(sText) + 1];
+   x = ix;
+   y = iy;
+   strcpy(sNume, sText);
+}
+CPunctText::CPunctText(const CPunctText& pct) {
+   sNume = new char[strlen(pct.sNume) + 1];
+   x = pct.x;
+   y = pct.y;
+   strcpy(sNume, pct.sNume);
+}
+CPunctText::~CPunctText() {
+   delete[] sNume;
+}
+CPunctText CPunctText::sum(CPunctText a) { //suma a doua puncte
+
+   char* nume = new char[strlen(this->sNume) + strlen(a.getNume()) + 2];
+   strcpy(nume, "\0");
+   strcat(nume, this->sNume);
+   strcat(nume, a.getNume());
+   CPunctText rez(this->x + a.x, this->y + a.y,nume);
+   delete []nume;
+   return rez;
+}
+int CPunctText::distanta() { //distanta dintre punct si origine
+   return sqrt(pow(this->x, 2) + pow(this->y, 2));
+}
+
+void afisare(CPunctText c);
+
+int main() 
+{
+	CPunctText p1(1, 2, "Punct1");
+	CPunctText p2(4, 5);
+	afisare(p1);
+	afisare(p2);
+
+   CPunctText p12 = p1.sum(p2);
+	afisare(p12);
+   cout<<"Distanta dintre punctul 1 si origine: "<<p1.distanta()<<endl;
+   cout<<"Distanta dintre punctul 2 si origine: "<<p2.distanta()<<endl;
+   return 0; 
+}
+
+void afisare(CPunctText c)
+{
+	cout << "Numele = " << c.getNume()<<endl;
+   cout << "x = " << c.getX() << endl;
+	cout << "y = " << c.getY()<<endl;
+}

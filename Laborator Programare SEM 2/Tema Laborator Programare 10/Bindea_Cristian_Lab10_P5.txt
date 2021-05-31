@@ -1,0 +1,98 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care extinde problema 4 prin adaugarea unei metode care returneaza inaltimea triunghiului
+*/
+
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+
+using namespace std;
+
+class Triangle
+{
+protected:
+   int a, b, c;
+public:
+   Triangle()
+   {
+      a = 0; b = 0; c = 0;
+   }
+   Triangle(int a, int b, int c)
+   {
+      this->a = a;
+      this->b = b;
+      this->c = c;
+   }
+
+   int get_a() const
+   {
+      return a;
+   }
+   void set_a(int a)
+   {
+      this->a = a;
+   }
+   int get_b() const
+   {
+      return b;
+   }
+   void set_b(int b)
+   {
+      this->b = b;
+   }
+   int get_c() const
+   {
+      return c;
+   }
+   void set_c(int c)
+   {
+      this->c = c;
+   }
+   int get_perimetru()
+   {
+      return a + b + c;
+   }
+};
+
+class Triangle_extended : public Triangle
+{
+public:
+   Triangle_extended()
+   {
+      a = 0; b = 0; c = 0;
+   }
+   Triangle_extended(int a, int b, int c)
+   {
+      this->a = a;
+      this->b = b;
+      this->c = c;
+   }
+   double get_arie(){
+      const double p = (double)this->get_perimetru() / 2;
+      return p * (p - a)*(p - b)*(p - c);
+   }
+   double get_inaltime(){
+      return 2 * get_arie() / a;
+   }
+};
+
+int main() {
+   int a, b, c;
+   cout << "Introduceti laturile triunghiului:\n";
+   cout << "A = "; cin >> a;
+   cout << "B = "; cin >> b;
+   cout << "C = "; cin >> c;
+   while(a>b+c||b>a+c||c>a+b||a<=0||b<=0||c<=0)
+   {
+      cout << "Laturi invalide. Reincercati\n";
+      cout << "A = "; cin >> a;
+      cout << "B = "; cin >> b;
+      cout << "C = "; cin >> c;
+   }
+   Triangle_extended t(a,b,c);
+
+   cout << "Perimetrul triunghiului este: " << t.get_perimetru() << endl;
+   cout << "Aria triunghiului este: " << t.get_arie() << endl;
+   cout << "Inaltimea triunghiului este: " << t.get_inaltime() << endl;
+   return 0;
+}

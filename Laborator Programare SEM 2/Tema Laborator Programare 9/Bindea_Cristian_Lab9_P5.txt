@@ -1,0 +1,37 @@
+/*
+   Bindea Gheorghe Cristian  Grupa 2115
+   Problema 5 - Program care foloseste supraincarcarea functiei myFunction
+*/
+
+#include <iostream>
+
+using namespace std;
+
+class MyClass {
+   int x, y, z;
+
+public:
+   void setX(int a) { x = a; }
+   void setY(int a) { y = a; }
+   void setZ(int a) { z = a; }
+   int getX(void) { return x; }
+   int getY(void) { return y; }
+   int getZ(void) { return z; }
+   int myFunction() { return x * y * z; }
+   int myFunction(int a) { return a; }
+   int myFunction(int a, int b) { return a * b; }
+   int myFunction(int a, int b, int c) { return a * b * c; }
+};
+
+int main()
+{
+   MyClass obj;
+   int aux;
+   cout << "\nIntroduceti X: "; cin >> aux; obj.setX(aux);
+   cout << "\nIntroduceti Y: "; cin >> aux; obj.setY(aux);
+   cout << "\nIntroduceti Z: "; cin >> aux; obj.setZ(aux);
+   cout << "Apel fara parametrii: " << obj.myFunction() << endl;
+   cout << "Apel cu un parametru: " << obj.myFunction(obj.getX()) << endl;
+   cout << "Apel cu 3 parametrii: " << obj.myFunction(obj.getX(), obj.getY(), obj.getZ()) << endl;
+   return 0;
+}
